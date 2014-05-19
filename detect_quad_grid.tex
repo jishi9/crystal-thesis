@@ -1,6 +1,16 @@
+% Structured nodes matrix
 \newcommand{\Structured}{V_{structured}}
+
+% Adjacency relation
 \newcommand{\AdjVV}{Adj_{\VertexSet\VertexSet}}
+
+% Initial vertex
 \newcommand{\vinit}{v_{init}}
+
+\newcommand{\Quad}[4]{\begin{bmatrix} #1 & #2 \\ #3 & #4 \end{bmatrix}}
+
+% Initial quad
+\newcommand{\Qinit}{\Quad{n_{1,1}} {n_{1,2}} {n_{2,1}} {n_{2,2}} }
 
 
 
@@ -28,43 +38,44 @@ The vertices $\Structured$ are structured on a 2-dimensional Cartesian lattice w
 
 %% Phase 1 summary
 \subsection{Phase 1: Grow a quad}
-Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to discover three other vertices $n_{1,2}$, $n_{2,1}$, and $n_{2,2}$ that, together with $n_{1,1}$, form a quad in a structured quad region. They must satisfy the following constraints:
+\label{sec:grow_a_quad}
+Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to discover three other vertices $n_{1,2}$, $n_{2,1}$, and $n_{2,2}$ such that $\Qinit$ forms a valid quad in a structured quad region. They must satisfy the following constraints:
 
 \begin{itemize}
 \item Each of the four vertices must have exactly 4 neighbours.
 \item Each of the following pairs of vertices are neighbours: $n_{1,1}$~and~$n_{1,2}$ ; $n_{1,2}$~and~$n_{2,2}$ ; $n_{2,2}$~and~$n_{2,1}$ ; $n_{2,1}$~and~$n_{1,1}$.
-\item Each of the vertices must \emph{not} neighbour any vertex that is part of the structured region thus far, apart from those vertices explicitly mentioned.
+\item Each of the vertices must \emph{not} neighbour any vertex that has been visited thus far, apart from those vertices explicitly mentioned.
 \end{itemize}
 
 %% Phase 1 diagram
 
 \begin{tikzpicture}[scale=1]
-		% Default action for each node
-		\tikzstyle{every node}=[draw, shape=circle, minimum size=1cm];
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1cm];
 
-											\coordinate (northleft) at (0, 2);	\coordinate (northright) at (2, 2);
-		\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{1,1}$};	\node (r1c2) at (2,1) {$n_{1,2}$};	\coordinate (eastup) at (3,1);
-		\coordinate (westdown) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{2,1}$};	\node (r2c2) at (2,-1) {$n_{2,2}$};	\coordinate (eastdown) at (3,-1);
-											\coordinate (southleft) at (0, -2);	\coordinate (southright) at (2, -2);
+										\coordinate (northleft) at (0, 2);	\coordinate (northright) at (2, 2);
+	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{1,1}$};	\node (r1c2) at (2,1) {$n_{1,2}$};	\coordinate (eastup) at (3,1);
+	\coordinate (westdown) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{2,1}$};	\node (r2c2) at (2,-1) {$n_{2,2}$};	\coordinate (eastdown) at (3,-1);
+										\coordinate (southleft) at (0, -2);	\coordinate (southright) at (2, -2);
 
-		% Horizontals
-		\draw[outside] (westup) -- (r1c1);
-		\draw (r1c1) -- (r1c2);
-		\draw[outside] (r1c2) -- (eastup);
+	% Horizontals
+	\draw[outside] (westup) -- (r1c1);
+	\draw (r1c1) -- (r1c2);
+	\draw[outside] (r1c2) -- (eastup);
 
-		\draw[outside] (westdown) -- (r2c1);
-		\draw (r2c1) -- (r2c2);
-		\draw[outside] (r2c2) -- (eastdown);
+	\draw[outside] (westdown) -- (r2c1);
+	\draw (r2c1) -- (r2c2);
+	\draw[outside] (r2c2) -- (eastdown);
 
-		% Verticals
-		\draw[outside] (northleft) -- (r1c1);
-		\draw (r1c1) -- (r2c1);
-		\draw[outside] (r2c1) -- (southleft);
+	% Verticals
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1);
+	\draw[outside] (r2c1) -- (southleft);
 
-		\draw[outside] (northright) -- (r1c2);
-		\draw (r1c2) -- (r2c2);
-		\draw[outside] (r2c2) -- (southright);
-	\end{tikzpicture}
+	\draw[outside] (northright) -- (r1c2);
+	\draw (r1c2) -- (r2c2);
+	\draw[outside] (r2c2) -- (southright);
+\end{tikzpicture}
 
 %% Phase 1 algorithm
 
@@ -92,10 +103,12 @@ Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to d
 		\coordinate (west) at (-2,1);	\node (a) at (-1,1) {$a$};			\node (n11) at (1,1) {$n_{1,1}$};	\node (c) at (3,1) {$c / n_{1,2}$};	\coordinate (east) at (4,1);
 										\coordinate (southleft) at (-1,0);	\coordinate (southmid) at (1,0);	\coordinate (southright) at (3,0);
 
+		% Horizontals
 		\draw[anywhere] (west) -- (a);
 		\draw (a) -- (n11) -- (c);
 		\draw[anywhere] (c) -- (east);
 
+		% Verticals
 		\draw[anywhere] (northleft) -- (a) -- (southleft);
 		\draw (b) -- (n11);
 		\draw[outside] (n11) -- (southmid);
@@ -144,15 +157,16 @@ Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to d
 	\end{enumerate}
 	%%%% END THREE CASES
 
-\item Find the common neighbours of $n_{2,1}$ and $n_{1,2}$. If there are not exactly two neighbours, return immediately with $\Structured = \varnothing$.
+\item Find the common neighbours of $n_{2,1}$ and $n_{1,2}$. If these are not exactly two neighbours, return immediately with $\Structured = \varnothing$.
 
-\item One of the two neighbours must be $n_{1,1}$ by construction. Let the other neighbour be $n_{2,2}$
+\item One of the two neighbours must be $n_{1,1}$ by construction. Let the other neighbour be $n_{2,2}$.
 
 \item Let $N = \{ n_{1,1}, n_{1,2}, n_{2,1}, n_{2,2} \}$. If any vertex $n \in N$ is in $\Visited$, that is $N \cap \Visited \neq \varnothing$, then return immediately with $\Structured = \varnothing$. Otherwise add the vertices in $N$ to $\Visited$.
 
 \item Ensure for every vertex $n \in N$ that its visited neighbours, $\AdjVV(n) \cap \Visited$, are exactly those explicitly stated above. If this is not the case, remove $N$ from $\Visited$ and return immediately with $\Structured = \varnothing$.
 
-\item Set $\Structured = \{ n_{1,1}, n_{1,2}, n_{2,1}, n_{2,2} \}$, and continue to the next phase.
+
+\item Set $\Structured = \Qinit$, and continue to the next phase.
 
 The structured region looks as follows thus far.
 \begin{tikzpicture}
@@ -163,8 +177,6 @@ The structured region looks as follows thus far.
 	\coordinate (westup) at (-2,3);		\node (n21) at (-1,3) {$n_{2,1}$};	\node (n22) at (1,3) {$n_{2,2}$};	\coordinate (eastup) at (2,3);
 	\coordinate (westdown) at (-2,1);	\node (n11) at (-1,1) {$n_{1,1}$};	\node (n12) at (1,1) {$n_{1,2}$};	\coordinate (eastdown) at (2,1);
 										\coordinate (southleft) at (-1,0);	\coordinate (southright) at (1,0);
-
-
 
 	\draw[outside] (westup) -- (n21);
 	\draw (n21) -- (n22);
@@ -185,3 +197,126 @@ The structured region looks as follows thus far.
 \end{tikzpicture}
 
 \end{enumerate}
+
+
+
+
+
+
+
+
+%%%% PHASE 2
+
+%% Phase 2 summary
+\subsection{Phase 2: Grow a quad}
+Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which must be a valid quad in a structured region, we would like to find two more vertices $n_{1, i+2}$ and $n_{2,i+2}$, such that $Q_{i+1} = \Quad {n_{1,i+1}} {n_{1,i+2}} {n_{2,i+1}} {n_{2,i+2}}$ forms a valid quad in a structured quad region. They must satisfy the following constraints:
+
+\begin{itemize}
+\item Each of the vertices $n_{1, i+2}$ and $n_{2,i+2}$ must have exactly 4 neighbours.
+\item Each of the following pairs of vertices are neighbours: $n_{1,i+1}$~and~$n_{1,i+2}$ ; $n_{2,i+1}$~and~$n_{2,i+2}$ ; $n_{1,i+2}$~and~$n_{2,i+2}$.
+\item Each of the vertices $n_{1, i+2}$ and $n_{2,i+2}$ must \emph{not} neighbour any vertex that has been visited thus far, apart from those vertices explicitly mentioned.
+\end{itemize}
+
+%% Phase 2 diagram
+
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+										\coordinate (northleft) at (0, 2);	\coordinate (northmid) at (2, 2);		\coordinate (northright) at (4, 2);
+	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{1,i}$};	\node (r1c2) at (2,1) {$n_{1,i+1}$};	\node (r1c3) at (4,1) {$n_{1,i+2}$};	\coordinate (eastup) at (5,1);
+	\coordinate (westdown) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{2,i}$};	\node (r2c2) at (2,-1) {$n_{2,i+1}$};	\node (r2c3) at (4,-1) {$n_{2,i+2}$};	\coordinate (eastdown) at (5,-1);
+										\coordinate (southleft) at (0, -2);	\coordinate (southmid) at (2, -2);		\coordinate (southright) at (4, -2);
+
+	% Horizontals
+	\draw[outside] (westup) -- (r1c1);
+	\draw (r1c1) -- (r1c2);
+	\draw (r1c2) -- (r1c3);
+	\draw[outside] (r1c3) -- (eastup);
+
+	\draw[outside] (westdown) -- (r2c1);
+	\draw (r2c1) -- (r2c2);
+	\draw (r2c2) -- (r2c3);
+	\draw[outside] (r2c3) -- (eastdown);
+
+	% Verticals
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1);
+	\draw[outside] (r2c1) -- (southleft);
+
+	\draw[outside] (northmid) -- (r1c2);
+	\draw (r1c2) -- (r2c2);
+	\draw[outside] (r2c2) -- (southmid);
+
+	\draw[outside] (northright) -- (r1c3);
+	\draw (r1c3) -- (r2c3);
+	\draw[outside] (r2c3) -- (southright);
+\end{tikzpicture}
+
+
+%% Phase 2 algorithm
+
+\subsubsection{Algorithm}
+
+\begin{enumerate}
+\item $n_{1,i+1}$ has 4 neighbours, which include $n_{1,i}$ and $n_{2,i+1}$. Call the remaining 2 neighbours $a$ and $b$. This is expressed by:
+$$ \AdjVV(n_{1,i+1}) \setminus \{ n_{1,i} , n_{2,i+1} \} = \{ a , b \} $$
+
+\item $n_{2,i+1}$ has 4 neighbours, which include $n_{2,i}$ and $n_{1,i+1}$. Call the remaining 2 neighbours $c$ and $d$.
+$$ \AdjVV(n_{2,i+1}) \setminus \{ n_{2,i} , n_{1,i+1} \} = \{ c , d \} $$
+
+\item Choose two vertices $n_{1,i+2} \in \{ a , b \}$ and $n_{2,i+2} \in \{ c , d \}$ such that $n_{1,i+2}$ and $n_{2,i+2}$ are neighbours, which is expressible\footnote{Or equivalently (by symmetry of $\AdjVV$) $n_{2,i+2} \in \AdjVV(n_{1,i+2})$} as:
+$$n_{1,i+2} \in \AdjVV(n_{2,i+2})$$
+and such that they each have exactly 4 neighbours. If no such vertices $n_{1,i+2}$ and $n_{2,i+2}$ exist, fail the procedure.
+
+
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm, align=center, font=\small];
+
+										\coordinate (northleft) at (0, 2);	\coordinate (northmid) at (2, 2);		\coordinate (northright) at (4, 2);
+	\coordinate (westup) at (-1,3);											\node (abup) at (2,3) {$a/b$};			\coordinate (eastup) at (5,1);
+	\coordinate (westmid) at (-1,1);	\node (r1c1) at (0,1) {$n_{1,i}$};	\node (r1c2) at (2,1) {$n_{1,i+1}$};	\node (r1c3) at (4,1) {$a/b =$ \\ $n_{1,i+2}$};		\coordinate (eastmid) at (5,1);
+	\coordinate (westdown) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{2,i}$};	\node (r2c2) at (2,-1) {$n_{2,i+1}$};	\node (r2c3) at (4,-1) {$c/d =$ \\ $n_{2,i+2}$};	\coordinate (eastdown) at (5,-1);
+	\coordinate (westlow) at (-1,-3);										\node (cdup) at (2,-3) {$c/d$};			\coordinate (eastlow) at (5,1);
+										\coordinate (southleft) at (0, -2);	\coordinate (southmid) at (2, -2);		\coordinate (southright) at (4, -2);
+
+	% Horizontals
+	\draw[outside] (westmid) -- (r1c1);
+	\draw (r1c1) -- (r1c2);
+	\draw (r1c2) -- (r1c3);
+	\draw[outside] (r1c3) -- (eastmid);
+
+	\draw[outside] (westdown) -- (r2c1);
+	\draw (r2c1) -- (r2c2);
+	\draw (r2c2) -- (r2c3);
+	\draw[outside] (r2c3) -- (eastdown);
+
+	% Verticals
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1);
+	\draw[outside] (r2c1) -- (southleft);
+
+	\draw (abup) -- (r1c2);
+	\draw (r1c2) -- (r2c2);
+	\draw (r2c2) -- (cdup);
+
+	\draw[outside] (northright) -- (r1c3);
+	\draw (r1c3) -- (r2c3);
+	\draw[outside] (r2c3) -- (southright);
+\end{tikzpicture}
+
+
+\item If any of the two vertices $n_{1,i+2}$ and $n_{2,i+2}$ exists in $\Visited$, that is $\{ n_{1,i+2} , n_{2,i+2} \} \cap \Visited \neq \varnothing$, fail the procedure.
+Otherwise add the two vertices to $\Visited$.
+
+\item Ensure for every vertex $n \in \{ n_{1,i+2} , n_{2,i+2} \}$ that its visited neighbours, $\AdjVV(n) \cap \Visited$, are exactly those explicitly stated above. If this is not the case, remove $\{ n_{1,i+2} , n_{2,i+2} \}$ from $\Visited$ and fail the procedure.
+\end{enumerate}
+
+
+
+
+
+
+% Starting from the initial quad $\Qinit$ from~\ref{sec:grow_a_quad}, call it $Q$
+% This procedure is applied iteratively, starting from $\Qinit$, to yield successive quads until it fails. The resulting quads then form a row in a structured quad region.
