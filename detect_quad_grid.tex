@@ -329,7 +329,7 @@ Otherwise add the two vertices to $\Visited$.
 \subsection{Phase 3: Extend a row}
 %% Phase 3.1 summary
 ``Extend a quad'' is iteratively applied, starting from $Q_0 = \Qinit$, to yield successive quads until it fails.
-The resulting vertices are appended to the \emph{right} of $\Structured$ to form a single row in a structured quad region.
+The resulting vertices are appended to the \emph{right} of $\Structured$ to form a single quad row in a structured quad region, or equivalently a successive pair of node rows.
 
 %% Phase 3.1 diagram
 
@@ -397,7 +397,7 @@ The resulting vertices are appended to the \emph{right} of $\Structured$ to form
 %% Phase 3.2 summary
 Next, ``Extend a quad'' is again iteratively applied, this time with $Q_0 = \Qinitmirror$, the mirror image of $Q_{init}$ about the y-axis.
 The repeated application yields successive quads until the procedure fails.
-The resulting vertices are appended to the \emph{left} of $\Structured$ to extend the existing row.
+The resulting vertices are appended to the \emph{left} of $\Structured$ to extend the existing quad row, or equivalently a successive pair of node rows.
 
 
 %% Phase 3.2 diagram
@@ -544,7 +544,455 @@ where $n_{1,c}$ and $n_{2,c}$ denote the rightmost vertices in $\Structured$.
 
 
 
+%%%% PHASE 4
+
+\subsection{Phase 4: Extend rows}
+%% Phase 4 summary
+We are given a quad row in a structured quad region, that is a pair of successive node rows, call them $r_i$ and $r_{i+1}$.
+The nodes in each row are denoted by $n_{i,1} \cdots n_{i,c}$ and $n_{i+1,1} \cdots n_{i+1,c}$, respectively, where $c >= 3$ is the number of node columns.
+
+We extend this pair of node rows $r_i$ and $r_{i+1}$ by a third node row, $r_{i+2}$, consisting of nodes $n_{i+2,1} \cdots n_{i+2,c}$. These must satisfy the following conditions:
+
+\begin{itemize}
+\item Each vertex $n_{i+2,j}$ for $j \in [1..c]$ must have exactly four neighbours.
+\item Each of the pairs of vertices $n_{i+2,j}$ and $n_{i+2,j+1}$ for $j \in [1..c-1]$ are neighbours.
+\item Each of the pairs of vertices $n_{i+1,j}$ and $n_{i+2,j}$ for $j \in [1..c]$ are neighbours.
+\item Each vertex $n_{i+2,j}$ for $j \in [1..c]$ must not neighbour any vertex that has been visited thus far, apart from those vertices explicitly mentioned.
+\end{itemize}
 
 
-% Starting from the initial quad $\Qinit$ from~\ref{sec:grow_a_quad}, call it $Q$
-% This procedure is applied iteratively, starting from $\Qinit$, to yield successive quads until it fails. The resulting quads then form a row in a structured quad region.
+%% Phase 4 diagram
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+	% MIDDLE
+
+										\coordinate (northleft) at (0, 2);		\coordinate (northright) at (2, 2);
+	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{i,1}$};		\node (r1c2) at (2,1) {$n_{i,2}$};		\coordinate (eastup) at (3,1);
+	\coordinate (westmid) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{i+1,1}$};	\node (r2c2) at (2,-1) {$n_{i+1,2}$};	\coordinate (eastmid) at (3,-1);
+	\coordinate (westdown) at (-1,-3);	\node (r3c1) at (0,-3) {$n_{i+2,1}$};	\node (r3c2) at (2,-3) {$n_{i+2,2}$};	\coordinate (eastdown) at (3,-3);
+										\coordinate (southleft) at (0, -4);		\coordinate (southright) at (2, -4);
+
+	% ellipses
+	\coordinate (ellipsis westup) at (4,1);		\coordinate (ellipsis eastup) at (4.5,1);
+	\coordinate (ellipsis westmid) at (4,-1);	\coordinate (ellipsis eastmid) at (4.5,-1);
+	\coordinate (ellipsis westdown) at (4,-3);	\coordinate (ellipsis eastdown) at (4.5,-3);
+
+
+	% RHS
+											\coordinate (rhs north) at (6, 2);
+	\coordinate (rhs westup) at (5,1);		\node (r1cn) at (6,1) {$n_{i,c}$};		\coordinate (rhs eastup) at (7,1);
+	\coordinate (rhs westmid) at (5,-1);	\node (r2cn) at (6,-1) {$n_{i+1,c}$};	\coordinate (rhs eastmid) at (7,-1);
+	\coordinate (rhs westdown) at (5,-3);	\node (r3cn) at (6,-3) {$n_{i+2,c}$};	\coordinate (rhs eastdown) at (7,-3);
+											\coordinate (rhs south) at (6, -4);
+
+	% Horizontals
+	\draw[outside] (westup) -- (r1c1);
+	\draw (r1c1) -- (r1c2);
+	\draw (r1c2) -- (eastup);
+
+	\draw[outside] (westmid) -- (r2c1);
+	\draw (r2c1) -- (r2c2);
+	\draw (r2c2) -- (eastmid);
+
+	\draw[outside] (westdown) -- (r3c1);
+	\draw (r3c1) -- (r3c2);
+	\draw (r3c2) -- (eastdown);
+
+
+	\draw[ellipsis] (ellipsis westup) -- (ellipsis eastup);
+	\draw[ellipsis] (ellipsis westmid) -- (ellipsis eastmid);
+	\draw[ellipsis] (ellipsis westdown) -- (ellipsis eastdown);
+
+
+	\draw (rhs westup) -- (r1cn);
+	\draw[outside] (r1cn) -- (rhs eastup);
+
+	\draw (rhs westmid) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs eastmid);
+
+	\draw (rhs westdown) -- (r3cn);
+	\draw[outside] (r3cn) -- (rhs eastdown);
+
+	% Verticals
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1);
+	\draw (r2c1) -- (r3c1);
+	\draw[outside] (r3c1) -- (southleft);
+
+	\draw[outside] (northright) -- (r1c2);
+	\draw (r1c2) -- (r2c2);
+	\draw (r2c2) -- (r3c2);
+	\draw[outside] (r3c2) -- (southright);
+
+	\draw[outside] (rhs north) -- (r1cn);
+	\draw (r1cn) -- (r2cn);
+	\draw (r2cn) -- (r3cn);
+	\draw[outside] (r3cn) -- (rhs south);
+\end{tikzpicture}
+
+
+
+%% Phase 4 algorithm
+
+\subsubsection{Algorithm}
+
+\begin{enumerate}
+\item Let $n_{i+2,2}$ be the unique vertex in the set $\AdjVV(n_{i+1,2}) \setminus \{ n_{i+1,1} , n_{i+1,3} , n_{i,2} \} $.
+\item Let $N = \AdjVV(n_{i+1,1}) \cap \AdjVV(n_{i+2,2})$ be the common neighbours of $n_{i+1,1}$ and $n_{i+2,2}$.
+If the number of common neighbours $\card{N}$ is not exactly two, fail the procedure.
+\item We know that $n_{i+1,2} \in N$ by construction. Let $n_{i+2,1}$ be the other vertex in $N$.
+\item If either of $n_{i+2,1}$ or $n_{i+2,2}$ is in $\Visited$, fail the procedure. Otherwise add the two vertices to $\Visited$.
+\item Ensure that the visited neighbours of $n_{i+2,1}$ and $n_{i+2,2}$ are exactly as specified,
+that is $n_{i+2,1} \cap \Visited = \{ n_{i+2,2} , n_{i+1,1} \}$ and $n_{i+2,2} \cap \Visited = \{ n_{i+2,1} , n_{i+1,2} \}$.
+If this is not the case, remove $n_{i+2,1}$ and $n_{i+2,2}$ from $\Visited$ and fail the procedure.
+
+
+
+
+
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+	% MIDDLE
+
+										\coordinate (northleft) at (0, 2);		\coordinate (northmid) at (2, 2);		\coordinate (northright) at (4, 2);
+	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{i,1}$};		\node (r1c2) at (2,1) {$n_{i,2}$};		\node (r1c3) at (4,1) {$n_{i,3}$};		\coordinate (eastup) at (5,1);
+	\coordinate (westmid) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{i+1,1}$};	\node (r2c2) at (2,-1) {$n_{i+1,2}$};	\node (r2c3) at (4,-1) {$n_{i+1,3}$};	\coordinate (eastmid) at (5,-1);
+	\coordinate (westdown) at (-1,-3);	\node (r3c1) at (0,-3) {$n_{i+2,1}$};	\node (r3c2) at (2,-3) {$n_{i+2,2}$};											\coordinate (eastdown) at (3,-3);
+										\coordinate (southleft) at (0, -4);		\coordinate (southmid) at (2, -4);		\coordinate (southright) at (4, -2);
+
+	% ellipses
+	\coordinate (ellipsis westup) at (5,1);		\coordinate (ellipsis eastup) at (5.5,1);
+	\coordinate (ellipsis westdown) at (5,-1);	\coordinate (ellipsis eastdown) at (5.5,-1);
+
+
+	% RHS
+											\coordinate (rhs north) at (7, 2);
+	\coordinate (rhs westup) at (6,1);		\node (r1cn) at (7,1) {$n_{i,c}$};		\coordinate (rhs eastup) at (8,1);
+	\coordinate (rhs westmid) at (6,-1);	\node (r2cn) at (7,-1) {$n_{i+1,c}$};	\coordinate (rhs eastmid) at (8,-1);
+											\coordinate (rhs south) at (7, -2);
+
+	% Horizontals
+	\draw[outside] (westup) -- (r1c1);
+	\draw (r1c1) -- (r1c2) -- (r1c3) -- (eastup);
+
+	\draw[outside] (westmid) -- (r2c1);
+	\draw (r2c1) -- (r2c2) -- (r2c3) -- (eastmid);
+
+	\draw[outside] (westdown) -- (r3c1);
+	\draw (r3c1) -- (r3c2);
+	\draw[outside] (r3c2) -- (eastdown);
+
+
+	\draw[ellipsis] (ellipsis westup) -- (ellipsis eastup);
+	\draw[ellipsis] (ellipsis westdown) -- (ellipsis eastdown);
+
+
+	\draw (rhs westup) -- (r1cn);
+	\draw[outside] (r1cn) -- (rhs eastup);
+
+	\draw (rhs westmid) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs eastmid);
+
+
+	% Verticals
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1);
+	\draw (r2c1) -- (r3c1);
+	\draw[outside] (r3c1) -- (southleft);
+
+	\draw[outside] (northmid) -- (r1c2);
+	\draw (r1c2) -- (r2c2);
+	\draw (r2c2) -- (r3c2);
+	\draw[outside] (r3c2) -- (southmid);
+
+	\draw[outside] (northright) -- (r1c3);
+	\draw (r1c3) -- (r2c3);
+	\draw[outside] (r2c3) -- (southright);
+
+
+	\draw[outside] (rhs north) -- (r1cn);
+	\draw (r1cn) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs south);
+\end{tikzpicture}
+
+
+
+
+\item For each column\footnote{Possibly none if $c = 3$} $j \in [3..c-1]$:
+	\begin{enumerate}
+	\item Let $n_{i+2,j}$ be the unique vertex in the set $\AdjVV(n_{i+1,j}) \setminus \{ n_{i+1,j-1} , n_{i+1,j+1} , n_{i,j} \}$.
+	\item If $n_{i+2,j} \in \Visited$, remove all vertices in $r_{i+2}$ from $\Visited$, that is $\{ n_{i+2,k} \mid k \in [1..j] \}$ and fail the procedure.
+	Otherwise, add $n_{i+2,j}$ $\Visited$.
+	\item Ensure that visited neighbours of $n_{i+2,j}$ are exactly $n_{i+2,j-1}$, $n_{i+1,j}$.
+	If this is not the case remove vertices $\{ n_{i+2,k} \mid k \in [1..j] \}$ from $\Visited$ and fail the procedure.
+	\end{enumerate}
+
+
+
+
+% Foreach j diagram
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.4cm, font=\small];
+
+	% LHS
+												\coordinate (lhs north) at (-3.5, 2);
+	\coordinate (lhs westup) at (-4.5,1);		\node (r1c0) at (-3.5,1) {$n_{i,1}$};		\coordinate (lhs eastup) at (-2.5,1);
+	\coordinate (lhs westmid) at (-4.5,-1);		\node (r2c0) at (-3.5,-1) {$n_{i+1,1}$};	\coordinate (lhs eastmid) at (-2.5,-1);
+	\coordinate (lhs westdown) at (-4.5,-3);	\node (r3c0) at (-3.5,-3) {$n_{i+2,1}$};	\coordinate (lhs eastdown) at (-2.5,-3);
+												\coordinate (lhs south) at (-3.5, -4);
+
+	% LHS ellipses
+	\coordinate (lhs ellipsis westup) at (-2,1);	\coordinate (lhs ellipsis eastup) at (-1.5,1);
+	\coordinate (lhs ellipsis westmid) at (-2,-1);	\coordinate (lhs ellipsis eastmid) at (-1.5,-1);
+	\coordinate (lhs ellipsis westdown) at (-2,-3);	\coordinate (lhs ellipsis eastdown) at (-1.5,-3);
+
+
+	% MIDDLE
+										\coordinate (northleft) at (0, 2);		\coordinate (northmid) at (2, 2);		\coordinate (northright) at (4, 2);
+	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{i,j-1}$};	\node (r1c2) at (2,1) {$n_{i,j}$};		\node (r1c3) at (4,1) {$n_{i,j+1}$};	\coordinate (eastup) at (5,1);
+	\coordinate (westmid) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{i+1,j-1}$};	\node (r2c2) at (2,-1) {$n_{i+1,j}$};	\node (r2c3) at (4,-1) {$n_{i+1,j+1}$};	\coordinate (eastmid) at (5,-1);
+	\coordinate (westdown) at (-1,-3);	\node (r3c1) at (0,-3) {$n_{i+2,j-1}$};	\node (r3c2) at (2,-3) {$n_{i+2,j}$};											\coordinate (eastdown) at (3,-3);
+										\coordinate (southleft) at (0, -4);		\coordinate (southmid) at (2, -4);		\coordinate (southright) at (4, -2);
+
+	% rhs ellipses
+	\coordinate (rhs ellipsis westup) at (5,1);		\coordinate (rhs ellipsis eastup) at (5.5,1);
+	\coordinate (rhs ellipsis westdown) at (5,-1);	\coordinate (rhs ellipsis eastdown) at (5.5,-1);
+
+
+	% RHS
+											\coordinate (rhs north) at (7, 2);
+	\coordinate (rhs westup) at (6,1);		\node (r1cn) at (7,1) {$n_{i,c}$};		\coordinate (rhs eastup) at (8,1);
+	\coordinate (rhs westmid) at (6,-1);	\node (r2cn) at (7,-1) {$n_{i+1,c}$};	\coordinate (rhs eastmid) at (8,-1);
+											\coordinate (rhs south) at (7, -2);
+
+	% Horizontals
+	\draw[outside] (lhs westup) -- (r1c0);
+	\draw (r1c0) -- (lhs eastup);
+
+	\draw[outside] (lhs westmid) -- (r2c0);
+	\draw (r2c0) -- (lhs eastmid);
+
+	\draw[outside] (lhs westdown) -- (r3c0);
+	\draw (r3c0) -- (lhs eastdown);
+
+
+	\draw (westup) -- (r1c1) -- (r1c2) -- (r1c3) -- (eastup);
+
+	\draw (westmid) -- (r2c1) -- (r2c2) -- (r2c3) -- (eastmid);
+
+	\draw (westdown) -- (r3c1) -- (r3c2);
+	\draw[outside] (r3c2) -- (eastdown);
+
+
+	\draw[ellipsis] (lhs ellipsis westup) -- (lhs ellipsis eastup);
+	\draw[ellipsis] (lhs ellipsis westmid) -- (lhs ellipsis eastmid);
+	\draw[ellipsis] (lhs ellipsis westdown) -- (lhs ellipsis eastdown);
+
+	\draw[ellipsis] (rhs ellipsis westup) -- (rhs ellipsis eastup);
+	\draw[ellipsis] (rhs ellipsis westdown) -- (rhs ellipsis eastdown);
+
+
+	\draw (rhs westup) -- (r1cn);
+	\draw[outside] (r1cn) -- (rhs eastup);
+
+	\draw (rhs westmid) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs eastmid);
+
+
+	% Verticals
+	\draw[outside] (lhs north) -- (r1c0);
+	\draw (r1c0) -- (r2c0) -- (r3c0);
+	\draw[outside] (r3c0) -- (lhs south);
+
+
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1) -- (r3c1);
+	\draw[outside] (r3c1) -- (southleft);
+
+	\draw[outside] (northmid) -- (r1c2);
+	\draw (r1c2) -- (r2c2) -- (r3c2);
+	\draw[outside] (r3c2) -- (southmid);
+
+	\draw[outside] (northright) -- (r1c3);
+	\draw (r1c3) -- (r2c3);
+	\draw[outside] (r2c3) -- (southright);
+
+
+	\draw[outside] (rhs north) -- (r1cn);
+	\draw (r1cn) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs south);
+\end{tikzpicture}
+
+
+
+
+
+
+
+\item Consider $\AdjVV(n_{i+2,c-1}) \cap \AdjVV(n_{i+1,c})$, the common neighbours of $n_{i+2,c-1}$ and $n_{i+1,c}$.
+If these are not exactly two neighbours, remove vertices $\{ n_{i+2,k} \mid k \in [1..c-1] \}$ from $\Visited$ and fail the procedure.
+\item One of the two neighbours must be $n_{i+1,c}$ by construction. Let $n_{i+2,c}$ denote the other neighbour.
+\item If $n_{i+2,c} \in \Visited$, remove vertices $\{ n_{i+2,k} \mid k \in [1..c-1] \}$ from $\Visited$ and fail the procedure.
+Otherwise, add $n_{i+2,c}$ to $\Visited$.
+\item Ensure that the visited neighbours of $n_{i+2,c}$ are exactly $\{ n_{i+2,c-1} , n_{i+1,c} \}$,
+that is $\AdjVV(n_{i+2,c}) \cap \Visited = \{ n_{i+2,c-1} , n_{i+1,c} \}$. If this is not the case remove vertices $\{ n_{i+2,k} \mid k \in [1..c] \}$ from $\Visited$ and fail the procedure.
+
+
+
+
+% lastnode diagram
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.4cm, font=\small];
+
+	% LHS
+												\coordinate (lhs north) at (-1.5, 2);
+	\coordinate (lhs westup) at (-2.5,1);		\node (r1c0) at (-1.5,1) {$n_{i,1}$};		\coordinate (lhs eastup) at (-0.5,1);
+	\coordinate (lhs westmid) at (-2.5,-1);		\node (r2c0) at (-1.5,-1) {$n_{i+1,1}$};	\coordinate (lhs eastmid) at (-0.5,-1);
+	\coordinate (lhs westdown) at (-2.5,-3);	\node (r3c0) at (-1.5,-3) {$n_{i+2,1}$};	\coordinate (lhs eastdown) at (-0.5,-3);
+												\coordinate (lhs south) at (-1.5, -4);
+
+	% LHS ellipses
+	\coordinate (lhs ellipsis westup) at (0,1);		\coordinate (lhs ellipsis eastup) at (0.5,1);
+	\coordinate (lhs ellipsis westmid) at (0,-1);	\coordinate (lhs ellipsis eastmid) at (0.5,-1);
+	\coordinate (lhs ellipsis westdown) at (0,-3);	\coordinate (lhs ellipsis eastdown) at (0.5,-3);
+
+
+	% MIDDLE
+										\coordinate (northmid) at (2, 2);		\coordinate (northright) at (4, 2);
+	\coordinate (westup) at (1,1);		\node (r1c2) at (2,1) {$n_{i,c-1}$};	\node (r1c3) at (4,1) {$n_{i,c}$};		\coordinate (eastup) at (5,1);
+	\coordinate (westmid) at (1,-1);	\node (r2c2) at (2,-1) {$n_{i+1,c-1}$};	\node (r2c3) at (4,-1) {$n_{i+1,c}$};	\coordinate (eastmid) at (5,-1);
+	\coordinate (westdown) at (1,-3);	\node (r3c2) at (2,-3) {$n_{i+2,c-1}$};	\node (r3c3) at (4,-3) {$n_{i+2,c}$};	\coordinate (eastdown) at (5,-3);
+										\coordinate (southmid) at (2, -4);		\coordinate (southright) at (4, -4);
+
+
+
+
+	% Horizontals
+	\draw[outside] (lhs westup) -- (r1c0);
+	\draw (r1c0) -- (lhs eastup);
+
+	\draw[outside] (lhs westmid) -- (r2c0);
+	\draw (r2c0) -- (lhs eastmid);
+
+	\draw[outside] (lhs westdown) -- (r3c0);
+	\draw (r3c0) -- (lhs eastdown);
+
+
+	\draw (westup) -- (r1c2) -- (r1c3);
+	\draw[outside] (r1c3) -- (eastup);
+
+	\draw (westmid) -- (r2c2) -- (r2c3);
+	\draw[outside] (r2c3) -- (eastmid);
+
+	\draw (westdown) -- (r3c2) -- (r3c3);
+	\draw[outside] (r3c3) -- (eastdown);
+
+
+	\draw[ellipsis] (lhs ellipsis westup) -- (lhs ellipsis eastup);
+	\draw[ellipsis] (lhs ellipsis westmid) -- (lhs ellipsis eastmid);
+	\draw[ellipsis] (lhs ellipsis westdown) -- (lhs ellipsis eastdown);
+
+
+	% Verticals
+	\draw[outside] (lhs north) -- (r1c0);
+	\draw (r1c0) -- (r2c0) -- (r3c0);
+	\draw[outside] (r3c0) -- (lhs south);
+
+	\draw[outside] (northmid) -- (r1c2);
+	\draw (r1c2) -- (r2c2) -- (r3c2);
+	\draw[outside] (r3c2) -- (southmid);
+
+	\draw[outside] (northright) -- (r1c3);
+	\draw (r1c3) -- (r2c3) -- (r3c3);
+	\draw[outside] (r3c3) -- (southright);
+
+\end{tikzpicture}
+
+
+
+
+\item Return the vertices of node row $r_{i+2}$, that is $n_{i+2,1} \cdots n_{i+2,c}$.
+\end{enumerate}
+
+
+
+
+
+% \begin{tikzpicture}[scale=1]
+% 	% Default action for each node
+% 	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+% 	% MIDDLE
+
+% 										\coordinate (northleft) at (0, 2);		\coordinate (northmid) at (2, 2);		\coordinate (northright) at (4, 2);
+% 	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{i,1}$};		\node (r1c2) at (2,1) {$n_{i,2}$};		\node (r1c3) at (4,1) {$n_{i,3}$};		\coordinate (eastup) at (5,1);
+% 	\coordinate (westmid) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{i+1,1}$};	\node (r2c2) at (2,-1) {$n_{i+1,2}$};	\node (r2c3) at (4,-1) {$n_{i+1,3}$};	\coordinate (eastmid) at (5,-1);
+% 	\coordinate (westdown) at (-1,-3);	\node (r3c1) at (0,-3) {$n_{i+2,1}$};	\node (r3c2) at (2,-3) {$n_{i+2,2}$};	\node (r3c3) at (4,-3) {$n_{i+2,3}$};	\coordinate (eastdown) at (5,-3);
+% 										\coordinate (southleft) at (0, -4);		\coordinate (southmid) at (2, -4);		\coordinate (southright) at (4, -4);
+
+% 	% ellipses
+% 	\coordinate (ellipsis westup) at (5,1);		\coordinate (ellipsis eastup) at (5.5,1);
+% 	\coordinate (ellipsis westmid) at (5,-1);	\coordinate (ellipsis eastmid) at (5.5,-1);
+% 	\coordinate (ellipsis westdown) at (5,-3);	\coordinate (ellipsis eastdown) at (5.5,-3);
+
+
+% 	% RHS
+% 											\coordinate (rhs north) at (7, 2);
+% 	\coordinate (rhs westup) at (6,1);		\node (r1cn) at (7,1) {$n_{i,c}$};		\coordinate (rhs eastup) at (8,1);
+% 	\coordinate (rhs westmid) at (6,-1);	\node (r2cn) at (7,-1) {$n_{i+1,c}$};	\coordinate (rhs eastmid) at (8,-1);
+% 	\coordinate (rhs westdown) at (6,-3);	\node (r3cn) at (7,-3) {$n_{i+2,c}$};	\coordinate (rhs eastdown) at (8,-3);
+% 											\coordinate (rhs south) at (7, -4);
+
+% 	% Horizontals
+% 	\draw[outside] (westup) -- (r1c1);
+% 	\draw (r1c1) -- (r1c2) -- (r1c3) -- (eastup);
+
+% 	\draw[outside] (westmid) -- (r2c1);
+% 	\draw (r2c1) -- (r2c2) -- (r2c3) -- (eastmid);
+
+% 	\draw[outside] (westdown) -- (r3c1);
+% 	\draw (r3c1) -- (r3c2) -- (r3c3) -- (eastdown);
+
+
+% 	\draw[ellipsis] (ellipsis westup) -- (ellipsis eastup);
+% 	\draw[ellipsis] (ellipsis westmid) -- (ellipsis eastmid);
+% 	\draw[ellipsis] (ellipsis westdown) -- (ellipsis eastdown);
+
+
+% 	\draw (rhs westup) -- (r1cn);
+% 	\draw[outside] (r1cn) -- (rhs eastup);
+
+% 	\draw (rhs westmid) -- (r2cn);
+% 	\draw[outside] (r2cn) -- (rhs eastmid);
+
+% 	\draw (rhs westdown) -- (r3cn);
+% 	\draw[outside] (r3cn) -- (rhs eastdown);
+
+% 	% Verticals
+% 	\draw[outside] (northleft) -- (r1c1);
+% 	\draw (r1c1) -- (r2c1);
+% 	\draw (r2c1) -- (r3c1);
+% 	\draw[outside] (r3c1) -- (southleft);
+
+% 	\draw[outside] (northmid) -- (r1c2);
+% 	\draw (r1c2) -- (r2c2);
+% 	\draw (r2c2) -- (r3c2);
+% 	\draw[outside] (r3c2) -- (southmid);
+
+% 	\draw[outside] (northright) -- (r1c3);
+% 	\draw (r1c3) -- (r2c3);
+% 	\draw (r2c3) -- (r3c3);
+% 	\draw[outside] (r3c3) -- (southright);
+
+
+% 	\draw[outside] (rhs north) -- (r1cn);
+% 	\draw (r1cn) -- (r2cn);
+% 	\draw (r2cn) -- (r3cn);
+% 	\draw[outside] (r3cn) -- (rhs south);
+% \end{tikzpicture}
