@@ -1,7 +1,25 @@
 \documentclass{report}
 
+
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+% Squigly lines
+\usetikzlibrary{decorations.pathmorphing}
+
+
+\input{variables}
+
+
 \begin{document}
 
-\include{intro}
+\section{Introduction}
+\input{intro}
+
+\section{Structure Extraction}
+\input{detect_quad_grid}
+
+
 
 \end{document}

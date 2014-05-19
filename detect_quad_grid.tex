@@ -1,0 +1,187 @@
+\newcommand{\Structured}{V_{structured}}
+\newcommand{\AdjVV}{Adj_{\VertexSet\VertexSet}}
+\newcommand{\vinit}{v_{init}}
+
+
+
+\subsection{Inputs}
+\begin{enumerate}
+\item A non-reflexive and symmetric vertex-vertex adjacency relation:
+$$ \AdjVV: \VertexSet \mapsto \powerset{\VertexSet} $$
+
+\item A set of visited vertices
+$$ \Visited \subseteq \VertexSet $$
+
+\item An unvisited start vertex
+$$ \vinit \in \VertexSet \setminus \Visited $$
+\end{enumerate}
+
+
+\subsection{Outputs}
+\begin{enumerate}
+\item A structured set of vertices $\Structured \subseteq \VertexSet \setminus \Visited $ forming the extracted structured region.
+The vertices $\Structured$ are structured on a 2-dimensional Cartesian lattice with $m$ rows and $n$ columns.
+\end{enumerate}
+
+
+%%%% PHASE 1
+
+%% Phase 1 summary
+\subsection{Phase 1: Grow a quad}
+Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to discover three other vertices $n_{1,2}$, $n_{2,1}$, and $n_{2,2}$ that, together with $n_{1,1}$, form a quad in a structured quad region. They must satisfy the following constraints:
+
+\begin{itemize}
+\item Each of the four vertices must have exactly 4 neighbours.
+\item Each of the following pairs of vertices are neighbours: $n_{1,1}$~and~$n_{1,2}$ ; $n_{1,2}$~and~$n_{2,2}$ ; $n_{2,2}$~and~$n_{2,1}$ ; $n_{2,1}$~and~$n_{1,1}$.
+\item Each of the vertices must \emph{not} neighbour any vertex that is part of the structured region thus far, apart from those vertices explicitly mentioned.
+\end{itemize}
+
+%% Phase 1 diagram
+
+\begin{tikzpicture}[scale=1]
+		% Default action for each node
+		\tikzstyle{every node}=[draw, shape=circle, minimum size=1cm];
+
+											\coordinate (northleft) at (0, 2);	\coordinate (northright) at (2, 2);
+		\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{1,1}$};	\node (r1c2) at (2,1) {$n_{1,2}$};	\coordinate (eastup) at (3,1);
+		\coordinate (westdown) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{2,1}$};	\node (r2c2) at (2,-1) {$n_{2,2}$};	\coordinate (eastdown) at (3,-1);
+											\coordinate (southleft) at (0, -2);	\coordinate (southright) at (2, -2);
+
+		% Horizontals
+		\draw[outside] (westup) -- (r1c1);
+		\draw (r1c1) -- (r1c2);
+		\draw[outside] (r1c2) -- (eastup);
+
+		\draw[outside] (westdown) -- (r2c1);
+		\draw (r2c1) -- (r2c2);
+		\draw[outside] (r2c2) -- (eastdown);
+
+		% Verticals
+		\draw[outside] (northleft) -- (r1c1);
+		\draw (r1c1) -- (r2c1);
+		\draw[outside] (r2c1) -- (southleft);
+
+		\draw[outside] (northright) -- (r1c2);
+		\draw (r1c2) -- (r2c2);
+		\draw[outside] (r2c2) -- (southright);
+	\end{tikzpicture}
+
+%% Phase 1 algorithm
+
+\subsubsection{Algorithm}
+
+\begin{enumerate}
+\item If $\vinit$ does not have exactly 4 neighbours, that is $ \card{\AdjVV(\vinit)} \neq 4 $, return immediately with $\Structured = \varnothing$.
+\item Let $ n_{1,1} = \vinit $, and let $ a, b, c \in \AdjVV(\vinit) $ be distinct vertex neighbours of $\vinit$. Consider vertices $a$ and $b$. If they do not both have exactly 4 neighbours, then they cannot form a part of a structured quad region. Return immediately with $\Structured = \varnothing$.
+
+\item Otherwise, there are three cases:
+
+	%%%% BEGIN THREE CASES
+	\begin{enumerate}[label=Case \alph*)]
+
+	%% Straight line case
+	\item $a$ and $b$ have exactly one neighbour in common, which must be $n_{1,1}$ by construction, expressed by:
+	$$ \card{\AdjVV(a) \cap \AdjVV(b)} = 1$$
+	$a, n_{1,1}, b $ are \emph{topologically} along a straight line of a structured grid, and hence cannot form a quad.
+	We therefore consider $b$, $n_{1,1}$, and  $c$ instead as candidates, letting $n_{2,1} = b$ and $n_{1,2} = c$.
+	\begin{tikzpicture}
+		% Default action for each node
+		\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+										\coordinate (northleft) at (-1,2);	\node (b) at (1,3) {$b / n_{2,1}$};	\coordinate (northright) at (3,2);
+		\coordinate (west) at (-2,1);	\node (a) at (-1,1) {$a$};			\node (n11) at (1,1) {$n_{1,1}$};	\node (c) at (3,1) {$c / n_{1,2}$};	\coordinate (east) at (4,1);
+										\coordinate (southleft) at (-1,0);	\coordinate (southmid) at (1,0);	\coordinate (southright) at (3,0);
+
+		\draw[anywhere] (west) -- (a);
+		\draw (a) -- (n11) -- (c);
+		\draw[anywhere] (c) -- (east);
+
+		\draw[anywhere] (northleft) -- (a) -- (southleft);
+		\draw (b) -- (n11);
+		\draw[outside] (n11) -- (southmid);
+		\draw[anywhere] (northright) -- (c) -- (southright);
+	\end{tikzpicture}
+
+
+	%% Angle case
+	\item $a$ and $b$ have exactly two neighbours in common, one of which must be $n_{1,1}$ by construction, expressed by:
+	$$ \card{\AdjVV(a) \cap \AdjVV(b)} = 2$$
+	We continue with vertices $a$, $n_{1,1}$, and $b$ as candidates, letting $n_{2,1} = a$ and $n_{1,2} = b$.
+	\begin{tikzpicture}
+		% Default action for each node
+		\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+											\coordinate (northleft) at (-1,4);		\coordinate (northright) at (1,4);
+		\coordinate (westup) at (-2,3);		\node (a) at (-1,3) {$a / n_{2,1}$};	\node (d) at (1,3) {$?$};			\coordinate (eastup) at (2,3);
+		\coordinate (westdown) at (-2,1);	\node (n11) at (-1,1) {$n_{1,1}$};		\node (b) at (1,1) {$b / n_{1,2}$};	\coordinate (eastdown) at (2,1);
+											\coordinate (southleft) at (-1,0);		\coordinate (southright) at (1,0);
+
+
+
+		\draw[outside] (westup) -- (a);
+		\draw (a) -- (d);
+		% \draw (d) -- (eastup);
+
+		\draw[anywhere] (westdown) -- (n11);
+		\draw (n11) -- (b);
+		\draw[outside] (b) -- (eastdown);
+
+		\draw[outside] (northleft) -- (a);
+		\draw (a) -- (n11);
+		\draw[anywhere] (n11) -- (southleft);
+
+		% \draw (northright) -- (d);
+		\draw (d) -- (b);
+		\draw[outside] (b) -- (southright);
+
+	\end{tikzpicture}
+
+
+	\item $a$ and $b$ have more than two neighbours in common\footnote{note that the set is non-empty by construction}, expressed by:
+	$$ \card{\AdjVV(a) \cap \AdjVV(b)} > 2$$
+	We cannot form a quad, and hence return immediately with $\Structured = \varnothing$.
+
+	\end{enumerate}
+	%%%% END THREE CASES
+
+\item Find the common neighbours of $n_{2,1}$ and $n_{1,2}$. If there are not exactly two neighbours, return immediately with $\Structured = \varnothing$.
+
+\item One of the two neighbours must be $n_{1,1}$ by construction. Let the other neighbour be $n_{2,2}$
+
+\item Let $N = \{ n_{1,1}, n_{1,2}, n_{2,1}, n_{2,2} \}$. If any vertex $n \in N$ is in $\Visited$, that is $N \cap \Visited \neq \varnothing$, then return immediately with $\Structured = \varnothing$. Otherwise add the vertices in $N$ to $\Visited$.
+
+\item Ensure for every vertex $n \in N$ that its visited neighbours, $\AdjVV(n) \cap \Visited$, are exactly those explicitly stated above. If this is not the case, remove $N$ from $\Visited$ and return immediately with $\Structured = \varnothing$.
+
+\item Set $\Structured = \{ n_{1,1}, n_{1,2}, n_{2,1}, n_{2,2} \}$, and continue to the next phase.
+
+The structured region looks as follows thus far.
+\begin{tikzpicture}
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1cm];
+
+										\coordinate (northleft) at (-1,4);	\coordinate (northright) at (1,4);
+	\coordinate (westup) at (-2,3);		\node (n21) at (-1,3) {$n_{2,1}$};	\node (n22) at (1,3) {$n_{2,2}$};	\coordinate (eastup) at (2,3);
+	\coordinate (westdown) at (-2,1);	\node (n11) at (-1,1) {$n_{1,1}$};	\node (n12) at (1,1) {$n_{1,2}$};	\coordinate (eastdown) at (2,1);
+										\coordinate (southleft) at (-1,0);	\coordinate (southright) at (1,0);
+
+
+
+	\draw[outside] (westup) -- (n21);
+	\draw (n21) -- (n22);
+	\draw[outside] (n22) -- (eastup);
+
+	\draw[outside] (westdown) -- (n11);
+	\draw (n11) -- (n12);
+	\draw[outside] (n12) -- (eastdown);
+
+	\draw[outside] (northleft) -- (n21);
+	\draw (n21) -- (n11);
+	\draw[outside] (n11) -- (southleft);
+
+	\draw[outside] (northright) -- (n22);
+	\draw (n22) -- (n12);
+	\draw[outside] (n12) -- (southright);
+
+\end{tikzpicture}
+
+\end{enumerate}

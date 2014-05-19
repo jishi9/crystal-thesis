@@ -32,7 +32,7 @@ Now consider an operation over this mesh, which performs a computation for each 
 %             |   |             |   |
 %           cell2nodes         node2coordinate
 
-Notice that proximate (or indded adjacent) nodes in the mesh need not exhibit a uniform memory access pattern. This is detrimental to performance for various reasons.
+Notice that proximate (or indeed adjacent) nodes in the mesh need not exhibit a uniform memory access pattern. This is detrimental to performance for various reasons.
 1. They do not exhibit spatial locality, a property which most modern CPU caches bank on to attain higher performance in IO bound applications, which may manifest through decisions regarding cache replacement strategies or data pre-fetching.
 2. Looking up addresses, as opposed to computing them directly, will typically prohibit or limit the scope of compiler-performed optimizations, not least vectorizations.
 

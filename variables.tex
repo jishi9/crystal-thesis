@@ -1,0 +1,28 @@
+\newcommand{\VertexSet}{V}
+\newcommand{\CellSet}{C}
+
+\newcommand{\Visited}{V_{visited}}
+
+% Cardinality of
+\newcommand{\card}[1]{\left\vert{#1}\right\vert}
+
+% powerset of
+\newcommand{\powerset}[1]{\mathcal P \left({#1}\right)}
+
+
+
+% Line that can go anywhere, structured region or outside
+\tikzset{%
+    anywhere/.style={
+		decorate,
+		decoration={
+		    snake,
+		    segment length=4,
+		    amplitude=.9,post=lineto,
+		    post length=2pt
+		}
+	}
+}
+
+% Line that can only go outside the structured region
+\tikzset{outside/.style={dotted}}
