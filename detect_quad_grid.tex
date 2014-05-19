@@ -12,6 +12,9 @@
 % Initial quad
 \newcommand{\Qinit}{\Quad{n_{1,1}} {n_{1,2}} {n_{2,1}} {n_{2,2}} }
 
+% Initial quad mirrored about y-axis
+\newcommand{\Qinitmirror}{ \Quad {n_{1,2}} {n_{1,1}} {n_{2,2}} {n_{2,1}} }
+
 
 
 \subsection{Inputs}
@@ -208,7 +211,7 @@ The structured region looks as follows thus far.
 %%%% PHASE 2
 
 %% Phase 2 summary
-\subsection{Phase 2: Grow a quad}
+\subsection{Phase 2: Extend a quad}
 Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which must be a valid quad in a structured region, we would like to find two more vertices $n_{1, i+2}$ and $n_{2,i+2}$, such that $Q_{i+1} = \Quad {n_{1,i+1}} {n_{1,i+2}} {n_{2,i+1}} {n_{2,i+2}}$ forms a valid quad in a structured quad region. They must satisfy the following constraints:
 
 \begin{itemize}
@@ -311,7 +314,232 @@ and such that they each have exactly 4 neighbours. If no such vertices $n_{1,i+2
 Otherwise add the two vertices to $\Visited$.
 
 \item Ensure for every vertex $n \in \{ n_{1,i+2} , n_{2,i+2} \}$ that its visited neighbours, $\AdjVV(n) \cap \Visited$, are exactly those explicitly stated above. If this is not the case, remove $\{ n_{1,i+2} , n_{2,i+2} \}$ from $\Visited$ and fail the procedure.
+
+\item Return the two vertices $n_{1,i+2}$ and $n_{2,i+2}$.
 \end{enumerate}
+
+
+
+
+
+
+
+%%%% PHASE 3
+
+\subsection{Phase 3: Extend a row}
+%% Phase 3.1 summary
+``Extend a quad'' is iteratively applied, starting from $Q_0 = \Qinit$, to yield successive quads until it fails.
+The resulting vertices are appended to the \emph{right} of $\Structured$ to form a single row in a structured quad region.
+
+%% Phase 3.1 diagram
+
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+	% MIDDLE
+
+										\coordinate (northleft) at (0, 2);	\coordinate (northright) at (2, 2);
+	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{1,1}$};	\node (r1c2) at (2,1) {$n_{1,2}$};		\coordinate (eastup) at (3,1);
+	\coordinate (westdown) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{2,1}$};	\node (r2c2) at (2,-1) {$n_{2,2}$};		\coordinate (eastdown) at (3,-1);
+										\coordinate (southleft) at (0, -2);	\coordinate (southright) at (2, -2);
+
+	% ellipses
+	\coordinate (ellipsis westup) at (4,1);		\coordinate (ellipsis eastup) at (4.5,1);
+	\coordinate (ellipsis westdown) at (4,-1);	\coordinate (ellipsis eastdown) at (4.5,-1);
+
+
+	% RHS
+											\coordinate (rhs north) at (6, 2);
+	\coordinate (rhs westup) at (5,1);		\node (r1cn) at (6,1) {$n_{1,c}$};	\coordinate (rhs eastup) at (7,1);
+	\coordinate (rhs westdown) at (5,-1);	\node (r2cn) at (6,-1) {$n_{2,c}$};	\coordinate (rhs eastdown) at (7,-1);
+											\coordinate (rhs south) at (6, -2);
+
+
+
+	% Horizontals
+	\draw[outside] (westup) -- (r1c1);
+	\draw (r1c1) -- (r1c2);
+	\draw (r1c2) -- (r1c3);
+	\draw (r1c3) -- (eastup);
+
+	\draw[outside] (westdown) -- (r2c1);
+	\draw (r2c1) -- (r2c2);
+	\draw (r2c2) -- (r2c3);
+	\draw (r2c3) -- (eastdown);
+
+	\draw[ellipsis] (ellipsis westup) -- (ellipsis eastup);
+	\draw[ellipsis] (ellipsis westdown) -- (ellipsis eastdown);
+
+
+	\draw (rhs westup) -- (r1cn);
+	\draw[outside] (r1cn) -- (rhs eastup);
+
+	\draw (rhs westdown) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs eastdown);
+
+	% Verticals
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1);
+	\draw[outside] (r2c1) -- (southleft);
+
+	\draw[outside] (northright) -- (r1c2);
+	\draw (r1c2) -- (r2c2);
+	\draw[outside] (r2c2) -- (southright);
+
+	\draw[outside] (rhs north) -- (r1cn);
+	\draw (r1cn) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs south);
+\end{tikzpicture}
+
+
+
+%% Phase 3.2 summary
+Next, ``Extend a quad'' is again iteratively applied, this time with $Q_0 = \Qinitmirror$, the mirror image of $Q_{init}$ about the y-axis.
+The repeated application yields successive quads until the procedure fails.
+The resulting vertices are appended to the \emph{left} of $\Structured$ to extend the existing row.
+
+
+%% Phase 3.2 diagram
+\begin{tikzpicture}[scale=1]
+	% Default action for each node
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+	% LHS
+												\coordinate (lhs north) at (-3.5, 2);
+	\coordinate (lhs westup) at (-4.5,1);		\node (r1cm) at (-3.5,1) {$n_{1,d}$};	\coordinate (lhs eastup) at (-2.5,1);
+	\coordinate (lhs westdown) at (-4.5,-1);	\node (r2cm) at (-3.5,-1) {$n_{2,d}$};	\coordinate (lhs eastdown) at (-2.5,-1);
+												\coordinate (lhs south) at (-3.5, -2);
+
+	% lhs ellipses
+	\coordinate (lhs ellipsis westup) at (-2,1);	\coordinate (lhs ellipsis eastup) at (-1.5,1);
+	\coordinate (lhs ellipsis westdown) at (-2,-1);	\coordinate (lhs ellipsis eastdown) at (-1.5,-1);
+
+
+	% MIDDLE
+										\coordinate (northleft) at (0, 2);	\coordinate (northright) at (2, 2);
+	\coordinate (westup) at (-1,1);		\node (r1c1) at (0,1) {$n_{1,1}$};	\node (r1c2) at (2,1) {$n_{1,2}$};		\coordinate (eastup) at (3,1);
+	\coordinate (westdown) at (-1,-1);	\node (r2c1) at (0,-1) {$n_{2,1}$};	\node (r2c2) at (2,-1) {$n_{2,2}$};		\coordinate (eastdown) at (3,-1);
+										\coordinate (southleft) at (0, -2);	\coordinate (southright) at (2, -2);
+
+	% rhs ellipses
+	\coordinate (rhs ellipsis westup) at (4,1);		\coordinate (rhs ellipsis eastup) at (4.5,1);
+	\coordinate (rhs ellipsis westdown) at (4,-1);	\coordinate (rhs ellipsis eastdown) at (4.5,-1);
+
+
+	% RHS
+											\coordinate (rhs north) at (6, 2);
+	\coordinate (rhs westup) at (5,1);		\node (r1cn) at (6,1) {$n_{1,c}$};	\coordinate (rhs eastup) at (7,1);
+	\coordinate (rhs westdown) at (5,-1);	\node (r2cn) at (6,-1) {$n_{2,c}$};	\coordinate (rhs eastdown) at (7,-1);
+											\coordinate (rhs south) at (6, -2);
+
+
+
+	% Horizontals
+	\draw (westup) -- (r1c1);
+	\draw (r1c1) -- (r1c2);
+	\draw (r1c2) -- (r1c3);
+	\draw (r1c3) -- (eastup);
+
+	\draw(westdown) -- (r2c1);
+	\draw (r2c1) -- (r2c2);
+	\draw (r2c2) -- (r2c3);
+	\draw (r2c3) -- (eastdown);
+
+
+	\draw[ellipsis] (rhs ellipsis westup) -- (rhs ellipsis eastup);
+	\draw[ellipsis] (rhs ellipsis westdown) -- (rhs ellipsis eastdown);
+
+	\draw (rhs westup) -- (r1cn);
+	\draw[outside] (r1cn) -- (rhs eastup);
+
+	\draw (rhs westdown) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs eastdown);
+
+
+	\draw[ellipsis] (lhs ellipsis westup) -- (lhs ellipsis eastup);
+	\draw[ellipsis] (lhs ellipsis westdown) -- (lhs ellipsis eastdown);
+
+	\draw (r1cm) -- (lhs eastup);
+	\draw[outside] (lhs westup) -- (r1cm);
+
+	\draw[outside] (lhs westdown) -- (r2cm);
+	\draw (r2cm) -- (lhs eastdown);
+
+
+	% Verticals
+	\draw[outside] (northleft) -- (r1c1);
+	\draw (r1c1) -- (r2c1);
+	\draw[outside] (r2c1) -- (southleft);
+
+	\draw[outside] (northright) -- (r1c2);
+	\draw (r1c2) -- (r2c2);
+	\draw[outside] (r2c2) -- (southright);
+
+
+	\draw[outside] (rhs north) -- (r1cn);
+	\draw (r1cn) -- (r2cn);
+	\draw[outside] (r2cn) -- (rhs south);
+
+
+	\draw[outside] (lhs north) -- (r1cm);
+	\draw (r1cm) -- (r2cm);
+	\draw[outside] (r2cm) -- (lhs south);
+\end{tikzpicture}
+
+
+
+
+
+
+
+
+
+
+
+
+%% Phase 3 algorithm
+
+\subsubsection{Algorithm}
+
+\paragraph{Extend to the right}
+\begin{enumerate}
+\item Let $Q_{in} = Q_{init} = \Qinit$, as produced by ``Grow a quad''.
+\item \label{step:extend_quad} Let $\Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$ represent the elements of $Q_{in}$.
+\item Call the procedure ``Extend a quad'' with $Q_{in}$ as input.
+\item If the procedure fails, go to step~\ref{step:init_reverse}.
+\item Otherwise, append the two new vertices obtained, $n_{1,i+2}$ and $n_{2,i+2}$ to the \emph{right} of $\Structured$. \\
+Thus $\Structured$ will become:
+	$\begin{bmatrix}
+	n_{1,1} & n_{1,2} & \cdots  & n_{1,i} & n_{1,i+1} & n_{1,i+2} \\
+	n_{2,1} & n_{2,2} & \cdots  & n_{2,i} & n_{2,i+1} & n_{2,i+2}
+	\end{bmatrix}$
+
+\item Set $Q_{in} = \Quad {n_{1,i+1}} {n_{1,i+2}} {n_{2,i+1}} {n_{2,i+2}}$, and continue from step~\ref{step:extend_quad}.
+
+\end{enumerate}
+\paragraph{Extend to the left}
+\begin{enumerate}[resume]
+
+% Reverse
+\item \label{step:init_reverse} Let $Q_{in} = \Qinitmirror$ be the mirror image of $Q_{init}$ about the y-axis.
+
+
+
+\item \label{step:reverse_extend_quad} Let $\Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$ represent the elements of $Q_{in}$.
+\item Call the procedure ``Extend a quad'' with $Q_{in}$ as input.
+\item If the procedure fails, return immediately.
+\item Otherwise, append the two new vertices obtained, $n_{1,i+2}$ and $n_{2,i+2}$ to the \emph{left} of $\Structured$. \\
+Thus $\Structured$ will become:
+	$\begin{bmatrix}
+	n_{1,i+2} & n_{1,i+1} & n_{1,i} & \cdots & n_{1,1} & n_{1,2} & \cdots  & n_{1,c} \\
+	n_{2,i+2} & n_{2,i+1} & n_{2,i} & \cdots & n_{2,1} & n_{2,2} & \cdots  & n_{2,c}
+	\end{bmatrix}$
+where $n_{1,c}$ and $n_{2,c}$ denote the rightmost vertices in $\Structured$.
+
+\item Set $Q_{in} = \Quad {n_{1,i+1}} {n_{1,i+2}} {n_{2,i+1}} {n_{2,i+2}}$, and continue from step~\ref{step:reverse_extend_quad}.
+\end{enumerate}
+
 
 
 
