@@ -328,11 +328,10 @@ Otherwise add the two vertices to $\Visited$.
 
 \subsection{Phase 3: Extend a row}
 %% Phase 3.1 summary
-``Extend a quad'' is iteratively applied, starting from $Q_0 = \Qinit$, to yield successive quads until it fails.
+``Extend a quad'' is iteratively applied, starting from $Q_1 = \Qinit$, to yield successive quads until it fails.
 The resulting vertices are appended to the \emph{right} of $\Structured$ to form a single quad row in a structured quad region, or equivalently a successive pair of node rows.
 
 %% Phase 3.1 diagram
-
 \begin{tikzpicture}[scale=1]
 	% Default action for each node
 	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
@@ -395,7 +394,7 @@ The resulting vertices are appended to the \emph{right} of $\Structured$ to form
 
 
 %% Phase 3.2 summary
-Next, ``Extend a quad'' is again iteratively applied, this time with $Q_0 = \Qinitmirror$, the mirror image of $Q_{init}$ about the y-axis.
+Next, ``Extend a quad'' is again iteratively applied, this time with $Q_1 = \Qinitmirror$, the mirror image of $Q_{init}$ about the y-axis.
 The repeated application yields successive quads until the procedure fails.
 The resulting vertices are appended to the \emph{left} of $\Structured$ to extend the existing quad row, or equivalently a successive pair of node rows.
 
@@ -914,11 +913,83 @@ that is $\AdjVV(n_{i+2,c}) \cap \Visited = \{ n_{i+2,c-1} , n_{i+1,c} \}$. If th
 
 \end{tikzpicture}
 
-
-
-
 \item Return the vertices of node row $r_{i+2}$, that is $n_{i+2,1} \cdots n_{i+2,c}$.
 \end{enumerate}
+
+
+
+
+
+%%%% PHASE 5
+
+\subsection{Phase 5: Extend rows}
+%% Phase 5.1 summary
+``Extend a row'' is iteratively applied, starting from $r_1 = n_{1,1} \cdots n_{1,c}$ and $r_2 = n_{2,1} \cdots n_{2,c}$, to yield successive rows until it fails.
+The resulting rows are appended \emph{below} $\Structured$.
+
+
+%% Phase 5.1 diagram
+\begin{tikzpicture}
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+	% First rows
+	\drawgrid{rows=2, cols=3, rowoffset=6,
+		labeler=\plainlabelnode, labelerA=0, labelerB=0,
+		southborder=structured, eastborder=structured}
+	\drawgrid{rows=2, cols=1, rowoffset=6, coloffset=8,
+		labeler=\varcollabelnode, labelerA=0, labelerB=0, labelerC=c,
+		southborder=structured, westborder=structured}
+
+	% Top horizontal ellipsis
+	\drawellipsisrow{num=3, rowoffset=0.5}
+	\drawellipsisrow{num=1, rowoffset=0.5, coloffset=8}
+
+	% Mid rows
+	\drawellipsiscol{num=3, coloffset=7.5}
+	\drawgrid{rows=3, cols=3,
+		labeler=\varrowlabelnode, labelerA=0, labelerB=0, labelerC=i,
+		northborder=structured, eastborder=structured}
+	\drawgrid{rows=3, cols=1, coloffset=8,
+		labeler=\varlabelnode, labelerA=0, labelerB=0, labelerC=i, labelerD=c,
+		northborder=structured, westborder=structured}
+\end{tikzpicture}
+
+
+
+
+
+\begin{tikzpicture}
+	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
+
+	% First rows
+	\drawgrid{rows=2, cols=3, rowoffset=6,
+		labeler=\plainlabelnode, labelerA=0, labelerB=0,
+		southborder=structured, eastborder=structured}
+	\drawgrid{rows=2, cols=1, rowoffset=6, coloffset=8,
+		labeler=\varcollabelnode, labelerA=0, labelerB=0, labelerC=c,
+		southborder=structured, westborder=structured}
+
+	% Top horizontal ellipsis
+	\drawellipsisrow{num=3, rowoffset=0.5}
+	\drawellipsisrow{num=1, rowoffset=0.5, coloffset=8}
+
+	% Mid rows
+	\drawellipsiscol{num=3, coloffset=7.5}
+	\drawgrid{rows=3, cols=3, labeler=\varrowlabelnode, labelerA=0, labelerB=0, labelerC=i,
+		northborder=structured, eastborder=structured}
+	\drawgrid{rows=3, cols=1, coloffset=8, labeler=\varlabelnode, labelerA=0, labelerB=0, labelerC=i, labelerD=c,
+		northborder=structured, westborder=structured, southborder=structured, eastborder=structured}
+
+	% Bottom horizontal ellipsis
+	\drawellipsisrow{num=3, rowoffset=-7.5}
+	\drawellipsisrow{num=1, rowoffset=-7.5, coloffset=8}
+
+	% Last row
+	\drawgrid{rows=1, cols=3, rowoffset=-8, labeler=\varrowlabelnode, labelerA=0, labelerB=0, labelerC=r,
+		northborder=structured, eastborder=structured}
+	\drawgrid{rows=1, cols=1, rowoffset=-8, coloffset=8, labeler=\varlabelnode, labelerA=0, labelerB=0, labelerC=r, labelerD=c,
+		northborder=structured, westborder=structured}
+\end{tikzpicture}
 
 
 

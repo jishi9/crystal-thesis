@@ -1,0 +1,125 @@
+%% Node labelling functions
+
+% row, col, rowoffset, coloffset
+\newcommand{\plainlabelnode}[4]{
+\pgfmathtruncatemacro{\rowlabel}{#1+#3}\pgfmathtruncatemacro{\collabel}{#2+#4}$n_{\rowlabel,\collabel}$}
+
+% row, col, rowoffset, coloffset, column-variable
+\newcommand{\varcollabelnode}[5]{
+\pgfmathtruncatemacro{\row}{#1+#3}\pgfmathtruncatemacro{\col}{#2+#4}\pgfmathtruncatemacro{\colzero}{\col-1}\newcommand{\collabel}{\ifnumcomp{\colzero}{=}{0}{#5}{\ifnumcomp{\colzero}{>}{0}{#5+\colzero}{#5\colzero}}}$n_{\row,\collabel}$}
+
+% row, col, rowoffset, coloffset, row-variable
+\newcommand{\varrowlabelnode}[5]{\pgfmathtruncatemacro{\row}{#1+#3}\pgfmathtruncatemacro{\rowzero}{\row-1}\pgfmathtruncatemacro{\col}{#2+#4}\newcommand{\rowlabel}{\ifnumcomp{\rowzero}{=}{0}{#5}{\ifnumcomp{\rowzero}{>}{0}{#5+\rowzero}{#5\rowzero}}}$n_{\rowlabel,\col}$}
+
+
+% row, col, rowoffset, coloffset, row-variable, col-variable
+\newcommand{\varlabelnode}[6]{\pgfmathtruncatemacro{\row}{#1+#3}\pgfmathtruncatemacro{\rowzero}{\row-1}\pgfmathtruncatemacro{\col}{#2+#4}\pgfmathtruncatemacro{\colzero}{\col-1}\newcommand{\rowlabel}{\ifnumcomp{\rowzero}{=}{0}{#5}{\ifnumcomp{\rowzero}{>}{0}{#5+\rowzero}{#5\rowzero}}}\newcommand{\collabel}{\ifnumcomp{\colzero}{=}{0}{#6}{\ifnumcomp{\colzero}{>}{0}{#6+\colzero}{#6\colzero}}}$n_{\rowlabel,\collabel}$}
+
+
+
+\pgfkeys{/tikz/.cd,% to set the path
+  rows/.get=\krows,
+  rows/.store in=\krows,
+  cols/.get=\kcols,
+  cols/.store in=\kcols,
+  rowoffset/.initial=0,
+  rowoffset/.get=\krowoffset,
+  rowoffset/.store in=\krowoffset,
+  coloffset/.initial=0,
+  coloffset/.get=\kcoloffset,
+  coloffset/.store in=\kcoloffset,
+  labeler/.get=\klabeler,
+  labeler/.store in=\klabeler,
+  labelerA/.get=\klabelerA,
+  labelerA/.store in=\klabelerA,
+  labelerB/.get=\klabelerB,
+  labelerB/.store in=\klabelerB,
+  labelerC/.get=\klabelerC,
+  labelerC/.store in=\klabelerC,
+  labelerD/.get=\klabelerD,
+  labelerD/.store in=\klabelerD,
+  northborder/.initial=outside,
+  northborder/.get=\knorthborder,
+  northborder/.store in=\knorthborder,
+  southborder/.initial=outside,
+  southborder/.get=\ksouthborder,
+  southborder/.store in=\ksouthborder,
+  eastborder/.initial=outside,
+  eastborder/.get=\keastborder,
+  eastborder/.store in=\keastborder,
+  westborder/.initial=outside,
+  westborder/.get=\kwestborder,
+  westborder/.store in=\kwestborder,
+}
+
+%% Draws a grid - num rows, num cols, row offset, col offset
+\newcommand{\drawgrid}[1]{{
+     \tikzset{#1}
+
+
+	\newcommand{\maxrows}{\krows}
+	\newcommand{\maxcols}{\kcols}
+	\newcommand{\rowoffset}{\krowoffset}
+	\newcommand{\coloffset}{\kcoloffset}
+	% Argument is a function: r,c -> node label
+	\newcommand{\labeler}{\klabeler}
+
+	\foreach \row in {1,...,\maxrows} {
+		\pgfmathsetmacro{\ypos}{-2 * \row + \rowoffset}
+		\pgfmathtruncatemacro{\prevrow}{\row - 1}
+
+		\foreach \col in {1,...,\maxcols} {
+			\pgfmathsetmacro{\xpos}{2 * \col + \coloffset}
+			\pgfmathtruncatemacro{\prevcol}{\col - 1}
+			\newcommand{\thisnode}{(n \row \space \col)}
+
+			% Get node label
+			\ifstrempty{\klabelerA}{
+				\newcommand{\nodelabel}{\labeler{\row}{\col}}
+			}
+			\ifstrempty{\klabelerB} {
+				\newcommand{\nodelabel}{\labeler{\row}{\col}{\klabelerA}}
+			}
+			\ifstrempty{\klabelerC} {
+				\newcommand{\nodelabel}{\labeler{\row}{\col}{\klabelerA}{\klabelerB}}
+			}
+			\ifstrempty{\klabelerD} {
+				\newcommand{\nodelabel}{\labeler{\row}{\col}{\klabelerA}{\klabelerB}{\klabelerC}}
+			}
+			{
+				\newcommand{\nodelabel}{\labeler{\row}{\col}{\klabelerA}{\klabelerB}{\klabelerC}{\klabelerD}}
+			}
+			% Create node
+			\node (n \row \space \col) at (\xpos,\ypos) {\nodelabel};
+
+			% Line from node to the previous horizontal node
+			\ifnumcomp{\col}{>}{1} {
+				\draw (n \row \space \prevcol) -- \thisnode;
+			}
+
+			% Line from node to the previous vertical node
+			\ifnumcomp{\row}{>}{1} {
+				\draw (n \prevrow \space \col) -- \thisnode;
+			}
+
+
+			% West border lines
+			\ifnumcomp{\col}{=}{1} {
+				\draw[\kwestborder] \thisnode -- (\xpos-1, \ypos);
+			}
+			% East border lines
+			\ifnumcomp{\col}{=}{\maxcols} {
+				\draw[\keastborder] (\xpos+1, \ypos) -- \thisnode;
+			}
+
+			% North border lines
+			\ifnumcomp{\row}{=}{1} {
+				\draw[\knorthborder] \thisnode -- (\xpos, \ypos+1);
+			}
+			% South border lines
+			\ifnumcomp{\row}{=}{\maxrows} {
+				\draw[\ksouthborder] (\xpos, \ypos-1) -- \thisnode;
+			}
+		}
+	}
+}}

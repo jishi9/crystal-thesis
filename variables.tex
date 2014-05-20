@@ -10,6 +10,11 @@
 \newcommand{\powerset}[1]{\mathcal P \left({#1}\right)}
 
 
+% Tikz function: compute absolute position
+% row, delta-sy, y-offset
+\newcommand{\rctoxy}[3][3=0]{#1*#2 + #3}
+
+
 
 % Line that can go anywhere, structured region or outside
 \tikzset{%
@@ -30,3 +35,10 @@
 
 % Ellipsis
 \tikzset{ellipsis/.style={loosely dotted}}
+
+% Structured
+\tikzset{structured/.style={}}
+
+
+\input{drawgrid.tikz}
+\input{drawellipsis.tikz}

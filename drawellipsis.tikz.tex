@@ -1,0 +1,57 @@
+\pgfkeys{/tikz/.cd,% to set the path
+  num/.get=\knum,
+  num/.store in=\knum,
+  rowoffset/.initial=0,
+  rowoffset/.get=\krowoffset,
+  rowoffset/.store in=\krowoffset,
+  coloffset/.initial=0,
+  coloffset/.get=\kcoloffset,
+  coloffset/.store in=\kcoloffset,
+}
+
+
+%% Draws a row of vertical ellipses - num cols, row offset, col offset
+\newcommand{\drawellipsisrow}[1]{{
+	\tikzset{#1}
+
+	\newcommand{\numellipses}{\knum}
+	\newcommand{\rowoffset}{\krowoffset}
+	\newcommand{\coloffset}{\kcoloffset}
+
+	\foreach \col in {1,...,\numellipses} {
+		\pgfmathsetmacro{\xpos}{2 * \col + \coloffset}
+		\pgfmathsetmacro{\ypos}{\rowoffset}
+
+		\draw[ellipsis] (\xpos, \ypos) -- (\xpos, \ypos-1);
+	}
+}}
+
+
+
+\pgfkeys{/tikz/.cd,% to set the path
+  num/.get=\knum,
+  num/.store in=\knum,
+  rowoffset/.initial=0,
+  rowoffset/.get=\krowoffset,
+  rowoffset/.store in=\krowoffset,
+  coloffset/.initial=0,
+  coloffset/.get=\kcoloffset,
+  coloffset/.store in=\kcoloffset,
+}
+
+
+%% Draws a column of horizontal ellipses - num rows, row offset, col offset
+\newcommand{\drawellipsiscol}[1]{{
+	\tikzset{#1}
+
+	\newcommand{\numellipses}{\knum}
+	\newcommand{\rowoffset}{\krowoffset}
+	\newcommand{\coloffset}{\kcoloffset}
+
+	\foreach \row in {1,...,\numellipses} {
+		\pgfmathsetmacro{\xpos}{\coloffset}
+		\pgfmathsetmacro{\ypos}{-2 * \row + \rowoffset}
+
+		\draw[ellipsis] (\xpos, \ypos) -- (\xpos+1, \ypos);
+	}
+}}
