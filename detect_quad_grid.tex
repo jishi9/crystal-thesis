@@ -1,9 +1,6 @@
 % Structured nodes matrix
 \newcommand{\Structured}{V_{structured}}
 
-% Adjacency relation
-\newcommand{\AdjVV}{Adj_{\VertexSet\VertexSet}}
-
 % Initial vertex
 \newcommand{\vinit}{v_{init}}
 
@@ -17,7 +14,7 @@
 
 
 
-\subsection{Inputs}
+\section{Inputs}
 \begin{enumerate}
 \item A non-reflexive and symmetric vertex-vertex adjacency relation:
 $$ \AdjVV: \VertexSet \mapsto \powerset{\VertexSet} $$
@@ -30,7 +27,7 @@ $$ \vinit \in \VertexSet \setminus \Visited $$
 \end{enumerate}
 
 
-\subsection{Outputs}
+\section{Outputs}
 \begin{enumerate}
 \item A structured set of vertices $\Structured \subseteq \VertexSet \setminus \Visited $ forming the extracted structured region.
 The vertices $\Structured$ are structured on a 2-dimensional Cartesian lattice with $m$ rows and $n$ columns.
@@ -40,7 +37,7 @@ The vertices $\Structured$ are structured on a 2-dimensional Cartesian lattice w
 %%%% PHASE 1
 
 %% Phase 1 summary
-\subsection{Phase 1: Grow a quad}
+\section{Phase 1: Grow a quad}
 \label{sec:grow_a_quad}
 Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to discover three other vertices $n_{1,2}$, $n_{2,1}$, and $n_{2,2}$ such that $\Qinit$ forms a valid quad in a structured quad region. They must satisfy the following constraints:
 
@@ -82,7 +79,7 @@ Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to d
 
 %% Phase 1 algorithm
 
-\subsubsection{Algorithm}
+\subsection{Algorithm}
 
 \begin{enumerate}
 \item If $\vinit$ does not have exactly 4 neighbours, that is $ \card{\AdjVV(\vinit)} \neq 4 $, return immediately with $\Structured = \varnothing$.
@@ -91,7 +88,7 @@ Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to d
 \item Otherwise, there are three cases:
 
 	%%%% BEGIN THREE CASES
-	\begin{enumerate}[label=Case \alph*)]
+	\begin{enumerate}
 
 	%% Straight line case
 	\item $a$ and $b$ have exactly one neighbour in common, which must be $n_{1,1}$ by construction, expressed by:
@@ -211,7 +208,7 @@ The structured region looks as follows thus far.
 %%%% PHASE 2
 
 %% Phase 2 summary
-\subsection{Phase 2: Extend a quad}
+\section{Phase 2: Extend a quad}
 Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which must be a valid quad in a structured region, we would like to find two more vertices $n_{1, i+2}$ and $n_{2,i+2}$, such that $Q_{i+1} = \Quad {n_{1,i+1}} {n_{1,i+2}} {n_{2,i+1}} {n_{2,i+2}}$ forms a valid quad in a structured quad region. They must satisfy the following constraints:
 
 \begin{itemize}
@@ -259,7 +256,7 @@ Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which m
 
 %% Phase 2 algorithm
 
-\subsubsection{Algorithm}
+\subsection{Algorithm}
 
 \begin{enumerate}
 \item $n_{1,i+1}$ has 4 neighbours, which include $n_{1,i}$ and $n_{2,i+1}$. Call the remaining 2 neighbours $a$ and $b$. This is expressed by:
@@ -326,7 +323,7 @@ Otherwise add the two vertices to $\Visited$.
 
 %%%% PHASE 3
 
-\subsection{Phase 3: Extend a row}
+\section{Phase 3: Extend a row}
 %% Phase 3.1 summary
 ``Extend a quad'' is iteratively applied, starting from $Q_1 = \Qinit$, to yield successive quads until it fails.
 The resulting vertices are appended to the \emph{right} of $\Structured$ to form a single quad row in a structured quad region, or equivalently a successive pair of node rows.
@@ -499,7 +496,7 @@ The resulting vertices are appended to the \emph{left} of $\Structured$ to exten
 
 %% Phase 3 algorithm
 
-\subsubsection{Algorithm}
+\subsection{Algorithm}
 
 \paragraph{Extend to the right}
 \begin{enumerate}
@@ -545,7 +542,7 @@ where $n_{1,c}$ and $n_{2,c}$ denote the rightmost vertices in $\Structured$.
 
 %%%% PHASE 4
 
-\subsection{Phase 4: Extend rows}
+\section{Phase 4: Extend rows}
 %% Phase 4 summary
 We are given a quad row in a structured quad region, that is a pair of successive node rows, call them $r_i$ and $r_{i+1}$.
 The nodes in each row are denoted by $n_{i,1} \cdots n_{i,c}$ and $n_{i+1,1} \cdots n_{i+1,c}$, respectively, where $c >= 3$ is the number of node columns.
@@ -635,7 +632,7 @@ We extend this pair of node rows $r_i$ and $r_{i+1}$ by a third node row, $r_{i+
 
 %% Phase 4 algorithm
 
-\subsubsection{Algorithm}
+\subsection{Algorithm}
 
 \begin{enumerate}
 \item Let $n_{i+2,2}$ be the unique vertex in the set $\AdjVV(n_{i+1,2}) \setminus \{ n_{i+1,1} , n_{i+1,3} , n_{i,2} \} $.
@@ -922,7 +919,7 @@ that is $\AdjVV(n_{i+2,c}) \cap \Visited = \{ n_{i+2,c-1} , n_{i+1,c} \}$. If th
 
 %%%% PHASE 5
 
-\subsection{Phase 5: Extend rows}
+\section{Phase 5: Extend rows}
 %% Phase 5.1 summary
 ``Extend a row'' is iteratively applied, starting from $r_1 = n_{1,1} \cdots n_{1,c}$ and $r_2 = n_{2,1} \cdots n_{2,c}$, to yield successive rows until it fails.
 The resulting rows are appended \emph{below} $\Structured$.
@@ -1005,7 +1002,7 @@ The resulting rows are appended \emph{above} $\Structured$.
 
 %% Phase 5 algorithm
 
-\subsubsection{Algorithm}
+\subsection{Algorithm}
 
 \paragraph{Extend below}
 \begin{enumerate}

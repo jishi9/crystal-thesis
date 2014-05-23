@@ -1,6 +1,19 @@
-Scientific computing is a large research branch touching on various areas in the scientific community as well as in various industries. An integral part of it is concerned with algorithms and techniques which operate on a mesh representation of a model, typically modelling physical phenomena such as the motion of fluids. SEE
+It is widely believed that the performance of computations over structured meshes is superior to those over meshes with no inherent structure.
+Unstructured meshes, however, are more ubiquitous in practice, necessitated by the demands of many real world applications.
+To bridge this gap, we present Crystal, a group of algorithms for \emph{extracting} regions of uniform structure in an unstructured mesh and reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation} of the underlying structure.
+
+To this end, we demonstrate how a compute kernel can be transformed through code generation and...
+
+We demonstrate the potential performance benefits by transforming a compute kernel...
+
+We demonstrate the fact by transforming a compute kernel through code generation...
+
+
+
+\section{Motivation}
+Scientific computing is a large research branch touching on various areas in the scientific community as well as in various industries. An integral part of it is concerned with algorithms and techniques which operate on a mesh representation of a model, typically modelling physical phenomena such as the motion of fluids; for example see [Tezduyar Flow simulation and high performance computing...]
 % [Flow simulation and high performance computing, 1996a T. Tezduyar, http://www.tafsm.org/PUB_PRE/jALL/j63-CM96.pdf]
-. SEE
+. See [...]
 % [http://www.sv.vt.edu/classes/MSE2094_NoteBook/97ClassProj/num/widas/history.html]
 for a good introduction on finite element analysis.
 
@@ -14,7 +27,7 @@ We can define a dat of coordinates, which associates the set each vertex $v \in 
 
 We can then define an adjacency map (of constant arity 4) from cells to vertices:
 
-\texttt{$C \rightarrow Node^4$}
+$$\texttt{C} \rightarrow \texttt{V}^4$$
 
 Now consider an operation over this mesh, which performs a computation for each cell $c \in C$ as a function of its adjacent nodes ${n | n \in Map[c]}$, for instance computing the area of the cell. In particular consider the chain of memory access indirections and the resulting memory access patterns:
 
@@ -32,12 +45,75 @@ Now consider an operation over this mesh, which performs a computation for each 
 %             |   |             |   |
 %           cell2nodes         node2coordinate
 
-Notice that proximate (or indeed adjacent) nodes in the mesh need not exhibit a uniform memory access pattern. This is detrimental to performance for various reasons.
-1. They do not exhibit spatial locality, a property which most modern CPU caches bank on to attain higher performance in IO bound applications, which may manifest through decisions regarding cache replacement strategies or data pre-fetching.
-2. Looking up addresses, as opposed to computing them directly, will typically prohibit or limit the scope of compiler-performed optimizations, not least vectorizations.
+Notice that proximate (or indeed adjacent) nodes in the mesh need not exhibit a uniform memory access pattern. This is detrimental to performance for various reasons:
+\begin{enumerate}
+\item They do not exhibit spatial locality, a property which most modern CPU caches bank on to attain higher performance in IO bound applications, which may manifest through decisions regarding cache replacement strategies or data pre-fetching.
+\item The indirection maps compete with valuable data for memory access as well as memory storage, both resulting in degraded cache performance.
+\item Looking up addresses, as opposed to computing them directly, will typically prohibit or limit the scope of compiler-performed optimizations, not least vectorizations.
+\end{enumerate}
 
-Numerous strategies have been devoted to deal with this problem, notably applying a space filling curve to obtain a more favourable numbering, with closer elements tending to have closer numberings. While the space filling curve most certainly improves cache locality, it does not make use more obvious structure that may exist. A mesh that is irregular and unstructured on the whole may contain subregions of high regularity and uniform structure, whose regularity/uniformity may be locally exploitable in a more direct manner, for potentially higher gain!
+Numerous strategies have been devoted to deal with this problem, notably applying a space filling curve to obtain a more favourable numbering, with closer elements tending to have closer numberings. While the space filling curve most certainly improves cache locality, it does not make use more obvious structure that may exist. A mesh that is irregular and unstructured on the whole may contain subregions of high regularity and uniform structure, whose regularity/uniformity may be locally exploitable in a more direct manner, for potentially higher performance gains!
 
 
-We present Crystal mesh, a group of algorithms for \emph{extracting} regions of regularity in a mesh, reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation}.
+\section{Contributions}
+
+We present Crystal, a group of algorithms for \emph{extracting} regions of regularity in a mesh, reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation}.
+
+
+
+
+\subsection{Extracting structure}
+We formally define a notion of vertex structure in a mesh, in particular the properties that the vertex-vertex adjacency must exhibit within a structured region.
+
+
+On this basis, a vertex structure extraction algorithm is devised and implemented. The algorithm traverses a constructed graph whose vertices correspond to the mesh's original vertices, and whose edges represent the vertex-vertex adjacency relation. Each structured region is ``grown'' from a given seed vertex, ensuring with each step that the extracted region is a well-formed structured region.
+
+We also define the notion of a structured region for cells and edges, and develop algorithms for deriving said structure using previously extracted vertex structure.
+
+
+\subsection{Exposing structure}
+We describe how the underlying data storage layout must be reorganised to reflect the extracted structure and facilitate its exploitation. This must take into account elements within the unstructured regions, ensuring that accesses via the modified maps remain consistent with the originals.
+
+\subsection{Exploiting structure}
+Using the information gathered from the extracted structure, we can transform the data storage layout so as to implicitly represent the adjacency relationships between various mesh elements. This alleviates the need to use indirection maps when running computations over a structured region, substituting them for a small constant amount of meta-data per that is used to define each structured region's dimensions and orientation. Computations over an unstructured region execute as normal using restructured versions of the original maps and data.
+
+This allows us to transform a cell-to-nodes access operations from the following, which uses indirections to access the node data:
+\begin{lstlisting}[language=c++]
+for (int cell_id = 0 ; cell_id < num_cells ; ++cell_id) {
+	int node0 = cell_to_nodes[cell_id][0];
+	int node1 = cell_to_nodes[cell_id][1];
+	int node2 = cell_to_nodes[cell_id][2];
+	int node3 = cell_to_nodes[cell_id][3];
+
+	int node0_data = data[node0];
+	int node1_data = data[node1];
+	int node2_data = data[node2];
+	int node3_data = data[node3];
+
+	// Use data
+}
+\end{lstlisting}
+
+To something like this, which computes the location of node data directly:
+% SEE https://gmplib.org/~tege/x86-timing.pdf
+\begin{lstlisting}[language=c++]
+for (int row = 0 ; row < num_rows ; ++row) {
+	for (int col = 0 ; col < num_cols ; ++col) {
+		int node0 = row * nodes_per_row + col;
+		int node1 = row * nodes_per_row + (col+1);
+		int node2 = (row+1) * nodes_per_row + col;
+		int node2 = (row+1) * nodes_per_row + (col+1);
+
+		int node0_data = data[node0];
+		int node1_data = data[node1];
+		int node2_data = data[node2];
+		int node3_data = data[node3];
+
+		// Use data
+	}
+}
+\end{lstlisting}
+
+
+\subsection{Unfinished Sentences...}
 In particular, we present and evaluate an implementation for extracting and exposing structure in quadrilateral meshes on various examples, and evaluate a 33\% performance improvement achieved by exploiting the structure on the airfoil computation.

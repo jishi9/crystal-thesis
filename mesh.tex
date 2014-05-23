@@ -1,0 +1,90 @@
+
+\section{Mesh as a data structure}
+
+We describe how a mesh model is manifest at the data structure level. Three classes of (things that we need to represent) can be identified:
+\begin{itemize}
+\item Mesh entity sets.
+\item Associative data
+Data associated with the elements of a particular set.
+\item An adjacency/association/inclusion relation between two sets.
+\end{itemize}
+
+
+\subsection{Mesh entity sets}
+Each set represents a certain type of entity in the mesh, such as vertices or cells. Each element in a set is associated with a unique identifier (integers are a common choice), which enables defining maps (defined shortly). Integers are a common choice for an identifier for a couple of reasons:
+\begin{itemize}
+\item Need not be enumerated explicitly. All we need is the set cardinality and a starting index.
+\item They are convenient for direct-indexed array accesses, as well as for more general indexing methods.
+\end{itemize}
+
+\subsection{Associative data}
+Each element of a particular set may have some data associated with it. For instance, each vertex may be associated with its spatial coordinates in the mesh model. A direct-indexed array is a typical representation.
+This is the data over which we perform our computations and ultimately care about. Everything else is incidental.
+
+\subsection{Set relationship maps}
+These describe relationships, typically adjacency or inclusion, between two (possibly the same) sets. For example, a map from quad cells to vertices may describe an inclusion relation, that is the four vertices that form each quad cell. In a general unstructured mesh these maps must be explicitly stored, typically as a direct-indexed array.
+
+
+
+\section{Data access in mesh computations}
+When performing some computation over a mesh, the data access pattern followed is typically as follows:
+\begin{enumerate}
+\item Iterate over the elements of a set, in no particular order.
+\item For each element iterated over, gather any handles to associated elements (the indices of adjacent elements, say). This may involve handles obtained through a chain of set relationship maps.
+\item Access the associative data using the gathered handles.
+\end{enumerate}
+
+
+
+\section{A basic definition of structure}
+What we would like is a form of structure which is
+\begin{inparaenum}[\itshape a\upshape)]
+\item representable as a data structure, and \item efficient in terms of performance.
+\end{inparaenum}
+
+Given our semantic knowledge about the mesh model we can ascertain some facts about relationship maps:
+\begin{itemize}
+\item They are sparse: element arity is very small compared to the number of elements, and is in fact unrelated to it.
+\item They have a high clustering coefficient: Relationships tend to be localized, forming tightly connected clusters.
+% TODO REFERENCE TO CLUSTERING COEFFICIENTS
+\end{itemize}
+
+These properties arise as a consequence of meshes modelling real-world phenomena that exist in a Cartesian space.
+On this basis, we consider a spatial embodiment of element relationships, organising the elements in a discrete space such that the uniform relationship is apparent.
+
+Bare in mind that this approach bares no relation to any geometric data associated with elements, such as the coordinates of vertices. To make this distinction clear, as well as to emphasize its discrete nature, we address this Cartesian-like space by rows and columns rather than x and y coordinates.
+
+\subsection{Example: Naca0012 mesh}
+Below is a small extract from the NACA0012 mesh\footnote{Thanks to Dr. Peter Vincent, George Ntemos and Harry Davis}, showing the cross section of an aerofoil mesh and its interaction with surrounding fluid. The mesh is divided into cells which represent the ...
+
+** PLAIN IMAGE **
+
+The vertices in the highlighted region seem like good candidates for a ``structured region'', forming a two-dimensional lattice in a discrete Cartesian space. This ``structured region'' has the following properties.
+\begin{enumerate}
+\item All vertices have a uniform arity of four.
+\item Every vertex has a consistent discrete direction (for example the cardinal directions: north east, south, west) with respect to the other vertices. In other words, the direction is transitive: if vertex $a$ is above vertex $b$, and vertex $b$ is above vertex $c$, then vertex $a$ is above vertex $c$. As a non-example, consider this case:
+** INSERT IMAGE AND EXPLANATION **
+\end{enumerate}
+
+
+** Highlighted structured vertex region IMAGE **
+
+%% TODO Maybe not introduce data structure yet????
+We can propagate this inherent structure from the mesh model to the underlying data structure, representing this two-dimensional lattice using a two-dimensional array. Vertices may be assigned Cartesian coordinates, but in spirit of the space's discreteness we shall use rows and columns instead.
+
+** 2D array IMAGE with gaps **
+
+
+\newcommand{\strV}{V_{str}}
+\newcommand{\adjstrV}{V_{adjstr}}
+\newcommand{\AdjVVstr}{Adj_{\adjstrV\strV}}
+
+Let us call $\VertexSet$ the set of all vertices, and $\strV \subseteq \VertexSet$ the set of vertices in the ``structured region''.
+
+\subsection{Map domain}
+
+Now consider a vertex-vertex adjacency relation $\AdjVV: \VertexSet \mapsto \VertexSet$ in context of the ``structured region'' $\strV$. We can directly locate a particular neighbour of a particular vertex (for example its north neighbour), so long as that neighbour is also within the structured region. This restricts the set of vertices with fully-accessible neighbours to those which are not on the borders of the ``structured region''. This is the subset of vertices $\adjstrV \subseteq \strV$ which are structured \emph{with respect to} $\AdjVV$. This induces a new relation $\AdjVVstr: \adjstrV \mapsto \strV$, which operates purely within the structured region.
+
+
+
+The key insight we make is that for structured regions in a mesh we need not represent set relationship maps explicitly; the uniformity of set relations allows us to deduce the relationships.

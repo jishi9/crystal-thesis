@@ -1,12 +1,12 @@
 \documentclass{report}
 
 
-% Better matrix environment
-\usepackage{amsmath}
+\usepackage{amsmath} % Better matrix environment
 \usepackage{amssymb}
-\usepackage{enumitem}
-\usepackage{etoolbox}
-% \usepackage{fp}
+% \usepackage{enumitem}
+\usepackage{etoolbox} % If conditions
+\usepackage{listings} % for code
+\usepackage{paralist} % inline numbering
 \usepackage{tikz}
 \usepackage{xkeyval}
 
@@ -22,10 +22,13 @@
 
 \begin{document}
 
-\section{Introduction}
+\chapter{Introduction}
 \input{intro}
 
-\section{Structure Extraction}
+\chapter{Diving into the problem}
+\input{mesh}
+
+\chapter{Structure Extraction}
 \input{detect_quad_grid}
 
 
