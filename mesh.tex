@@ -1,19 +1,19 @@
 
-\section{Mesh as a data structure}
+\section{Components of a mesh}
 
-We describe how a mesh model is manifest at the data structure level. Three classes of (things that we need to represent) can be identified:
+We describe how a mesh model is manifest at the data structure level. Three general components of a mesh can be identified:
 \begin{itemize}
 \item Mesh entity sets.
-\item Associative data
+\item Associative data:
 Data associated with the elements of a particular set.
 \item An adjacency/association/inclusion relation between two sets.
 \end{itemize}
 
 
 \subsection{Mesh entity sets}
-Each set represents a certain type of entity in the mesh, such as vertices or cells. Each element in a set is associated with a unique identifier (integers are a common choice), which enables defining maps (defined shortly). Integers are a common choice for an identifier for a couple of reasons:
+Each set represents a certain type of entity in the mesh, such as vertices or cells`. Each element in a set is associated with a unique identifier (integers are a common choice), which enables defining maps (defined shortly). Integers are a common choice for an identifier for a couple of reasons:
 \begin{itemize}
-\item Need not be enumerated explicitly. All we need is the set cardinality and a starting index.
+\item They need not be enumerated explicitly. All we need is the set cardinality and a starting index.
 \item They are convenient for direct-indexed array accesses, as well as for more general indexing methods.
 \end{itemize}
 
@@ -52,14 +52,22 @@ Given our semantic knowledge about the mesh model we can ascertain some facts ab
 These properties arise as a consequence of meshes modelling real-world phenomena that exist in a Cartesian space.
 On this basis, we consider a spatial embodiment of element relationships, organising the elements in a discrete space such that the uniform relationship is apparent.
 
-Bare in mind that this approach bares no relation to any geometric data associated with elements, such as the coordinates of vertices. To make this distinction clear, as well as to emphasize its discrete nature, we address this Cartesian-like space by rows and columns rather than x and y coordinates.
+Bear in mind that this approach carries no relation to any geometric data associated with elements, such as the coordinates of vertices. To make this distinction clear, as well as to emphasize its discrete nature, we address this Cartesian-like space by rows and columns rather than x and y coordinates.
 
 \subsection{Example: Naca0012 mesh}
 Below is a small extract from the NACA0012 mesh\footnote{Thanks to Dr. Peter Vincent, George Ntemos and Harry Davis}, showing the cross section of an aerofoil mesh and its interaction with surrounding fluid. The mesh is divided into cells which represent the ...
 
+\newcommand{\drawnaca}[1]{
+	% trim left bottom right top
+	\includegraphics[trim = 40mm 110mm 220mm 0mm, clip]{#1}
+}
+\drawnaca{images/defining-structure/naca0012-plain.pdf}
 ** PLAIN IMAGE **
 
-The vertices in the highlighted region seem like good candidates for a ``structured region'', forming a two-dimensional lattice in a discrete Cartesian space. This ``structured region'' has the following properties.
+The vertices in the highlighted region seem like good candidates for a ``structured region'', forming a two-dimensional lattice in a discrete Cartesian space. This ``structured region'' has the properties outlined below.
+
+\subsection{Properties of a structured region}
+\label{sec:structured region properties}
 \begin{enumerate}
 \item All vertices have a uniform arity of four.
 \item Every vertex has a consistent discrete direction (for example the cardinal directions: north east, south, west) with respect to the other vertices. In other words, the direction is transitive: if vertex $a$ is above vertex $b$, and vertex $b$ is above vertex $c$, then vertex $a$ is above vertex $c$. As a non-example, consider this case:
@@ -67,11 +75,13 @@ The vertices in the highlighted region seem like good candidates for a ``structu
 \end{enumerate}
 
 
+\drawnaca{images/defining-structure/naca0012-node-structure.pdf}
 ** Highlighted structured vertex region IMAGE **
 
 %% TODO Maybe not introduce data structure yet????
 We can propagate this inherent structure from the mesh model to the underlying data structure, representing this two-dimensional lattice using a two-dimensional array. Vertices may be assigned Cartesian coordinates, but in spirit of the space's discreteness we shall use rows and columns instead.
 
+\drawnaca{images/defining-structure/naca0012-node-grid.pdf}
 ** 2D array IMAGE with gaps **
 
 
@@ -81,10 +91,186 @@ We can propagate this inherent structure from the mesh model to the underlying d
 
 Let us call $\VertexSet$ the set of all vertices, and $\strV \subseteq \VertexSet$ the set of vertices in the ``structured region''.
 
-\subsection{Map domain}
+\subsection{Representing the vertex-vertex adjacency}
 
-Now consider a vertex-vertex adjacency relation $\AdjVV: \VertexSet \mapsto \VertexSet$ in context of the ``structured region'' $\strV$. We can directly locate a particular neighbour of a particular vertex (for example its north neighbour), so long as that neighbour is also within the structured region. This restricts the set of vertices with fully-accessible neighbours to those which are not on the borders of the ``structured region''. This is the subset of vertices $\adjstrV \subseteq \strV$ which are structured \emph{with respect to} $\AdjVV$. This induces a new relation $\AdjVVstr: \adjstrV \mapsto \strV$, which operates purely within the structured region.
+Now consider the vertex-vertex adjacency relation $\AdjVV: \VertexSet \mapsto \VertexSet$ in context of the ``structured region'' $\strV$. We can directly locate a particular neighbour of any vertex, for example its north neighbour, so long as that neighbour is also within the structured region. This restricts the set of vertices with fully-accessible neighbours to those which are not on the borders of the ``structured region''. This is the subset of vertices $\adjstrV \subseteq \strV$ which are structured \emph{with respect to} $\AdjVV$. This induces a new relation which operates purely within the structured region:
+$$\AdjVVstr: \adjstrV \mapsto \strV$$
+
+\drawnaca{images/defining-structure/naca0012-node-neighbours.pdf}
+
+
+\definecolor{neighbourstructurecolor}{RGB}{174,190,226}
+
+% Draw structured node region
+\begin{tikzpicture}[scale=0.7]
+	\newcommand{\stylewithfill}[1]{\tikzstyle{every node}=[draw, shape=circle, minimum size=0.8cm, fill=#1];}
+	\stylewithfill{none}
+
+	% ROW 0
+	\drawgrid{rows=1, cols=3, rowoffset=0, coloffset=4, labeler=\plainlabelnode, labelerA=0, labelerB=2,
+		southborder=structured}
+
+	% ROW 1
+	\drawgrid{rows=1, cols=2, rowoffset=-2, coloffset=0, labeler=\plainlabelnode, labelerA=1, labelerB=0,
+		eastborder=structured}
+
+	{
+	\stylewithfill{neighbourstructurecolor}
+	\drawgrid{rows=1, cols=2, rowoffset=-2, coloffset=4, labeler=\plainlabelnode, labelerA=1, labelerB=2,
+		northborder=structured, southborder=structured, westborder=structured, eastborder=structured}
+	}
+
+	\drawgrid{rows=1, cols=1, rowoffset=-2, coloffset=8, labeler=\plainlabelnode, labelerA=1, labelerB=4,
+		northborder=structured, southborder=structured, westborder=structured}
+
+
+	\drawgrid{rows=1, cols=1, rowoffset=-2, coloffset=12, labeler=\plainlabelnode, labelerA=1, labelerB=6,
+		southborder=structured, eastborder=structured}
+
+	\drawgrid{rows=1, cols=1, rowoffset=-2, coloffset=14, labeler=\plainlabelnode, labelerA=1, labelerB=7,
+		westborder=structured}
+
+	% ROW 2
+	\drawgrid{rows=1, cols=1, rowoffset=-4, coloffset=4, labeler=\plainlabelnode, labelerA=2, labelerB=2,
+		northborder=structured, southborder=structured, eastborder=structured}
+
+	{
+	\stylewithfill{neighbourstructurecolor}
+	\drawgrid{rows=1, cols=2, rowoffset=-4, coloffset=6, labeler=\plainlabelnode, labelerA=2, labelerB=3,
+		northborder=structured, southborder=structured, eastborder=structured, westborder=structured}
+	}
+
+	\drawgrid{rows=1, cols=1, rowoffset=-4, coloffset=10, labeler=\plainlabelnode, labelerA=2, labelerB=5,
+		southborder=structured, westborder=structured, eastborder=structured}
+
+	\drawgrid{rows=1, cols=1, rowoffset=-4, coloffset=12, labeler=\plainlabelnode, labelerA=2, labelerB=6,
+		northborder=structured, westborder=structured}
+
+	% ROW 3
+	\drawgrid{rows=1, cols=1, rowoffset=-6, coloffset=4, labeler=\plainlabelnode, labelerA=3, labelerB=2,
+		northborder=structured, southborder=structured, eastborder=structured}
+
+	{
+	\stylewithfill{neighbourstructurecolor}
+	\drawgrid{rows=1, cols=2, rowoffset=-6, coloffset=6, labeler=\plainlabelnode, labelerA=3, labelerB=3,
+		northborder=structured, southborder=structured, eastborder=structured, westborder=structured}
+	}
+
+	\drawgrid{rows=1, cols=1, rowoffset=-6, coloffset=10, labeler=\plainlabelnode, labelerA=3, labelerB=5,
+		northborder=structured, westborder=structured}
+
+	% ROW 4
+	\drawgrid{rows=1, cols=1, rowoffset=-8, coloffset=2, labeler=\plainlabelnode, labelerA=4, labelerB=1, eastborder=structured}
+
+	{
+	\stylewithfill{neighbourstructurecolor}
+	\drawgrid{rows=1, cols=2, rowoffset=-8, coloffset=4, labeler=\plainlabelnode, labelerA=4, labelerB=2,
+		northborder=structured, southborder=structured, eastborder=structured, westborder=structured}
+	}
+
+	\drawgrid{rows=1, cols=1, rowoffset=-8, coloffset=8, labeler=\plainlabelnode, labelerA=4, labelerB=4,
+		northborder=structured, westborder=structured}
+
+	% ROW 5
+	\drawgrid{rows=1, cols=2, rowoffset=-10, coloffset=4, labeler=\plainlabelnode, labelerA=5, labelerB=2,
+		northborder=structured}
+\end{tikzpicture}
+
+The key insight we make is that for structured regions in a mesh we need not represent set relationship maps explicitly; the uniformity of set relations allows us to deduce the relationships. We can encode the relation $\AdjVVstr$ very simply. Given a vertex $n_{r,c} \in \adjstrV$, located at row $r$ and column $c$, its four vertex neighbours are $n_{r,c-1}$, $n_{r,c+1}$, $n_{r-1,c}$, and $n_{r+1,c}$.
 
 
 
-The key insight we make is that for structured regions in a mesh we need not represent set relationship maps explicitly; the uniformity of set relations allows us to deduce the relationships.
+% Draw structured node region
+\begin{tikzpicture}[scale=1]
+	\newcommand{\stylewithfill}[1]{\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm, fill=#1];}
+	\stylewithfill{none}
+
+	% ROW 0
+	\drawgrid{rows=1, cols=1, rowoffset=0, coloffset=2,
+		labeler=\varlabelnode, labelerA=-1, labelerB=0, labelerC=r, labelerD=c,
+		southborder=structured}
+
+	% ROW 1
+	\drawgrid{rows=1, cols=1, rowoffset=-2, coloffset=0,
+		labeler=\varlabelnode, labelerA=0, labelerB=-1, labelerC=r, labelerD=c,
+		eastborder=structured}
+
+	{
+		\stylewithfill{neighbourstructurecolor}
+		\drawgrid{rows=1, cols=1, rowoffset=-2, coloffset=2,
+			labeler=\varlabelnode, labelerA=0, labelerB=0, labelerC=r, labelerD=c,
+			eastborder=structured, westborder=structured, northborder=structured, southborder=structured}
+	}
+
+	\drawgrid{rows=1, cols=1, rowoffset=-2, coloffset=4,
+		labeler=\varlabelnode, labelerA=0, labelerB=1, labelerC=r, labelerD=c,
+		westborder=structured}
+
+	% ROW 2
+	\drawgrid{rows=1, cols=1, rowoffset=-4, coloffset=2,
+		labeler=\varlabelnode, labelerA=1, labelerB=0, labelerC=r, labelerD=c,
+		northborder=structured}
+
+\end{tikzpicture}
+
+
+\section{Mesh structure as a data structure}
+The choice of data structure to represent the structured region is a key one, touching on various aspects:
+\begin{itemize}
+\item Scope of structure representation: what level of structure can be represented.
+\item Implementation complexity of structure detection: how complex a detection algorithm is required.
+\item Runtime performance of structure detection: the time and space complexity of the detection algorithm.
+\item Storage requirements for detected structure: the storage requirements for the detected structure.
+\item Runtime performance of computation over the structured region.
+\end{itemize}
+
+We analyse several possible data structure representations.
+
+\subsection{Structure bit map}
+
+\newcommand{\drawbitmap}[1]{
+	% trim left bottom right top
+	\includegraphics[trim = 0mm 0.2mm 0.2mm 0mm, clip]{#1}
+}
+
+Represent the bounding box around the structured region as a two-dimensional bit map, with each bit representing a vertex position in the superimposed grid. An \emph{on} bit indicates that the corresponding vertex is part of the structured region, an \emph{off} bit otherwise.
+
+\drawbitmap{images/bitmap-representation/plain-bitmap.pdf}
+
+A bit map can represent \emph{any} structured region which adheres to the properties listed in section~\ref{sec:structured region properties}. They are very flexible, capable of representing complex formations as well as handling small anomalies in structure.
+
+Let us define the \emph{efficiency} $\epsilon$ of a bit map as the percentage of its bits which are \emph{on}, as the \emph{off} bits represent wasted vertices. Bit maps with high $\epsilon$ are favourable for several reasons:
+\begin{itemize}
+\item \emph{Off} bits increase the storage space of the structured region, up to $O(\card{\VertexSet})$ in the worst case, as opposed to $O(\card{STRUCTURED VERTICES})$.
+\item \emph{Off} bits similarly worsen the runtime performance, again up to $O(\card{\VertexSet})$ due to wasted execution.
+\end{itemize}
+
+A detection algorithm would likely be implemented using a variant of a general graph search algorithm such as breadth-first search or depth-first search. Further consolidation work may be needed to compact disconnected structured components in order to maximize $\epsilon$.
+\drawbitmap{images/bitmap-representation/disjoint-bitmap.pdf}
+\drawbitmap{images/bitmap-representation/disjoint2-bitmap.pdf}
+
+
+
+\subsection{Row-specific boundaries}
+
+Represent the structured region as a sequence of consecutive fixed-length rows, permitting vertices outside the structured region to cluster at the beginning and ends of each row. A structured region is then represented by the row-length, as well as individual begin and end offsets for each row.
+
+\drawbitmap{images/per-row-representation/plain-per-row.pdf}
+
+Storing row-specific boundaries reduces the storage requirement by the order of row-length times.
+No executions are wasted as the loop iterations are constrained to vertices in the structured region.
+A detection algorithm can be implemented as a simple row-by-row traversal in linear time and space.
+
+
+On the downside, this scheme trades some of the flexibility offered by the bit map representation, in particularly anomalies in structure which do not occur at the boundaries.
+
+
+\subsection{Full rectangle}
+
+Represent the structured region as a rectangle of given length and width, with all elements corresponding strictly to vertices within the structured region. The structured region is thus simply represented by the length and the width: the number of rows and the number of columns.
+
+The storage requirement is now constant with respect to the size of the structured region.
+Loop iterations are fixed for each region, enabling further optimisation opportunities.
+A detection algorithm, as above, can be implemented as a simple row-by-row traversal.
+
+On the downside, the scope of structure representable is limited, being only capable of representing rectangles proper.

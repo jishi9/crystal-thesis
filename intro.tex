@@ -29,7 +29,7 @@ We can then define an adjacency map (of constant arity 4) from cells to vertices
 
 $$\texttt{C} \rightarrow \texttt{V}^4$$
 
-Now consider an operation over this mesh, which performs a computation for each cell $c \in C$ as a function of its adjacent nodes ${n | n \in Map[c]}$, for instance computing the area of the cell. In particular consider the chain of memory access indirections and the resulting memory access patterns:
+Now consider an operation over this mesh, which performs a computation for each cell $c \in C$ as a function of its adjacent nodes $\{n | n \in Map[c]\}$, for instance computing the area of the cell. In particular consider the chain of memory access indirections and the resulting memory access patterns:
 
 %
 %             |   |             |   |
@@ -75,9 +75,9 @@ We also define the notion of a structured region for cells and edges, and develo
 We describe how the underlying data storage layout must be reorganised to reflect the extracted structure and facilitate its exploitation. This must take into account elements within the unstructured regions, ensuring that accesses via the modified maps remain consistent with the originals.
 
 \subsection{Exploiting structure}
-Using the information gathered from the extracted structure, we can transform the data storage layout so as to implicitly represent the adjacency relationships between various mesh elements. This alleviates the need to use indirection maps when running computations over a structured region, substituting them for a small constant amount of meta-data per that is used to define each structured region's dimensions and orientation. Computations over an unstructured region execute as normal using restructured versions of the original maps and data.
+Using the information gathered from the extracted structure, we can transform the data storage layout so as to implicitly represent the adjacency relationships between various mesh elements. This alleviates the need to use indirection maps when running computations over a structured region, substituting them for a small constant amount of meta-data per structured region that is used to define each region's dimensions and orientation. Computations over an unstructured region execute as normal using restructured versions of the original maps and data.
 
-This allows us to transform a cell-to-nodes access operations from the following, which uses indirections to access the node data:
+This allows us to transform a cell-to-nodes access operation from the following, which uses indirections to access the node data:
 \begin{lstlisting}[language=c++]
 for (int cell_id = 0 ; cell_id < num_cells ; ++cell_id) {
 	int node0 = cell_to_nodes[cell_id][0];
