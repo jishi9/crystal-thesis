@@ -45,3 +45,43 @@
 
 \input{drawgrid.tikz}
 \input{drawellipsis.tikz}
+
+
+
+
+% Side-by-side caption
+\newcommand{\sidebyside}[2]{
+	\begin{subfigure}[b]{0.45\textwidth}
+	#1
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+	#2
+	\end{subfigure}
+}
+
+\newcommand{\sidebysidethree}[3]{
+	\begin{subfigure}[b]{0.32\textwidth}
+	#1
+	\end{subfigure}
+	\begin{subfigure}[b]{0.32\textwidth}
+	#2
+	\end{subfigure}
+	\begin{subfigure}[b]{0.32\textwidth}
+	#3
+	\end{subfigure}
+}
+
+\newcommand{\sidebysidefour}[4]{
+	\begin{subfigure}[b]{0.45\textwidth}
+	#1
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+	#2
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+	#3
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+	#4
+	\end{subfigure}
+}

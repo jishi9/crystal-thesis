@@ -1,31 +1,4 @@
 
-\section{Components of a mesh}
-
-We describe how a mesh model is manifest at the data structure level. Three general components of a mesh can be identified:
-\begin{itemize}
-\item Mesh entity sets.
-\item Associative data:
-Data associated with the elements of a particular set.
-\item An adjacency/association/inclusion relation between two sets.
-\end{itemize}
-
-
-\subsection{Mesh entity sets}
-Each set represents a certain type of entity in the mesh, such as vertices or cells`. Each element in a set is associated with a unique identifier (integers are a common choice), which enables defining maps (defined shortly). Integers are a common choice for an identifier for a couple of reasons:
-\begin{itemize}
-\item They need not be enumerated explicitly. All we need is the set cardinality and a starting index.
-\item They are convenient for direct-indexed array accesses, as well as for more general indexing methods.
-\end{itemize}
-
-\subsection{Associative data}
-Each element of a particular set may have some data associated with it. For instance, each vertex may be associated with its spatial coordinates in the mesh model. A direct-indexed array is a typical representation.
-This is the data over which we perform our computations and ultimately care about. Everything else is incidental.
-
-\subsection{Set relationship maps}
-These describe relationships, typically adjacency or inclusion, between two (possibly the same) sets. For example, a map from quad cells to vertices may describe an inclusion relation, that is the four vertices that form each quad cell. In a general unstructured mesh these maps must be explicitly stored, typically as a direct-indexed array.
-
-
-
 \section{Data access in mesh computations}
 When performing some computation over a mesh, the data access pattern followed is typically as follows:
 \begin{enumerate}
@@ -67,7 +40,7 @@ Below is a small extract from the NACA0012 mesh\footnote{Thanks to Dr. Peter Vin
 The vertices in the highlighted region seem like good candidates for a ``structured region'', forming a two-dimensional lattice in a discrete Cartesian space. This ``structured region'' has the properties outlined below.
 
 \subsection{Properties of a structured region}
-\label{sec:structured region properties}
+\label{sec:structured-region-properties}
 \begin{enumerate}
 \item All vertices have a uniform arity of four.
 \item Every vertex has a consistent discrete direction (for example the cardinal directions: north east, south, west) with respect to the other vertices. In other words, the direction is transitive: if vertex $a$ is above vertex $b$, and vertex $b$ is above vertex $c$, then vertex $a$ is above vertex $c$. As a non-example, consider this case:
@@ -237,7 +210,7 @@ Represent the bounding box around the structured region as a two-dimensional bit
 
 \drawbitmap{images/bitmap-representation/plain-bitmap.pdf}
 
-A bit map can represent \emph{any} structured region which adheres to the properties listed in section~\ref{sec:structured region properties}. They are very flexible, capable of representing complex formations as well as handling small anomalies in structure.
+A bit map can represent \emph{any} structured region which adheres to the properties listed in section~\ref{sec:structured-region-properties}. They are very flexible, capable of representing complex formations as well as handling small anomalies in structure.
 
 Let us define the \emph{efficiency} $\epsilon$ of a bit map as the percentage of its bits which are \emph{on}, as the \emph{off} bits represent wasted vertices. Bit maps with high $\epsilon$ are favourable for several reasons:
 \begin{itemize}

@@ -1,0 +1,214 @@
+\section{The mathematical mesh model}
+
+Meshes often model physical objects and phenomena. This is typically achieved through the discretization of a continuous model, such as the surface or volume of an object, in order to approximate its physical properties to a desired degree of precision.
+\par
+
+The mesh model consists of a hierarchy of elements, which may include a subset the following:
+\begin{itemize}
+\item Polyhedra such as cubes or tetrahedrons
+\item Polygons \emph{(also referred to as cells or faces)} such as triangles and quadrilaterals
+\item Edges
+\item Vertices \emph{(also referred to as nodes)}
+\end{itemize}
+
+\includegraphics[scale=0.5]{images/background/mesh-elements.pdf}
+
+Each element in the above hierarchy is built-up from those below it. Thus, a polyhedron is assimilated by a set of polygons, a polygon is composed by a set of edges, and an edge joins two vertices.
+
+
+\subsection{Geometry vs topology}
+There is a key distinction to make between the geometric and topological properties of a mesh.
+
+Since meshes model a physical reality, the elements of a mesh may be spatially embedded: vertices are associated with points in space, and edges are formed as segments joining their two vertices. This affects \emph{geometric} properties of the mesh, such as its surface area or volume.
+
+On the other hand, the hierarchy of elements described above induces a mesh topology. This describes the connectedness of the mesh, that is to say how elements relate to one another. For instance, we may describe two vertices sharing an edge as \emph{adjacent}, or two cells being \emph{incident} on an edge.
+\par
+In this work we concern ourselves solely with the topological structure of meshes, treating its geometry as arbitrary data that is associated with its respective elements (the position of a vertex for instance). Figure~\ref{fig:same-topology} illustrates the difference between the two concepts.
+
+\begin{figure}
+    \includegraphics[scale=0.5]{images/background/same-topology.pdf}
+    \caption{Despite having completely different geometric shapes and properties, the two meshes are topologically equivalent. The labels indicate corresponding vertices.}
+    \label{fig:same-topology}
+\end{figure}
+
+
+
+
+\subsection{Manifold meshes}
+A mesh is a manifold if the following properties hold:
+\begin{enumerate}
+\item All edges are adjacent to either one or two faces.
+
+\item All faces meeting at a given vertex must form either an open or a closed fan around that vertex (Figure~\ref{fig:open-closed-fans}).
+\end{enumerate}
+
+% Open and closed fans
+\begin{figure}
+    \sidebyside
+        {\includegraphics[scale=0.2]{images/background/closed-fan.pdf}
+        \caption{A closed fan}}
+        {\includegraphics[scale=0.2]{images/background/open-fan.pdf}
+        \caption{An open fan}}
+    \caption{}
+    \label{fig:open-closed-fans}
+\end{figure}
+
+Figure~\ref{fig:non-manifolds} demonstrates examples of non-manifold meshes.
+
+% Non-manifolds
+\begin{figure}
+    \sidebysidefour
+    {\includegraphics[scale=0.2]{images/background/bad-fan.pdf}
+        \caption{Faces incident on a vertex which do not form a continuous fan}}
+    {\includegraphics[scale=0.2]{images/background/bad-fan2.pdf}
+        \caption{An extra face that breaks off from the otherwise closed fan}}
+    {\includegraphics[scale=0.8]{images/background/bad-multi-edge.pdf}
+        \caption{More than two faces incident on a single edge}}
+    {\includegraphics[scale=0.8]{images/background/bad-no-edge.pdf}
+        \caption{An edge with no incident faces}}
+
+    \caption{Examples of non-manifold meshes.}
+    \label{fig:non-manifolds}
+\end{figure}
+
+In this work we consider manifold meshes exclusively, and future mentions of `mesh' shall implicitly refer to manifold meshes.
+
+
+
+
+\section{The mesh data structure}
+
+We describe how a mesh model is manifest at the data structure level. There are three general component types can be identified:
+\begin{itemize}
+\item Entity sets
+\item Associative data
+\item Relations between two entity sets
+\end{itemize}
+
+In the following sections, the examples shall refer to the mesh depicted in figure~\ref{fig:example-mesh}.
+
+\begin{figure}
+    \includegraphics[scale=2]{images/background/mesh-data-structure.pdf}
+    \caption{Example mesh with labelled elements.}
+    \label{fig:example-mesh}
+\end{figure}
+
+
+\subsection{Entity sets}
+Each set represents a certain type of entity in the mesh, such as vertices or cells. Each element in a set is associated with a unique identifier. Integers are a common choice as an identifier for a couple of reasons:
+\begin{itemize}
+\item They need not be enumerated explicitly. All we need is the set cardinality and a starting index.
+\item They are convenient for direct-indexed array accesses, as well as for more general indexing methods.
+\end{itemize}
+
+See figure~\ref{fig:entity-sets} for examples.
+
+\begin{figure}
+    \includegraphics[scale=4]{images/background/entity-sets.pdf}
+    \caption{The entity sets of the mesh in figure~\ref{fig:example-mesh}. These are (from left to right) the vertices, edges, and cells.}
+    \label{fig:entity-sets}
+\end{figure}
+
+
+\subsection{Associative data}
+Arbitrary data which is associated with elements of a particular entity set. For instance, spatial coordinates associated with each vertex. A typical representation is a flat array indexed by element identifier.
+This is the data over which we perform our computations and ultimately care about. Everything else is incidental.
+
+See figure~\ref{fig:associative-data} for an example.
+
+\begin{figure}
+    \includegraphics[scale=4]{images/background/associative-data.pdf}
+    \caption{Coordinate data associated with the vertices of the mesh in figure~\ref{fig:example-mesh}.}
+    \label{fig:associative-data}
+\end{figure}
+
+
+\subsection{Relation maps between two entity sets}
+Entity sets may have relations defined between them, a mapping from an element in a source set to one or more corresponding elements in the destination set. For instance, we may have an adjacency relation from the vertex set to itself, or an inclusion relation from the cell set to the vertex set.
+In a general unstructured mesh these relations must be explicitly stored, typically as an array indexed by the source element's identifier.
+
+See figure~\ref{fig:relation} for an example.
+
+\begin{figure}
+    \includegraphics[scale=4]{images/background/relation.pdf}
+    \caption{Inclusion relation from cells to vertices, as depicted in the mesh of figure~\ref{fig:example-mesh}.}
+    \label{fig:relation}
+\end{figure}
+
+
+
+
+\section{The mesh core-computation contract}
+Given a mesh model and its underlying representation, computation logic provided by an external user is to be executed. We refer to this as the \emph{core-computation}; this is to disambiguate it from other incidental processing, such as structure detection.
+Our contract to the user is described in what follows.
+
+\subsection{Given: entity set}
+We are given an entity set over which to operate, for example the set of edges or the set of cells. The core-computation consists of executing a computation for each element of this set. This is analogous to the \emph{map} phase of the MapReduce programming model\footnote{REFERENCE}, though we restrict our usage of the term \emph{map} to refer to relation maps.
+
+\subsection{Given: relation-map tree}
+We are given a tree structure defining which relation maps to use and how to access them. This is best explained through an example, illustrated in figure~\ref{fig:relation-tree}.
+
+
+\begin{figure}
+    %% Key icon
+    \newcommand{\keyicon}{\includegraphics[width=6pt]{images/background/key.pdf}}
+
+    \begin{tikzpicture}[every tree node/.style={draw,circle},
+        level distance=1.5cm,
+        edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}]
+
+    \tikzset{level 2/.style={sibling distance=0.8cm}}
+
+    \Tree
+    [.{e}
+        \edge node[auto=right] {\keyicon};
+        [.\node[rectangle] {edge $\rightarrow$ cells};
+            [.{c0}
+                \edge node[auto=right] {\keyicon};
+                [.\node[rectangle] {cell $\rightarrow$ vertices};
+                    [.n1 ]
+                    [.n2 ]
+                    [.n3 ]
+                    [.n4 ]
+                ]
+            ]
+            [.{c1}
+                \edge node[auto=right] {\keyicon};
+                [.\node[rectangle] {cell $\rightarrow$ vertices};
+                    [.n1 ]
+                    [.n2 ]
+                    [.n3 ]
+                    [.n4 ]
+                ]
+            ]
+        ]
+    ]
+    \end{tikzpicture}
+    \caption{EXPLANATION}
+    \label{fig:relation-tree}
+\end{figure}
+
+
+
+
+
+% \item The entity set over which to operate.
+% \item Any relation maps to follow, and the variables by which they are indexed. Indexing variables may include the current iteration element, as well as the targets got by following another map.
+% In general this may involve complex chains of maps, though only up to to two levels of indirection are used in practice.
+% \item A kernel function which is to be applied to each element in the given entity set.
+% \end{itemize}
+
+A \emph{kernel function} specifying the computation logic is given. This kernel function is associated with a particular entity set.
+
+The execution contract
+
+When performing some computation over a mesh, the data access pattern followed is typically as follows:
+\begin{enumerate}
+\item Iterate over the elements of an entity set, in no particular order.
+\item For each element iterated over, gather any handles to associated elements (the indices of adjacent elements, say). This may involve handles obtained through a chain of set relationship maps.
+\item Access the associative data using the gathered handles.
+\end{enumerate}
+
+
+ The computation is often specified as a \emph{kernel function} operating a particular entity set
+
