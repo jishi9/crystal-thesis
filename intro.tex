@@ -1,17 +1,14 @@
 It is widely believed that the performance of computations over structured meshes is superior to those over meshes with no inherent structure.
 Unstructured meshes, however, are more ubiquitous in practice, necessitated by the demands of many real world applications.
 To bridge this gap, we present Crystal, a group of algorithms for \emph{extracting} regions of uniform structure in an unstructured mesh and reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation} of the underlying structure.
-
-To this end, we demonstrate how a compute kernel can be transformed through code generation and...
-
-We demonstrate the potential performance benefits by transforming a compute kernel...
-
-We demonstrate the fact by transforming a compute kernel through code generation...
+To this end, we demonstrate how a compute kernel may be transformed through code generation, and evaluate the performance improvement  of a nonlinear airfoil lift calculation.
 
 
 
 \section{Motivation}
-Scientific computing is a large research branch touching on various areas in the scientific community as well as in various industries. An integral part of it is concerned with algorithms and techniques which operate on a mesh representation of a model, typically modelling physical phenomena such as the motion of fluids; for example see [Tezduyar Flow simulation and high performance computing...]
+Scientific computing is a large research branch touching on various areas in the scientific community as well as in various industries. An integral part of it is concerned with algorithms and techniques which operate on a mesh representation of a model, typically modelling physical phenomena such as the motion of fluids. In essence, a mesh is a discretisation of a field that serves as an approximation of the true underlying field, making it amenable to numerical computation methods.
+
+ for example see [Tezduyar Flow simulation and high performance computing...]
 % [Flow simulation and high performance computing, 1996a T. Tezduyar, http://www.tafsm.org/PUB_PRE/jALL/j63-CM96.pdf]
 . See [...]
 % [http://www.sv.vt.edu/classes/MSE2094_NoteBook/97ClassProj/num/widas/history.html]
@@ -20,12 +17,12 @@ for a good introduction on finite element analysis.
 
 Various methods of representing meshes exist, including X, Y, and Z
 % [http://en.wikipedia.org/wiki/Polygon_mesh#Representations]
-. Representations typically rely on encoding some form of explicitly-defined mapping between mesh elements. This can be represented straightforwardly as a flat array, with the array indices representing elements in the source set, and each value being one or more values representing one or more elements in the destination/target set. We focus our attention to the case where the number of target elements mapped to from each source element is constant. Such a map is known as a constant-arity map.
+. Representations typically rely on encoding some form of explicitly-defined mapping between mesh elements. This can be represented straightforwardly as a flat array, with the array indices representing elements in the source set, and each value being one or more values representing one or more elements in the destination/target set. We focus our attention to the case where the number of target elements mapped to from each source element is uniform. Such a map is known as a uniform-arity map.
 
 Consider for instance a quadrilateral mesh with two element sets \texttt{C} and \texttt{V}, representing the set of cells and vertices, respectively.
-We can define a dat of coordinates, which associates the set each vertex $v \in V$ with a coordinate pair $(x_v, y_v)$, representing its position in 2D space.
+We can include some spatial coordinate data, which associates each vertex $v \in V$ with a coordinate pair $(x_v, y_v)$, representing its position in 2D space.
 
-We can then define an adjacency map (of constant arity 4) from cells to vertices:
+We can then define an adjacency map (of uniform arity 4) from cells to vertices:
 
 $$\texttt{C} \rightarrow \texttt{V}^4$$
 
@@ -59,7 +56,13 @@ Numerous strategies have been devoted to deal with this problem, notably applyin
 
 We present Crystal, a group of algorithms for \emph{extracting} regions of regularity in a mesh, reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation}.
 
+We present a summary of our contributions, and discuss them in detail in what follows.
 
+\begin{itemize}
+\item Algorithms for extracting structure, and an evaluation of their competency.
+\item Methodologies for reorganising the data layout to expose the structure, and a discussion about their relative merits.
+\item A scheme for exploiting the structure efficiently, and a performance evaluation of its effectiveness.
+\end{itemize}
 
 
 \subsection{Extracting structure}
@@ -102,7 +105,7 @@ for (int row = 0 ; row < num_rows ; ++row) {
 		int node0 = row * nodes_per_row + col;
 		int node1 = row * nodes_per_row + (col+1);
 		int node2 = (row+1) * nodes_per_row + col;
-		int node2 = (row+1) * nodes_per_row + (col+1);
+		int node3 = (row+1) * nodes_per_row + (col+1);
 
 		int node0_data = data[node0];
 		int node1_data = data[node1];
