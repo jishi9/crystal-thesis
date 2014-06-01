@@ -1,0 +1,111 @@
+In this chapter, we present techniques for extracting a rectangle from the given structured region. We present greedy strategies as well as non-greedy strategies.
+
+
+There are several features of the algorithms we present
+
+
+An \emph{absolute structured position} refers to the position of a structured element with respect to the boundaries of its structured region.
+A \emph{relative structured position} refers to the position of a structured element with respect to other structured elements within its structured region. Figure~\ref{fig:structured-position} shows this through an example.
+
+
+%% Relative vs absolute
+\begin{figure}
+\newcommand{\nodesize}{1.2}
+\newcommand{\rows}{4}
+\newcommand{\cols}{4}
+\newcommand{\rowsize}{\rows*\nodesize}
+\newcommand{\colsize}{\cols*\nodesize+2*0.1}
+
+% Node at position r, c, label
+\newcommand{\nodeat}[3]{
+	\pgfmathsetmacro{\lerow}{ (\rows - #1) * \nodesize - (\nodesize / 2) - 0.1}
+	\pgfmathsetmacro{\lecol}{ (#2 * \nodesize) + (\nodesize / 2) + 0.1}
+	\node at (\lecol, \lerow) {#3}
+}
+
+\sidebyside
+{
+	\begin{tikzpicture}
+		\tikzstyle{every node}=[draw, shape=rectangle, minimum size=\nodesize cm, font=\small];
+		\draw[double] (0,0) rectangle (\colsize,\rowsize);
+		\nodeat{2}{1} {$n_{+0,+0}$};
+		\nodeat{1}{1} {$n_{-1,+0}$};
+		\nodeat{2}{2} {$n_{+0,+1}$};
+	\end{tikzpicture}
+	\caption{Relative structured position\label{fig:relative-structured-position}}
+}
+{
+	\begin{tikzpicture}
+		\tikzstyle{every node}=[draw, shape=rectangle, minimum size=\nodesize cm, font=\small];
+		\draw[double] (0,0) rectangle (\colsize,\rowsize);
+		\nodeat{0}{0} {$n_{0,0}$};
+		\nodeat{1}{0} {$n_{1,0}$};
+		\nodeat{0}{1} {$n_{0,1}$};
+	\end{tikzpicture}
+	\caption{Absolute structured position\label{fig:absolute-structured-position}}
+}
+\caption{Depiction of \emph{relative} structured position versus \emph{absolute} structured position. Note that the row and column counts are increasing down and to the right, respectively. The borders indicates structured regions, whose origin resides in the top-left corner.\label{fig:structured-position}}
+\end{figure}
+
+
+\section{Detection traversal patterns}
+The order in which structured elements are detected in a structured region is important; it imposes some constraints on the data structure representing it. Given the dimensions of the structured region, and knowledge of the absolute structured positions of elements as they are discovered, a simple 2D array allocation would suffice. Any detection order, as is convenient, may be used in this case. However, neither of those facts are known a priori in general.
+
+Various detection traversals orders and their merits are discussed below.
+
+\subsection{Single-row append-only}
+\label{append-detection}
+The structured region is grown in a constant direction, for example a single row of structured elements, appended to consecutively. This can be implemented efficiently using either a singly-linked list or a dynamic array with amortized constant time append operation.
+
+\subsection{Single-row append/prepend}
+\label{append-prepend-detection}
+The structured region is grown in either of two directions, for example a single row of structured elements, appended and prepended to. This can be implemented efficiently using a double-ended queue with amortized constant time append and prepend operations.
+
+\subsection{Row-oriented detection}
+The structured region is represented as a group of rows, with the elements in individual rows grown using one of the above methods. The order in which the rows themselves are grown may also be utilize the same methods, with a nested data structure being a suitable implementation. For example, if rows are detected in an append-only fashion, and the individual elements are detected using append and prepend operations, then a suitable data structure would be a singly-linked list of double-ended queues.
+
+\subsection{Indeterminate order detection}
+The structured region is grown in a non-linear order: grown elements may not always be contiguous to the structured region thus far. If the growth is indeed non-contiguous, the relative structured positions are \emph{not} always known, and structured elements may need to be repositioned. A possible implementation would be a jagged 2D array, that is an array of arrays, which is expanded as needed. A flat-array-based 2D array would (in the worst case) require reallocating all elements upon expansion, as opposed to reallocating a single row in the case of a jagged 2D array.
+
+
+
+
+
+Consider contiguity in a figure!!!!
+
+---------------------
+                    |
+                    |
+          A         |
+        -------------
+     B  | C |
+        |----
+        |
+---------
+
+If the the region were to be grown to include include element C, it must be the case that C is adjacent to both A and B, but is not adjacent to any other structured element thus far. Since the structure is always contiguous, we know at every point whether any two structured elements ought to be adjacent.
+
+
+\section{Eager detection}
+An eager (or greedy) detection algorithm will include every structured element if finds immediately, regardless of the long term consequences. On the one hand, this strategy may lead to suboptimal results, though it avoids backtracking the structure detection which may be prohibitively costly.
+
+
+\section{Post processing requirements}
+Some algorithms operate in a streaming fashion, producing a usable structured region with every added structured element. Others may require some degree of post processing first.
+
+
+\section{Length-first search}
+We begin with the most greedy approach.
+\begin{enumerate}
+\item Starting from a seed vertex, grow a quad.
+\item The quad is grown along one axis, both forwards and backwards, as far as possible. This forms the length of the structured region.
+\item The quad row grown above is extended along the orthogonal axis, both forwards and backwards, as far as possible. This forms the width of the structured region.
+\end{enumerate}
+
+This algorithm is simple in concept and implementation. Its runtime complexity is $O(STRUCTURED VERTICES DETECTED)$, and has a constant storage requirement. The vertices can be stored as they are detected by using, for example, a double-ended queue per row.
+
+FIGURE: BEHAVIOUR IN A GOOD ENVIORNMENT
+FIGURE: BEHAVIOUR WITH BAD SEED
+
+
+Two types of techniques exist: seed-based, and global based. A seed-based technique starts with a seed, and grows from there. A global-based technique starts with all the orthogonal axis

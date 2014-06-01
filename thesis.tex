@@ -3,11 +3,11 @@
 
 \usepackage{amsmath} % Better matrix environment
 \usepackage{amssymb}
-% \usepackage{enumitem}
+\usepackage[inline]{enumitem} % inline numbering and resume numbering
 \usepackage{etoolbox} % If conditions
 \usepackage{graphicx}
 \usepackage{listings} % for code
-\usepackage{paralist} % inline numbering
+\usepackage{hyperref}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{tikz}
@@ -36,8 +36,9 @@
 \chapter{Diving into the problem}
 \input{mesh}
 
-\chapter{Structure Extraction}
-\input{detect_quad_grid}
+
+\chapter{Rectangle growth strategy}
+\input{rectangle-growth-strategy}
 
 
 

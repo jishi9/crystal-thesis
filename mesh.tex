@@ -1,19 +1,9 @@
 
-\section{Data access in mesh computations}
-When performing some computation over a mesh, the data access pattern followed is typically as follows:
-\begin{enumerate}
-\item Iterate over the elements of a set, in no particular order.
-\item For each element iterated over, gather any handles to associated elements (the indices of adjacent elements, say). This may involve handles obtained through a chain of set relationship maps.
-\item Access the associative data using the gathered handles.
-\end{enumerate}
-
-
-
 \section{A basic definition of structure}
 What we would like is a form of structure which is
-\begin{inparaenum}[\itshape a\upshape)]
+\begin{enumerate*}[label=\alph*)]
 \item representable as a data structure, and \item efficient in terms of performance.
-\end{inparaenum}
+\end{enumerate*}
 
 Given our semantic knowledge about the mesh model we can ascertain some facts about relationship maps:
 \begin{itemize}

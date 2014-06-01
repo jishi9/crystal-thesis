@@ -55,7 +55,7 @@ A mesh is a manifold if the following properties hold:
     \label{fig:open-closed-fans}
 \end{figure}
 
-Figure~\ref{fig:non-manifolds} demonstrates examples of non-manifold meshes.
+Figure~\ref{fig:non-manifolds} demonstrates examples of non-manifold meshes. In this work we consider manifold meshes exclusively, and future mentions of `mesh' shall implicitly refer to manifold meshes.
 
 % Non-manifolds
 \begin{figure}
@@ -73,7 +73,6 @@ Figure~\ref{fig:non-manifolds} demonstrates examples of non-manifold meshes.
     \label{fig:non-manifolds}
 \end{figure}
 
-In this work we consider manifold meshes exclusively, and future mentions of `mesh' shall implicitly refer to manifold meshes.
 
 
 
@@ -115,7 +114,6 @@ See figure~\ref{fig:entity-sets} for examples.
 \subsection{Associative data}
 Arbitrary data which is associated with elements of a particular entity set. For instance, spatial coordinates associated with each vertex. A typical representation is a flat array indexed by element identifier.
 This is the data over which we perform our computations and ultimately care about. Everything else is incidental.
-
 See figure~\ref{fig:associative-data} for an example.
 
 \begin{figure}
@@ -128,7 +126,6 @@ See figure~\ref{fig:associative-data} for an example.
 \subsection{Relation maps between two entity sets}
 Entity sets may have relations defined between them, a mapping from an element in a source set to one or more corresponding elements in the destination set. For instance, we may have an adjacency relation from the vertex set to itself, or an inclusion relation from the cell set to the vertex set.
 In a general unstructured mesh these relations must be explicitly stored, typically as an array indexed by the source element's identifier.
-
 See figure~\ref{fig:relation} for an example.
 
 \begin{figure}
@@ -140,15 +137,15 @@ See figure~\ref{fig:relation} for an example.
 
 
 
-\section{The mesh core-computation contract}
-Given a mesh model and its underlying representation, computation logic provided by an external user is to be executed. We refer to this as the \emph{core-computation}; this is to disambiguate it from other incidental processing, such as structure detection.
+\section{The core-computation contract}
+Given a mesh model and its underlying representation, computation logic provided by an external user is to be executed. We refer to this as the \emph{core-computation} so as to disambiguate it from other incidental processing, such as structure detection.
 Our contract to the user is described in what follows.
 
-\subsection{Given: entity set}
-We are given an entity set over which to operate, for example the set of edges or the set of cells. The core-computation consists of executing a computation for each element of this set. This is analogous to the \emph{map} phase of the MapReduce programming model\footnote{REFERENCE}, though we restrict our usage of the term \emph{map} to refer to relation maps.
+\subsection{Given: operating set}
+We are given an entity set over which to operate, for example the set of edges or the set of cells. We refer to this entity set as the \emph{operating set}. The core-computation consists of executing a computation for each element of the operating set. This is analogous to the \emph{map} phase of the MapReduce programming model\footnote{REFERENCE}, though we restrict our usage of the term \emph{map} to refer to relation maps.
 
 \subsection{Given: relation-map tree}
-We are given a tree structure defining which relation maps to use and how to access them. This is best explained through an example, illustrated in figure~\ref{fig:relation-tree}.
+We are given a tree structure defining which relation maps to use and how to access them. This is best explained through an example, illustrated in figure~\ref{fig:relation-tree}. The core-computation will, for each element in the operating set, gather all indexing variables as described by the relation-map tree.
 
 
 \begin{figure}
@@ -162,55 +159,51 @@ We are given a tree structure defining which relation maps to use and how to acc
     \tikzset{level 2/.style={sibling distance=0.8cm}}
 
     \Tree
-    [.{e}
+    [.{$e$}
         \edge node[auto=right] {\keyicon};
         [.\node[rectangle] {edge $\rightarrow$ cells};
-            [.{c0}
+            [.{$c_1$}
                 \edge node[auto=right] {\keyicon};
                 [.\node[rectangle] {cell $\rightarrow$ vertices};
-                    [.n1 ]
-                    [.n2 ]
-                    [.n3 ]
-                    [.n4 ]
+                    [.$v_{1.1}$ ]
+                    [.$v_{1.2}$ ]
+                    [.$v_{1.3}$ ]
+                    [.$v_{1.4}$ ]
                 ]
             ]
-            [.{c1}
+            [.{$c_2$}
                 \edge node[auto=right] {\keyicon};
                 [.\node[rectangle] {cell $\rightarrow$ vertices};
-                    [.n1 ]
-                    [.n2 ]
-                    [.n3 ]
-                    [.n4 ]
+                    [.$v_{2.1}$ ]
+                    [.$v_{2.2}$ ]
+                    [.$v_{2.3}$ ]
+                    [.$v_{2.4}$ ]
                 ]
             ]
         ]
     ]
     \end{tikzpicture}
-    \caption{EXPLANATION}
+    \caption{
+    In this example, we consider a core-computation operating over the edge set, with $e$ being the indexing variable into the edge set.
+    The edge $\rightarrow$ cells map is indexed by $e$ to obtain the the two cells $c_1$ and $c_2$ incident on the edge $e$. The cell $\rightarrow$ vertices map is then indexed by both $c_1$ and $c_2$ to obtain their respective vertices. The key symbol denotes indexing into the map below, using the indexing variable above.
+    }
     \label{fig:relation-tree}
 \end{figure}
 
 
+\subsection{Given: kernel function}
+We are given a kernel function specifying the computation logic, which is applied to each element in the operating set. It takes as arguments all gathered indexing variables, and it has read and write access to the mesh's associated data.
+
+The kernel function is applied to the operating set elements in no particular order; the indexing variables, however, are passed to the kernel in some known order.
 
 
-
-% \item The entity set over which to operate.
-% \item Any relation maps to follow, and the variables by which they are indexed. Indexing variables may include the current iteration element, as well as the targets got by following another map.
-% In general this may involve complex chains of maps, though only up to to two levels of indirection are used in practice.
-% \item A kernel function which is to be applied to each element in the given entity set.
-% \end{itemize}
-
-A \emph{kernel function} specifying the computation logic is given. This kernel function is associated with a particular entity set.
-
-The execution contract
-
-When performing some computation over a mesh, the data access pattern followed is typically as follows:
+\subsection{Expected operation}
+Given all the above, a core-computation is then performed as follows:
 \begin{enumerate}
-\item Iterate over the elements of an entity set, in no particular order.
-\item For each element iterated over, gather any handles to associated elements (the indices of adjacent elements, say). This may involve handles obtained through a chain of set relationship maps.
-\item Access the associative data using the gathered handles.
+\item Iterate over the elements of the operating set, in no particular order.
+\item For each element iterated over:
+    \begin{enumerate}
+    \item Gather any indexing variables as defined by the relation-map tree. This may involve indexing variables obtained through a chain of relation-maps.
+    \item Call the kernel function, passing the gathered indexing variables in some known order. The kernel function may access any associative data using these indexing variables.
+    \end{enumerate}
 \end{enumerate}
-
-
- The computation is often specified as a \emph{kernel function} operating a particular entity set
-

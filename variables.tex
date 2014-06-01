@@ -13,6 +13,13 @@
 \newcommand{\powerset}[1]{\mathcal P \left({#1}\right)}
 
 
+% nameref with lowercase
+\newcommand{\lnameref}[1]{%
+\bgroup
+\let\nmu\MakeLowercase
+\nameref{#1}\egroup}
+
+
 % Tikz function: compute absolute position
 % row, delta-sy, y-offset
 \newcommand{\rctoxy}[3][3=0]{#1*#2 + #3}
