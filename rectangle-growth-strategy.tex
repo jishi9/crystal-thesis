@@ -1,9 +1,10 @@
-In this chapter, we present techniques for extracting a rectangle from the given structured region. We present greedy strategies as well as non-greedy strategies.
+This chapter covers the detection of rectangular structured regions.
+
+An abstract discussion of various properties of algorithms is presented, and the desirable traits brought forth by each.
+Then, a selection of concrete algorithms are described, and their merits and weaknesses examined.
 
 
-There are several features of the algorithms we present
-
-
+\section{Key concepts}
 An \emph{absolute structured position} refers to the position of a structured element with respect to the boundaries of its structured region.
 A \emph{relative structured position} refers to the position of a structured element with respect to other structured elements within its structured region. Figure~\ref{fig:structured-position} shows this through an example.
 
@@ -44,27 +45,141 @@ A \emph{relative structured position} refers to the position of a structured ele
 	\end{tikzpicture}
 	\caption{Absolute structured position\label{fig:absolute-structured-position}}
 }
-\caption{Depiction of \emph{relative} structured position versus \emph{absolute} structured position. Note that the row and column counts are increasing down and to the right, respectively. The borders indicates structured regions, whose origin resides in the top-left corner.\label{fig:structured-position}}
+\caption{Depiction of \emph{relative} structured position versus \emph{absolute} structured position. The row and column counts are increasing down and to the right, respectively. The borders indicate structured regions, whose origin resides in the top-left corner.\label{fig:structured-position}}
 \end{figure}
 
 
-\section{Detection traversal patterns}
+
+\section{Properties of detection algorithm}
+
+\subsection{Eager detection}
+An eager (or greedy) detection algorithm will include every structured element if finds immediately, regardless of the long term consequences. While this strategy may lead to suboptimal results, it avoids backtracking the structure detection which may be prohibitively costly.
+
+
+\begin{figure}
+\pgfplotstableread{
+	2 2 2 2 2 2 0
+	2 2 1 2 2 0 0
+	0 0 1 0 0 0 0
+	0 0 1 0 0 0 0
+}{\eagermatrix}
+\pgfplotstableread{
+	2 2 2 2 2 2 0
+	2 2 0 2 2 0 0
+	1 1 1 1 1 1 1
+	1 1 1 1 1 1 1
+}{\noneagermatrix}
+
+\sidebyside
+{
+	\drawmatrix[cell wd=0.6, cell ht=0.6]{\eagermatrix}
+	\caption{Eager detection may greedily add the northern cell, yielding a suboptimal structured region.}
+}
+{
+	\drawmatrix[cell wd=0.6, cell ht=0.6]{\noneagermatrix}
+	\caption{A non-eager algorithm could instead decide to ignore the northern cell, yielding a larger structured region.}
+}
+\caption{Eager versus non-eager detection. Black cells and white cells denote unstructured and structured elements, respectively. Red cells denote structured elements detected as forming a rectangular structured region.}
+\end{figure}
+
+
+
+\subsection{Contiguous detection}
+An algorithm which exhibits continuous detection always adds a structured element which is contiguous to the structured region thus far. The implication is that the relative structured position is always known. This greatly simplifies detection, as all adjacent structured elements are known at any point in time, and structured elements need not be repositioned in the structured region.
+
+In the case of non-contiguous detection, any non-contiguous blobs need to be consolidated. These blobs may be one of three cases:
+\begin{enumerate}
+\item Disjoint
+These may simply be taken as two separate structured regions.
+
+\item Compatible
+The blobs can be merged in a lossless manner to form a single structured region.
+
+\item Incompatible
+The blobs cannot be merged without loss of structure due to inconsistencies between the blobs. It is then necessary to discard some structured elements.
+\end{enumerate}
+
+
+% Contiguous versus non-contiguous
+\begin{figure}
+\pgfplotstableread{
+	0 1 1 1 0 0 0 0 0
+	0 1 1 1 1 0 0 0 0
+	0 1 1 1 0 0 0 0 0
+	0 0 1 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0
+}{\contiguousmatrix}
+\pgfplotstableread{
+	0 1 1 1 0 0 0 0 0
+	0 1 1 1 1 0 0 1 0
+	0 1 1 1 0 0 1 1 0
+	0 0 1 0 0 0 0 0 0
+	0 0 0 0 0 0 0 0 0
+}{\noncontiguousmatrix}
+
+\sidebyside
+{
+	\drawmatrix[cell wd=0.6, cell ht=0.6]{\contiguousmatrix}
+	\caption{Contiguous detection always adds cells adjacent to the structured region detected thus far.}
+}
+{
+	\drawmatrix[cell wd=0.6, cell ht=0.6]{\noncontiguousmatrix}
+	\caption{Non-contiguous detection may add cells which do not border the structured region detected thus far.}
+}
+\caption{Contiguous detection versus non-contiguous detection algorithms. White cells denote structured elements which have not been added to the structured region. Red cells denote structured elements detected thus far.}
+\end{figure}
+
+% Types of non-contiguous
+\begin{figure}
+\pgfplotstableread{
+	0 1 1 1 0 0 0 0 0
+	0 1 1 1 1 0 0 0 0
+	0 1 1 1 0 3 3 3 0
+	0 0 1 0 3 3 3 3 0
+	0 0 0 0 0 3 3 0 0
+}{\disjointmatrix}
+\pgfplotstableread{
+	0 1 1 1 0 0 0 0 0
+	0 1 1 1 1 3 0 0 0
+	0 1 1 1 3 3 3 3 0
+	0 0 1 0 3 3 3 3 0
+	0 0 0 0 0 3 3 0 0
+}{\consistentmatrix}
+
+\sidebyside
+{
+	\drawmatrix[cell wd=0.6, cell ht=0.6, alt color=blue]{\disjointmatrix}
+	\caption{Disjoint blobs of structured elements.}
+}
+{
+	\drawmatrix[cell wd=0.6, cell ht=0.6, alt color=blue]{\consistentmatrix}
+	\caption{Consistent blobs of structured elements.}
+}
+\caption{Cases that may arise with non-contiguous detection.}
+\end{figure}
+
+
+\subsection{Post processing requirements}
+Different algorithms will require different levels of post-processing in order to yield a rectangular structured region. Some may require a simple operation, such as trimming incomplete rows, while others may require more complex operations to achieve this goal.
+
+
+\subsection{Detection traversal patterns}
 The order in which structured elements are detected in a structured region is important; it imposes some constraints on the data structure representing it. Given the dimensions of the structured region, and knowledge of the absolute structured positions of elements as they are discovered, a simple 2D array allocation would suffice. Any detection order, as is convenient, may be used in this case. However, neither of those facts are known a priori in general.
 
 Various detection traversals orders and their merits are discussed below.
 
-\subsection{Single-row append-only}
+\subsubsection{Single-row append-only}
 \label{append-detection}
 The structured region is grown in a constant direction, for example a single row of structured elements, appended to consecutively. This can be implemented efficiently using either a singly-linked list or a dynamic array with amortized constant time append operation.
 
-\subsection{Single-row append/prepend}
+\subsubsection{Single-row append/prepend}
 \label{append-prepend-detection}
 The structured region is grown in either of two directions, for example a single row of structured elements, appended and prepended to. This can be implemented efficiently using a double-ended queue with amortized constant time append and prepend operations.
 
-\subsection{Row-oriented detection}
+\subsubsection{Row-oriented detection}
 The structured region is represented as a group of rows, with the elements in individual rows grown using one of the above methods. The order in which the rows themselves are grown may also be utilize the same methods, with a nested data structure being a suitable implementation. For example, if rows are detected in an append-only fashion, and the individual elements are detected using append and prepend operations, then a suitable data structure would be a singly-linked list of double-ended queues.
 
-\subsection{Indeterminate order detection}
+\subsubsection{Indeterminate order detection}
 The structured region is grown in a non-linear order: grown elements may not always be contiguous to the structured region thus far. If the growth is indeed non-contiguous, the relative structured positions are \emph{not} always known, and structured elements may need to be repositioned. A possible implementation would be a jagged 2D array, that is an array of arrays, which is expanded as needed. A flat-array-based 2D array would (in the worst case) require reallocating all elements upon expansion, as opposed to reallocating a single row in the case of a jagged 2D array.
 
 
@@ -86,15 +201,9 @@ Consider contiguity in a figure!!!!
 If the the region were to be grown to include include element C, it must be the case that C is adjacent to both A and B, but is not adjacent to any other structured element thus far. Since the structure is always contiguous, we know at every point whether any two structured elements ought to be adjacent.
 
 
-\section{Eager detection}
-An eager (or greedy) detection algorithm will include every structured element if finds immediately, regardless of the long term consequences. On the one hand, this strategy may lead to suboptimal results, though it avoids backtracking the structure detection which may be prohibitively costly.
+\section{ALGORITHMS}
 
-
-\section{Post processing requirements}
-Some algorithms operate in a streaming fashion, producing a usable structured region with every added structured element. Others may require some degree of post processing first.
-
-
-\section{Length-first search}
+\subsection{Length-first search}
 We begin with the most greedy approach.
 \begin{enumerate}
 \item Starting from a seed vertex, grow a quad.

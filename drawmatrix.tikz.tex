@@ -1,0 +1,47 @@
+% Based on http://tex.stackexchange.com/questions/123719/drawing-a-large-binary-matrix-as-colored-grid-in-tikz
+
+\makeatletter
+\tikzset{
+    blank color/.initial=white,
+    blank color/.get=\zerocol,
+    blank color/.store in=\zerocol,
+    detected color/.initial=red,
+    detected color/.get=\onecol,
+    detected color/.store in=\onecol,
+    blocked color/.initial=black,
+    blocked color/.get=\twocol,
+    blocked color/.store in=\twocol,
+    alt color/.initial=blue,
+    alt color/.get=\threecol,
+    alt color/.store in=\threecol,
+    cell wd/.initial=1ex,
+    cell wd/.get=\cellwd,
+    cell wd/.store in=\cellwd,
+    cell ht/.initial=1ex,
+    cell ht/.get=\cellht,
+    cell ht/.store in=\cellht,
+}
+
+\newcommand{\drawmatrix}[2][]{
+\medskip
+\begin{tikzpicture}[#1]
+  \pgfplotstableforeachcolumn#2\as\col{
+    \pgfplotstableforeachcolumnelement{\col}\of#2\as\colcnt{%
+      \ifnum\colcnt=0
+        \draw[draw=gray,very thin,fill=\zerocol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+      \fi
+      \ifnum\colcnt=1
+        \draw[draw=gray,very thin,fill=\onecol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+      \fi
+      \ifnum\colcnt=2
+        \draw[fill=\twocol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+      \fi
+      \ifnum\colcnt=3
+        \draw[draw=gray,very thin,fill=\threecol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+      \fi
+    }
+  }
+\end{tikzpicture}
+\medskip
+}
+\makeatother
