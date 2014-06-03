@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+\begin{axis}[
+xbar,
+flexible yticklabels from table={data-airfoil-numbering.tsv}{category}{},
+ytick=data,
+% xmin = 0,
+% ymin = 0,
+ylabel = Renumbering,
+xlabel = Runtime,
+]
+
+
+\addplot [
+draw=blue,
+pattern=horizontal lines light blue
+] table [
+y expr=\coordindex,
+x = baseline
+] {data-airfoil-numbering.tsv};
+
+]
+\addplot [
+draw=black,
+pattern=horizontal lines dark blue
+] table [
+y expr=\coordindex,
+x = mine
+] {data-airfoil-numbering.tsv};
+
+\end{axis}
+\end{tikzpicture}

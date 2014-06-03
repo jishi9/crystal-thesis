@@ -20,11 +20,11 @@ Bear in mind that this approach carries no relation to any geometric data associ
 \subsection{Example: Naca0012 mesh}
 Below is a small extract from the NACA0012 mesh\footnote{Thanks to Dr. Peter Vincent, George Ntemos and Harry Davis}, showing the cross section of an aerofoil mesh and its interaction with surrounding fluid. The mesh is divided into cells which represent the ...
 
-\newcommand{\drawnaca}[1]{
+\newcommand{\drawnaca}[2]{
 	% trim left bottom right top
-	\includegraphics[trim = 40mm 110mm 220mm 0mm, clip]{#1}
+	\includesvg[svgpath=#1]{#2}
 }
-\drawnaca{images/defining-structure/naca0012-plain.pdf}
+\drawnaca{images/defining-structure/}{naca0012-plain}
 ** PLAIN IMAGE **
 
 The vertices in the highlighted region seem like good candidates for a ``structured region'', forming a two-dimensional lattice in a discrete Cartesian space. This ``structured region'' has the properties outlined below.
@@ -38,13 +38,13 @@ The vertices in the highlighted region seem like good candidates for a ``structu
 \end{enumerate}
 
 
-\drawnaca{images/defining-structure/naca0012-node-structure.pdf}
+\drawnaca{images/defining-structure/}{naca0012-node-structure}
 ** Highlighted structured vertex region IMAGE **
 
 %% TODO Maybe not introduce data structure yet????
 We can propagate this inherent structure from the mesh model to the underlying data structure, representing this two-dimensional lattice using a two-dimensional array. Vertices may be assigned Cartesian coordinates, but in spirit of the space's discreteness we shall use rows and columns instead.
 
-\drawnaca{images/defining-structure/naca0012-node-grid.pdf}
+\drawnaca{images/defining-structure/}{naca0012-node-grid}
 ** 2D array IMAGE with gaps **
 
 
@@ -59,7 +59,7 @@ Let us call $\VertexSet$ the set of all vertices, and $\strV \subseteq \VertexSe
 Now consider the vertex-vertex adjacency relation $\AdjVV: \VertexSet \mapsto \VertexSet$ in context of the ``structured region'' $\strV$. We can directly locate a particular neighbour of any vertex, for example its north neighbour, so long as that neighbour is also within the structured region. This restricts the set of vertices with fully-accessible neighbours to those which are not on the borders of the ``structured region''. This is the subset of vertices $\adjstrV \subseteq \strV$ which are structured \emph{with respect to} $\AdjVV$. This induces a new relation which operates purely within the structured region:
 $$\AdjVVstr: \adjstrV \mapsto \strV$$
 
-\drawnaca{images/defining-structure/naca0012-node-neighbours.pdf}
+\drawnaca{images/defining-structure/}{naca0012-node-neighbours}
 
 
 \definecolor{neighbourstructurecolor}{RGB}{174,190,226}
@@ -191,14 +191,14 @@ We analyse several possible data structure representations.
 
 \subsection{Structure bit map}
 
-\newcommand{\drawbitmap}[1]{
+\newcommand{\drawbitmap}[2]{
 	% trim left bottom right top
-	\includegraphics[trim = 0mm 0.2mm 0.2mm 0mm, clip]{#1}
+	\includesvg[svgpath=#1]{#2}
 }
 
 Represent the bounding box around the structured region as a two-dimensional bit map, with each bit representing a vertex position in the superimposed grid. An \emph{on} bit indicates that the corresponding vertex is part of the structured region, an \emph{off} bit otherwise.
 
-\drawbitmap{images/bitmap-representation/plain-bitmap.pdf}
+\drawbitmap{images/bitmap-representation/}{plain-bitmap}
 
 A bit map can represent \emph{any} structured region which adheres to the properties listed in section~\ref{sec:structured-region-properties}. They are very flexible, capable of representing complex formations as well as handling small anomalies in structure.
 
@@ -209,8 +209,8 @@ Let us define the \emph{efficiency} $\epsilon$ of a bit map as the percentage of
 \end{itemize}
 
 A detection algorithm would likely be implemented using a variant of a general graph search algorithm such as breadth-first search or depth-first search. Further consolidation work may be needed to compact disconnected structured components in order to maximize $\epsilon$.
-\drawbitmap{images/bitmap-representation/disjoint-bitmap.pdf}
-\drawbitmap{images/bitmap-representation/disjoint2-bitmap.pdf}
+\drawbitmap{images/bitmap-representation/}{disjoint-bitmap}
+\drawbitmap{images/bitmap-representation/}{disjoint2-bitmap}
 
 
 
@@ -218,7 +218,7 @@ A detection algorithm would likely be implemented using a variant of a general g
 
 Represent the structured region as a sequence of consecutive fixed-length rows, permitting vertices outside the structured region to cluster at the beginning and ends of each row. A structured region is then represented by the row-length, as well as individual begin and end offsets for each row.
 
-\drawbitmap{images/per-row-representation/plain-per-row.pdf}
+\drawbitmap{images/per-row-representation/}{plain-per-row}
 
 Storing row-specific boundaries reduces the storage requirement by the order of row-length times.
 No executions are wasted as the loop iterations are constrained to vertices in the structured region.

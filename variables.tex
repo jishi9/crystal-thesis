@@ -49,6 +49,18 @@
 % Structured
 \tikzset{structured/.style={}}
 
+% Category data for plots
+% http://tex.stackexchange.com/questions/63335/pgfplots-using-strings-from-data-table-as-x-axis-labels-in-bar-chart
+\makeatletter
+\pgfplotsset{
+    /pgfplots/flexible yticklabels from table/.code n args={3}{%
+        \pgfplotstableread[#3]{#1}\coordinate@table
+        \pgfplotstablegetcolumn{#2}\of{\coordinate@table}\to\pgfplots@yticklabels
+        \let\pgfplots@yticklabel=\pgfplots@user@ticklabel@list@y
+    }
+}
+\makeatother
+
 
 \input{drawgrid.tikz}
 \input{drawellipsis.tikz}
@@ -75,6 +87,18 @@
 	#2
 	\end{subfigure}
 	\begin{subfigure}[b]{0.32\textwidth}
+	#3
+	\end{subfigure}
+}
+
+\newcommand{\sidebysidethreevertical}[3]{
+	\begin{subfigure}[b]{\textwidth}
+	#1
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+	#2
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
 	#3
 	\end{subfigure}
 }

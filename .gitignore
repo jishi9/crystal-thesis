@@ -1,3 +1,4 @@
 *.aux
 *.log
 images/**/*.pdf
+images/**/*.pdf_tex

@@ -13,7 +13,7 @@ The mesh model consists of a hierarchy of elements, which may include a subset t
 \item Vertices \emph{(also referred to as nodes)}
 \end{itemize}
 
-\includegraphics[scale=0.5]{images/background/mesh-elements.pdf}
+\includesvg[scale=0.5, svgpath=images/background/]{mesh-elements}
 
 Each element in the above hierarchy is built-up from those below it. Thus, a polyhedron is assimilated by a set of polygons, a polygon is composed by a set of edges, and an edge joins two vertices.
 
@@ -28,7 +28,7 @@ On the other hand, the hierarchy of elements described above induces a mesh topo
 In this work we concern ourselves solely with the topological structure of meshes, treating its geometry as arbitrary data that is associated with its respective elements (the position of a vertex for instance). Figure~\ref{fig:same-topology} illustrates the difference between the two concepts.
 
 \begin{figure}
-    \includegraphics[scale=0.5]{images/background/same-topology.pdf}
+    \includesvg[scale=0.5, svgpath=images/background/]{same-topology}
     \caption{Despite having completely different geometric shapes and properties, the two meshes are topologically equivalent. The labels indicate corresponding vertices.}
     \label{fig:same-topology}
 \end{figure}
@@ -47,9 +47,9 @@ A mesh is a manifold if the following properties hold:
 % Open and closed fans
 \begin{figure}
     \sidebyside
-        {\includegraphics[scale=0.2]{images/background/closed-fan.pdf}
+        {\includesvg[scale=0.2, svgpath=images/background/]{closed-fan}
         \caption{A closed fan}}
-        {\includegraphics[scale=0.2]{images/background/open-fan.pdf}
+        {\includesvg[scale=0.2, svgpath=images/background/]{open-fan}
         \caption{An open fan}}
     \caption{}
     \label{fig:open-closed-fans}
@@ -60,13 +60,13 @@ Figure~\ref{fig:non-manifolds} demonstrates examples of non-manifold meshes. In 
 % Non-manifolds
 \begin{figure}
     \sidebysidefour
-    {\includegraphics[scale=0.2]{images/background/bad-fan.pdf}
+    {\includesvg[scale=0.2, svgpath=images/background/]{bad-fan}
         \caption{Faces incident on a vertex which do not form a continuous fan}}
-    {\includegraphics[scale=0.2]{images/background/bad-fan2.pdf}
+    {\includesvg[scale=0.2, svgpath=images/background/]{bad-fan2}
         \caption{An extra face that breaks off from the otherwise closed fan}}
-    {\includegraphics[scale=0.8]{images/background/bad-multi-edge.pdf}
+    {\includesvg[scale=0.8, svgpath=images/background/]{bad-multi-edge}
         \caption{More than two faces incident on a single edge}}
-    {\includegraphics[scale=0.8]{images/background/bad-no-edge.pdf}
+    {\includesvg[scale=0.8, svgpath=images/background/]{bad-no-edge}
         \caption{An edge with no incident faces}}
 
     \caption{Examples of non-manifold meshes.}
@@ -89,7 +89,7 @@ We describe how a mesh model is manifest at the data structure level. There are 
 In the following sections, the examples shall refer to the mesh depicted in figure~\ref{fig:example-mesh}.
 
 \begin{figure}
-    \includegraphics[scale=2]{images/background/mesh-data-structure.pdf}
+    \includesvg[scale=2, svgpath=images/background/]{mesh-data-structure}
     \caption{Example mesh with labelled elements.}
     \label{fig:example-mesh}
 \end{figure}
@@ -105,7 +105,7 @@ Each set represents a certain type of entity in the mesh, such as vertices or ce
 See figure~\ref{fig:entity-sets} for examples.
 
 \begin{figure}
-    \includegraphics[scale=4]{images/background/entity-sets.pdf}
+    \includesvg[scale=4, svgpath=images/background/]{entity-sets}
     \caption{The entity sets of the mesh in figure~\ref{fig:example-mesh}. These are (from left to right) the vertices, edges, and cells.}
     \label{fig:entity-sets}
 \end{figure}
@@ -117,7 +117,7 @@ This is the data over which we perform our computations and ultimately care abou
 See figure~\ref{fig:associative-data} for an example.
 
 \begin{figure}
-    \includegraphics[scale=4]{images/background/associative-data.pdf}
+    \includesvg[scale=4, svgpath=images/background/]{associative-data}
     \caption{Coordinate data associated with the vertices of the mesh in figure~\ref{fig:example-mesh}.}
     \label{fig:associative-data}
 \end{figure}
@@ -129,7 +129,7 @@ In a general unstructured mesh these relations must be explicitly stored, typica
 See figure~\ref{fig:relation} for an example.
 
 \begin{figure}
-    \includegraphics[scale=4]{images/background/relation.pdf}
+    \includesvg[scale=4, svgpath=images/background/]{relation}
     \caption{Inclusion relation from cells to vertices, as depicted in the mesh of figure~\ref{fig:example-mesh}.}
     \label{fig:relation}
 \end{figure}
@@ -150,7 +150,7 @@ We are given a tree structure defining which relation maps to use and how to acc
 
 \begin{figure}
     %% Key icon
-    \newcommand{\keyicon}{\includegraphics[width=6pt]{images/background/key.pdf}}
+    \newcommand{\keyicon}{\includesvg[width=6pt, svgpath=images/background/]{key}}
 
     \begin{tikzpicture}[every tree node/.style={draw,circle},
         level distance=1.5cm,

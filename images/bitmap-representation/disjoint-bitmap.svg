@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="177.16534"
-   height="177.16534"
+   width="174.17223"
+   height="174.17223"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
@@ -24,11 +24,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="40.70433"
-     inkscape:cy="104.51022"
+     inkscape:zoom="31.678384"
+     inkscape:cx="6.6016996"
+     inkscape:cy="99.14343"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer1"
      showgrid="false"
      units="mm"
      inkscape:window-width="1301"
@@ -37,7 +37,12 @@
      inkscape:window-y="24"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="-0.88"
+     fit-margin-bottom="-0.88"
+     inkscape:showpageshadow="false" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -54,7 +59,7 @@
      inkscape:label="Grid"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-875.19684)">
+     transform="translate(-2,-877.07186)">
     <path
        d="m 2.0625,877.13436 0,177.16534 m 29,-177.16534 0,177.16534 m 29,-177.16534 0,177.16534 m 29,-177.16534 0,177.16534 m 29,-177.16534 0,177.16534 m 29,-177.16534 0,177.16534 m 29,-177.16534 0,177.16534 m -174,-177.16534 177.16534,0 m -177.16534,29 177.16534,0 m -177.16534,29 177.16534,0 m -177.16534,29 177.16534,0 m -177.16534,29 177.16534,0 M 2.0625,1022.1344 l 177.16534,0 m -177.16534,29 177.16534,0"
        style="fill:none;stroke:#000000;stroke-width:0.1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -64,7 +69,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Blocks">
+     inkscape:label="Blocks"
+     transform="translate(-2,-1.87502)">
     <path
        style="fill:#4d4d4d"
        d="m 2.4224775,103.44238 0,-14.394669 14.1421355,0 14.142136,0 0,14.394669 0,14.39468 -14.142136,0 -14.1421355,0 0,-14.39468 z"
