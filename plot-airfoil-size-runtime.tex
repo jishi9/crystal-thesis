@@ -1,0 +1,38 @@
+\begin{tikzpicture}
+\begin{axis}[
+xlabel = Mesh size,
+ylabel = Core-computation runtime (s),
+legend pos = north west
+]
+
+
+\addplot [
+draw=blue,
+mark = x,
+] table [
+y = baseline
+] {data-airfoil-size.tsv};
+
+
+\addlegendentry{Baseline run};
+
+\addplot [
+draw=black,
+mark = triangle,
+] table [
+y = mine
+] {data-airfoil-size.tsv};
+
+\addlegendentry{Crystal run};
+
+\addplot [
+draw=red,
+mark = square,
+] table [
+y = {detection time}
+] {data-airfoil-size.tsv};
+
+\addlegendentry{Detection time};
+
+\end{axis}
+\end{tikzpicture}

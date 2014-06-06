@@ -1,5 +1,7 @@
+% Vary mesh numbering: https://docs.google.com/spreadsheets/d/1tyaeTaenPTouxFXEhvMujRSK3KNwU8cgRdvVpxETT88
+% NOTE: **WITHOUT** ignorecompass and ignorecheck
 category	baseline	mine
-{renumbered same as structured}	3.4	2.5
-{original renumbering}	1	2
-{space-filling curve}	3	4
-{random renumbering}	5	6
+{Original}	207.4105069	130.6711133
+{Crystal}	205.8143138	NaN
+{Space-filling curve}	233.6164727	129.8842033
+{Random}	383.0885643	130.5658747
