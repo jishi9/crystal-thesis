@@ -7,7 +7,9 @@
 \usepackage{etoolbox} % If conditions
 \usepackage{graphicx}
 \usepackage{listings} % for code
+\usepackage{nth}
 \usepackage{hyperref}
+\usepackage{cleveref} % Must be loaded after hyperref
 \usepackage{caption}
 \usepackage{pgfplotstable}
 \pgfplotsset{compat=1.10}
@@ -15,6 +17,7 @@
 \usepackage{svg}
 \usepackage{tikz}
 \usepackage{tikz-qtree,tikz-qtree-compat} % Trees
+\usepackage{url}
 \usepackage{xkeyval}
 
 \pdfoptionpdfminorversion=5
@@ -57,7 +60,7 @@
 
 
 \nocite{*} % Show all Bib-entries
-\bibliographystyle{plain}
+\bibliographystyle{plainurl}
 \bibliography{thesis}
 
 \end{document}

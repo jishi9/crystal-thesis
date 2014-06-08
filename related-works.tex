@@ -34,7 +34,7 @@ The problem of memory access indirections, associated with representing the mesh
 
 % ``Additionally, these techniques may apply to areas beyond graphics such as scientific computation. Code for the finite element method can be greatly streamlined when applied to structured quadrilateral meshes. By partitioning unstructured meshes into structured submeshes, it should be possible to achieve similar speedups for semi-regular meshes.''
 
-Eppstein et al.~\cite{eppstein2008motorcycle} describe a method for partitioning quadrilateral meshes into structured regions using the \emph{motorcycle graph} construction, whose inspiration came from the 1982 movie Tron. The algorithm works by placing particles on each \emph{extraordinary} vertex\footnote{This in contrast to an \emph{ordinary} vertex, which the authors define as ``a non-boundary vertex incident with four edges or a boundary vertex incident with at most three edges.''} in the mesh, and advancing them along edges until they collide. The enclosed regions formed by the paths represent structured regions.
+Eppstein et al.~\cite{eppstein2008motorcycle} describe a method for partitioning quadrilateral meshes into structured regions using the \emph{motorcycle graph} construction, whose inspiration came from the 1982 movie Tron. The algorithm works by placing particles on each \emph{extraordinary} vertex\footnote{\label{footnote:extraordinary-vertices} This in contrast to an \emph{ordinary} vertex, which the authors define as ``a non-boundary vertex incident with four edges or a boundary vertex incident with at most three edges.''} in the mesh, and advancing them along edges until they collide. The enclosed regions formed by the paths represent structured regions.
 
 Whilst the motivations are different, with the emphasis on applications in mesh compression and detecting mesh isomorphisms, the approach may be applicable to the scientific computation domain. Indeed, the authors state this explicitly:
 \begin{quote}
@@ -52,7 +52,23 @@ Makem et al.~\cite{makem2012automatic} utilise properties of the modelled object
 
 
 
-\section{Exploiting inherent structure}
+\section{Structure in parallel computation}
+There is a plethora of work on mesh partitioning optimised for parallel computation. The techniques presented often frame their objectives around these maxims:
+\begin{enumerate}
+\item \label{item:maximize-locality} Maximizing intra-partition locality, thereby minimizing cross-partition communication.
+\item \label{item:minimize-size} Minimize partition size, subject to it being sufficiently large to counterbalance the communication overheads.
+\item \label{item:maximize-number} The partitions should be balanced and plentiful in number, so as to utilise parallelism.
+``A parallel computation is often only as efficient as the evenness with which its workload is distributed over the processors in a parallel machine.''
+\end{enumerate}
+
+Objective~\ref{item:maximize-locality} is certainly a desirable property for our structured regions, and is in fact precisely what we set forth to perform.
+On the other hand, objectives~\ref{item:minimize-size} and \ref{item:maximize-number} are rather misaligned with our needs; indeed, a monolithic structured region spanning the entire mesh would represent the best case for us.
+
+Thus some of the techniques which hold these conflicting\footnote{The objectives are in conflict in our context. These objectives are more suited for their parallel context, naturally} objectives may not be fully compatible, though they undoubtedly offer helpful inspiration.
+
+With that said, extending our techniques towards parallel computation is an obvious future step, and such future works should likely re-evaluate their objectives in lieu of this.
+
+
 
 % Guide to Partitioning Unstructured Meshes for Parallel Computing
 % http://www.hector.ac.uk/cse/reports/unstructured_partitioning.pdf
@@ -76,7 +92,7 @@ Li et al.~\cite{li2004hierarchical} follow a similar theme of parallel computati
 % Hierarchical hybrid grids: data structures and core algorithms for multigrid
 % http://onlinelibrary.wiley.com/store/10.1002/nla.382/asset/382_ftp.pdf?v=1&t=hw5h84yv&s=bbe650e186f348823036d7426c24bd554ea00c1b
 
-Bergen et al.~\cite{bergen2004hierarchical} employ structure-aware mesh refinement techniques. The method constructs a hierarchy of structured regions with each iterative refinement to the mesh. It is suggested that different element types, such as edges and faces, refined and stored separately, such that their distinct structuredness can be represented.
+Bergen et al.~\cite{bergen2004hierarchical} employ structure-aware mesh refinement techniques, which construct a hierarchy of structured regions with each iterative refinement to the mesh. It is suggested that different element types, such as edges and faces, refined and stored separately, such that their distinct structuredness can be represented.
 
 Since we use a simple structure representation, we make use of augmented structured regions, with different elements' structured region represented in a hierarchy.
 
@@ -86,6 +102,9 @@ Since we use a simple structure representation, we make use of augmented structu
 % http://ieeexplore.ieee.org/ielx5/12/35266/01676980.pdf?tp=&arnumber=1676980&isnumber=35266
 % Partitioning a mesh based on its memory-access stencil. Again this is parallel oriented. Could be useful in defining the shape of the map access!
 
+Reed et al.~\cite{reed1987stencils} focus on obtaining partitions best-suited to the \emph{stencil structure} associated with a particular computation, that is its neighbour-access pattern. They derive partition shapes for some common stencil structures, optimised to minimise inter-partition communication costs.
+
+This is similar to our approach, where the structured regions are detected on the basis of relation-maps, such as cell-vertex or edge-cell maps.
 
 
 % \url{https://www.cs.sfu.ca/~bgb2/personal/papers/nand11miccai.pdf}
@@ -121,6 +140,8 @@ Since we use a simple structure representation, we make use of augmented structu
 
 
 
+\section{Exploiting structure}
+
 % Approximate Topological Matching of Quadrilateral Meshes
 % http://www.ics.uci.edu/~goodrich/pubs/approx-match.pdf
 % Find matching subgraphs of two meshes, that is having the same topology.
@@ -128,6 +149,10 @@ Since we use a simple structure representation, we make use of augmented structu
 % ``Our reason for using mesh compression instead is based on the desire to speed up the computation time in an algorithm that operates on quad meshes. Thus, our approach actually fits the spirit of other algorithms (e.g., see (33; 15; 14; 38)) that perform data compression so as to improve algorithmic performance.''
 % Mentions reducing mesh representation for the purpose of improving computation time.
 
+
+Eppstein et al.~\cite{eppstein2008approximate} explore the problem of approximate topological matching between given quadrilateral meshes, that is detecting isomorphisms between their submeshes. To this end they discuss various techniques based on \emph{particle shooting}\footnote{The motorcycle graph construction discussed in the paper by the same authors~\cite{eppstein2008motorcycle} is based on particle shooting.}: ``particles'' are placed on certain vertices (for example, extraordinary vertices\footref{footnote:extraordinary-vertices}) and are then ``'fired'' along the mesh using certain rules.
+
+One such algorithm, termed ``The Greedy Algorithm'' by the authors, is shown to suffer from a problem when particles advancing along the same front can get out of sync. The problem is remarkably similar to our discussion about contiguous detection in subsection~\ref{subsec:contiguous-detection}.
 
 
 % Opportunistic Data Structures with Applications

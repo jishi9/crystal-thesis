@@ -1,0 +1,48 @@
+This project covered extensive grounds on BLA BLA BLA BLA. With that said, there are plenty of interesting future directions to be pursued, and intriguing tangents to be followed.
+
+\section{Triangular and non-quad meshes}
+%% TODO cross reference: In section XXX we claim/discuss how..
+Our algorithms are designed to work on meshes with exclusively quadrilateral faces. It is not difficult to imagine modifying the structure detection algorithms to find quadrilateral structure in meshes containing mixed face types such as triangles and hexagons. What would be
+
+We claim that our detection approach can encompass triangle-based structure, and in general any repeating pattern of vertices which may be inscribed in a quadrilateral.
+
+
+\section{Different types of structure}
+Radial, hierarchical
+c.f. what I say about polar coordinates
+reference hierarchical adaptive mesh refinement, etc
+
+\section{3D meshes}
+From surface to volume, in THREE DEE
+
+Could we detect any pattern inscribable in a cube?
+
+\section{Investigate structure growth strategies}
+Try the various rectangle growth strategies we outlined.
+Try non-rectangular structured regions.
+Try different completely techniques (e.g. particle shooting)
+
+Reference particle shooting
+
+\section{Parallelized detection}
+That is, detect regions in parallel. Discuss merging regions
+
+Reference particle shooting?
+
+
+\section{Parallel implementation}
+How should we detect and use regions suited for parallel computation?
+Likely that we detect the maximum region possible, and then break it down into parts.
+
+Reference the many parallel papers.
+
+
+\section{Adaptive runtime detection}
+Could the detection be performed during runtime, in parallel say. We can hotswap in the structured regions incrementally between iterations as they are detected
+
+Reference the parallel adaptive mesh refinement paper
+
+\section{Geometry based detection}
+Could we exploit the underlying geometry to aid in detecting structure?
+c.f. Italian paper
+

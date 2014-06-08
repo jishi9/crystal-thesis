@@ -85,6 +85,7 @@ An eager (or greedy) detection algorithm will include every structured element i
 
 
 \subsection{Contiguous detection}
+\label{subsec:contiguous-detection}
 An algorithm which exhibits continuous detection always adds a structured element which is contiguous to the structured region thus far. The implication is that the relative structured position is always known. This greatly simplifies detection, as all adjacent structured elements are known at any point in time, and structured elements need not be repositioned in the structured region. Figure~\ref{fig:contiguous-detection} contrasts contiguous detection with non-contiguous detection.
 
 In the case of non-contiguous detection, any non-contiguous blobs need to be consolidated. These blobs may be one of three cases:
