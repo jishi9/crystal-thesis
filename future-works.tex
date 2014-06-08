@@ -1,48 +1,50 @@
 This project covered extensive grounds on BLA BLA BLA BLA. With that said, there are plenty of interesting future directions to be pursued, and intriguing tangents to be followed.
 
-\section{Triangular and non-quad meshes}
-%% TODO cross reference: In section XXX we claim/discuss how..
-Our algorithms are designed to work on meshes with exclusively quadrilateral faces. It is not difficult to imagine modifying the structure detection algorithms to find quadrilateral structure in meshes containing mixed face types such as triangles and hexagons. What would be
+\section{Non-quad meshes}
+In their current state, our algorithms only work on meshes with exclusively quadrilateral faces. Future works may accommodate for quadrilateral-based structure in mixed element-type meshes, for example a combination of quadrilaterals and triangles, is quite straightforward. Extending our work to detect structures composed of a different element-type would be a natural extension of this.
 
-We claim that our detection approach can encompass triangle-based structure, and in general any repeating pattern of vertices which may be inscribed in a quadrilateral.
+%% TODO cross reference: In section XXX we claim/discuss how..
+A more challenging direction would be the detection of arbitrary topological patterns, perhaps those which can be inscribed within a quadrilateral as discussed in XXXXX.
 
 
 \section{Different types of structure}
-Radial, hierarchical
-c.f. what I say about polar coordinates
-reference hierarchical adaptive mesh refinement, etc
+We only consider a particular kind of structure, a discrete Cartesian space, for its simplicity and suitability for data storage and high performance processing. There may, however, be other topological structures to be found and exploited. Utilising hierarchical-based structures, the topics of~\cite{li2004hierarchical} and~\cite{bergen2004hierarchical}, seems to be a promising direction.
+
 
 \section{3D meshes}
-From surface to volume, in THREE DEE
+Our work deals with quadrilaterals, typically modelling surfaces of three-dimensional objects. One may ponder whether similar structural properties, and associated benefits, exist for meshes modelling the volumes of three-dimensional objects, in other words meshes composed of three-dimensional elements such as tetrahedra
 
-Could we detect any pattern inscribable in a cube?
+% TODO cross reference with within-quad pattern
+An interesting direction to investigate is developing a structure detection algorithm in terms of the discussion of XXXXX, extending the concept to embedding of an arbitrary vertex topology within a cube. A defining question to answer would be whether structure in a tetrahedral mesh can be represented as the tiling of cubes in three-dimensional space.
+
 
 \section{Investigate structure growth strategies}
-Try the various rectangle growth strategies we outlined.
-Try non-rectangular structured regions.
-Try different completely techniques (e.g. particle shooting)
+% TODO cross reference
+In section XXXXX we discuss various structure detection strategies, in particular those for growing a rectangular region, in addition to more general structure detection strategies. Various inspirations can also be drawn from~\cite{eppstein2008motorcycle} and~\cite{eppstein2008approximate}, notably the methods of particle shooting.
 
-Reference particle shooting
-
-\section{Parallelized detection}
-That is, detect regions in parallel. Discuss merging regions
-
-Reference particle shooting?
+One may wish to go further, incorporating use of geometric information into the structure detection process, as have~\cite{makem2012automatic} and~\cite{rocca2011fast}.
 
 
-\section{Parallel implementation}
-How should we detect and use regions suited for parallel computation?
-Likely that we detect the maximum region possible, and then break it down into parts.
+\section{Structure detection in parallel}
+% TODO CROSS REFRENCE
+Our structure detection algorithm was designed to run in a serial fashion, sequentially choosing random seed points and growing structure from there. Developing a parallel variant of the algorithm is important for scalability, as some meshes may simply be too large to process on a single machine. The discussion on non-contiguous detection and merging structured blobs is a good starting point for this. Particle shooting methods as described in~\cite{eppstein2008motorcycle} and~\cite{eppstein2008approximate} may also be of interest here.
 
-Reference the many parallel papers.
+% MAYBE REFERENCE OTHER PARALLEL PAPERS?
+
+
+\section{Structure detection for parallel computation}
+% CROSS REFERENCE
+As discussed in related works, some of our objectives for efficient exploitation of structure conflicted with those of works such as~\cite{bergen2004hierarchical} and~\cite{li2004hierarchical}, as they were oriented towards exploiting parallelism rather than improving computational runtime. There may indeed be much untapped\footnote{on our part} potential in parallelism which can be attained by adapting our methods. Even if this were not the case, the sizes of some meshes necessitate parallel computation, as a full mesh become much too large for a single machine to manage.
+
+
+\section{Geometry based detection}
+%% TODO CITE BOOK INSTEAD/ALSO with regards to space-filling curves
+We have mentioned at the start that our approach is purely topological, completely ignoring any geometric information. This at odds with some other techniques such as graph partitioning based on space-filling curves~\cite{ridley2010guide}, as well techniques which refine, and hence modify, the mesh geometry~\cite{bergen2004hierarchical}.
+
+A future pursuit may choose to abandon this separation, exercising a union of geometry and topology as an aid for structure detection. Though applied to specific \emph{geometric} problems, the techniques used by~\cite{rocca2011fast} and~\cite{makem2012automatic} may serve as useful inspiration.
 
 
 \section{Adaptive runtime detection}
-Could the detection be performed during runtime, in parallel say. We can hotswap in the structured regions incrementally between iterations as they are detected
+Thus far we have considered structure detection as a pre-processing stage to the core-computation; an ambitious work may strive to develop an online version of the detection algorithm. The structure detection would be performed in parallel to the core-computation, with structured regions incrementally hot-swapped in between iterations as they are detected.
 
-Reference the parallel adaptive mesh refinement paper
-
-\section{Geometry based detection}
-Could we exploit the underlying geometry to aid in detecting structure?
-c.f. Italian paper
-
+A variant may incorporate the detection algorithm as part of a work dispatch strategy for parallel computations. In~\cite{li2004hierarchical} for instance, the mesh is adaptively refined at runtime as part of a dynamic load balancing framework; the method we discuss, however, would not modify the mesh itself, but rather its partitioning.
