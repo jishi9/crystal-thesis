@@ -1,0 +1,146 @@
+% \section{Structure is beneficial}
+
+
+
+% - How do quad meshes with subregions of structure come about
+% - Are they seen often
+
+
+\section{Structure detection and extraction}
+
+
+% Fast Neighborhood Search on Polygonal Meshes
+% http://www.inf.ethz.ch/personal/dpanozzo/papers/EGIT11-RocDeGPanPup.pdf
+% Dude et al tackle the specific problem of neighborhood search by defining a spatial index, a hierarchy of clusters of vertices. Their method yields an approximation, ours is exact, with the mesh model left completely unaltered. However, we can learn a few things.
+
+% The problem of indirections and its derivatives (non-contiguous memory access and its impact on cache hierarchy) is cited/highlighted as a key motivation in basing their mesh data structure on a geometric model, i.e. the spatial index. We undertake the opposite approach, viewing geometric data as mere associative data attached to a topological mesh model.
+
+Adapting the mesh model to use a structured representation for the benefit of the relevant application domain is (not new) / (fairly prevalent).
+Rocca et al.~\cite{rocca2011fast} address the particular problem of neighbourhood search: finding the set of vertices within a certain distance from a given vertex. They define a spatial index, a hierarchy of vertex clusters, that yields good approximations to neighbourhood search queries.
+
+The problem of memory access indirections, associated with representing the mesh topology, is cited as a key motivation for basing their mesh data structure (the aforementioned spatial index) on a geometric model which does not require storing topological information. This is in sharp contrast to our approach of transforming the mesh topology representation, and treating the mesh geometry as arbitrary associative data.
+
+
+
+% Motorcycle Graphs: Canonical Quad Mesh Partitioning
+% http://www.ics.uci.edu/~goodrich/pubs/geomproc.pdf
+% Whilst the motivations are different (mesh compression AND mesh isomorphism) the approach is similar:
+% ``The simplest quadrilateral meshes are structured meshes, in which connections between quadrilaterals form a regular grid, but in complicated domains it may be necessary to use semi-regular meshes in which this structure is interrupted by a small number of extraordinary vertices that do not have degree four. We study how to partition a semi-regular mesh into a small number of structured submeshes.''
+
+
+% ``To ensure that isomorphisms will always be found when they exist, our partition must be canonical: the same mesh must always generate the same partition. The partitioning algorithm we describe has this property.''
+% We do not care about this property per se. There may be multiple optimal solutions for structure detection, for example.
+
+
+% ``Additionally, these techniques may apply to areas beyond graphics such as scientific computation. Code for the finite element method can be greatly streamlined when applied to structured quadrilateral meshes. By partitioning unstructured meshes into structured submeshes, it should be possible to achieve similar speedups for semi-regular meshes.''
+
+Eppstein et al.~\cite{eppstein2008motorcycle} describe a method for partitioning quadrilateral meshes into structured regions using the \emph{motorcycle graph} construction, whose inspiration came from the 1982 movie Tron. The algorithm works by placing particles on each \emph{extraordinary} vertex\footnote{This in contrast to an \emph{ordinary} vertex, which the authors define as ``a non-boundary vertex incident with four edges or a boundary vertex incident with at most three edges.''} in the mesh, and advancing them along edges until they collide. The enclosed regions formed by the paths represent structured regions.
+
+Whilst the motivations are different, with the emphasis on applications in mesh compression and detecting mesh isomorphisms, the approach may be applicable to the scientific computation domain. Indeed, the authors state this explicitly:
+\begin{quote}
+These techniques may apply to areas beyond graphics such as scientific computation. Code for the finite element method can be greatly streamlined when applied to structured quadrilateral meshes. By partitioning unstructured meshes into structured submeshes, it should be possible to achieve similar speedups for semi-regular meshes.
+\end{quote}
+
+We note, however, that the method makes a stronger assumption about the mesh, in that its ``structure is interrupted by a \emph{small number} of extraordinary vertices that do not have degree four [emphasis added]''.
+
+
+% There exist processes which explicitly attempt to produce semi-structured meshes, for example *BELOW* which uses domain specific knowledge about the source object to find long strips which can be made into quads.
+% Automatic Decomposition and Efficient Semi-Structured Meshing of Complex Solids
+% http://www.imr.sandia.gov/papers/imr20/Makem.pdf
+
+Makem et al.~\cite{makem2012automatic} utilise properties of the modelled object to generate meshes with structured regions inherent. The presented method detects long thin shapes with simply defined geometry, such as length and curvature, and generates an appropriate structured region representing these shapes.
+
+
+
+\section{Exploiting inherent structure}
+
+% Guide to Partitioning Unstructured Meshes for Parallel Computing
+% http://www.hector.ac.uk/cse/reports/unstructured_partitioning.pdf
+% Very briefly describes several tools used for partitioning the mesh
+
+A technical report by Ridley~\cite{ridley2010guide} briefly discusses methods for partitioning a mesh so as to maximize spatial data locality, in other words adjacent elements tend to have memory locations that are close. The partitioning is applied by recursively bisecting the mesh geometrically, such that geometrically close points tend to cluster together. The emphasis of the report is towards improving the performance of parallel computation, but the benefits of partitioning extend to serial processing as well.
+
+
+
+% Hierarchical Partitioning Techniques for Structured Adaptive Mesh Refinement Applications
+% http://www.s3lab.ece.ufl.edu/publication/jsuper.pdf
+% Partitions mesh to exploit parallel computation whilst minimizing communication costs. This is done by \emph{exploiting} the hierarchical structure in a mesh. The approach focuses on partitioning for purposes of parallel computation, which involves a) minimizing communication costs; and b) maximizing locality within partitions. We focus solely on B.
+% For **future works**, however, A would come into the picture as well, which would add an interesting dimension to the problem for further exploration.
+% ``This scheme uses space filling curves (SFC), which are a class of locality preserving recursive mappings from n-dimensional to 1-dimensional space.''
+% ALSO, note that this is *dynamic*. We can do that too in the future? :)
+
+Li et al.~\cite{li2004hierarchical} follow a similar theme of parallel computation, although their methods deal with adaptive mesh refinement, where a mesh is dynamically refined in regions with a high calculation error. The refinement process induces a hierarchical structure, which the presented partitioning algorithms aim to exploit.
+
+
+
+% Hierarchical hybrid grids: data structures and core algorithms for multigrid
+% http://onlinelibrary.wiley.com/store/10.1002/nla.382/asset/382_ftp.pdf?v=1&t=hw5h84yv&s=bbe650e186f348823036d7426c24bd554ea00c1b
+
+Bergen et al.~\cite{bergen2004hierarchical} employ structure-aware mesh refinement techniques. The method constructs a hierarchy of structured regions with each iterative refinement to the mesh. It is suggested that different element types, such as edges and faces, refined and stored separately, such that their distinct structuredness can be represented.
+
+Since we use a simple structure representation, we make use of augmented structured regions, with different elements' structured region represented in a hierarchy.
+
+
+
+% Stencils and Problem Partitionings: Their Influence on the Performance of Multiple Processor Systems
+% http://ieeexplore.ieee.org/ielx5/12/35266/01676980.pdf?tp=&arnumber=1676980&isnumber=35266
+% Partitioning a mesh based on its memory-access stencil. Again this is parallel oriented. Could be useful in defining the shape of the map access!
+
+
+
+% \url{https://www.cs.sfu.ca/~bgb2/personal/papers/nand11miccai.pdf}
+% Bruv et al describe in [REF] the ``[construction of] curvature based features detectors to detect tube-like and sheet-like structures in DTI [diffusion tensor MRI]''. Differential equation-based methods are applied to characterize the ``'structured-ness'' of various components of the generated image, in terms of feature detection. Our focus is on detecting structuring in a precise manner, rather than a characteristic approach.
+
+% FOR FUTURE WORKS: The differential equation approach may be an interesting tangent for future work, for instance applying it to geometric information to deduce areas of likely structure.
+
+
+% \url{http://ieeexplore.ieee.org/ielx7/83/6490370/06476010.pdf?tp=&arnumber=6476010&isnumber=6490370}
+% Again, approximate/heuristical image-based structure detection. The paper mentions low-level and high-level pattern detection.
+
+
+
+
+% multiblock structured mesh partitioning algorithm
+% http://www.geuz.org/pipermail/getdp/2000/000138.html
+% Michael sends an email discussing stuff
+
+
+
+
+
+
+
+% Structured Grid Computational Pattern
+% (EITHER FROM:
+%   Course: CS 4800, Fall 2010, School: Northeastern
+%   OR
+% Parallel Computing Laboratory - Berkley University)
+% http://parlab.eecs.berkeley.edu/wiki/_media/patterns/structuredgrid-2.pdf
+% http://view.eecs.berkeley.edu/wiki/Structured_Grids
+% Good overview of the benefits of structured regions for computation.
+
+
+
+% Approximate Topological Matching of Quadrilateral Meshes
+% http://www.ics.uci.edu/~goodrich/pubs/approx-match.pdf
+% Find matching subgraphs of two meshes, that is having the same topology.
+
+% ``Our reason for using mesh compression instead is based on the desire to speed up the computation time in an algorithm that operates on quad meshes. Thus, our approach actually fits the spirit of other algorithms (e.g., see (33; 15; 14; 38)) that perform data compression so as to improve algorithmic performance.''
+% Mentions reducing mesh representation for the purpose of improving computation time.
+
+
+
+% Opportunistic Data Structures with Applications
+% http://people.unipmn.it/manzini/papers/focs00draft.pdf
+% Discusses implicit data structures which minimize storage overheads due to auxiliary information
+
+
+% \section{}
+
+
+% Predictable memory access patterns versus *known* memory access pattern.
+
+
+
+**** POINT OF MENTION:
+Applying our structure detection algorithm to meshes with intentional structure is still useful, as it provides an efficient, automatic method of generating a mesh and the associated code to run exploiting that structure.

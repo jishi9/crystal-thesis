@@ -25,7 +25,6 @@ Below is a small extract from the NACA0012 mesh\footnote{Thanks to Dr. Peter Vin
 	\includesvg[svgpath=#1]{#2}
 }
 \drawnaca{images/defining-structure/}{naca0012-plain}
-** PLAIN IMAGE **
 
 The vertices in the highlighted region seem like good candidates for a ``structured region'', forming a two-dimensional lattice in a discrete Cartesian space. This ``structured region'' has the properties outlined below.
 
@@ -39,13 +38,11 @@ The vertices in the highlighted region seem like good candidates for a ``structu
 
 
 \drawnaca{images/defining-structure/}{naca0012-node-structure}
-** Highlighted structured vertex region IMAGE **
 
 %% TODO Maybe not introduce data structure yet????
 We can propagate this inherent structure from the mesh model to the underlying data structure, representing this two-dimensional lattice using a two-dimensional array. Vertices may be assigned Cartesian coordinates, but in spirit of the space's discreteness we shall use rows and columns instead.
 
 \drawnaca{images/defining-structure/}{naca0012-node-grid}
-** 2D array IMAGE with gaps **
 
 
 \newcommand{\strV}{V_{str}}

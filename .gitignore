@@ -2,3 +2,10 @@
 *.log
 images/**/*.pdf
 images/**/*.pdf_tex
+*.make
+*.out
+*.d
+*.temp
+*.bbl
+*.blg
+*.fls
