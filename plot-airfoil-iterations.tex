@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+\begin{axis}[
+xlabel = Number of iterations,
+ylabel = Total runtime (s),
+xmax = 2000,
+legend pos = north west
+]
+
+
+\addplot [
+draw=blue,
+mark = x,
+] table [
+y = baselinetime
+] {data-airfoil-iterations.tsv};
+
+
+\addlegendentry{Baseline run};
+
+\addplot [
+draw=black,
+mark = triangle,
+] table [
+y = mytime
+] {data-airfoil-iterations.tsv};
+
+\addlegendentry{Crystal run};
+
+\end{axis}
+\end{tikzpicture}
