@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+\begin{axis}[
+xlabel = Seeds planted,
+ylabel = Structure detected,
+legend pos = south east
+]
+
+
+\addplot [
+draw=blue,
+mark = x,
+] table [
+y = structure
+% y expr = \thisrow{totalseeds} ? (\thisrow{structure} / \thisrow{totalseeds}) : 0
+] {data-naca0012-structure-over-seeds.tsv};
+
+
+\addlegendentry{Baseline run};
+
+\end{axis}
+\end{tikzpicture}

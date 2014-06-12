@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+\begin{axis}[
+xlabel = Seeds planted,
+ylabel = Failed seeds,
+legend pos = south east
+]
+
+
+\addplot [
+draw=blue,
+mark = x,
+] table [
+% y = failseeds
+y expr = \thisrow{totalseeds} ? (\thisrow{failseeds} / \thisrow{totalseeds}) : 0
+] {data-naac0012-failedseeds-over-seeds.tsv};
+
+
+\addlegendentry{Baseline run};
+
+\end{axis}
+\end{tikzpicture}

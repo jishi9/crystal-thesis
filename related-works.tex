@@ -104,7 +104,9 @@ Since we use a simple structure representation, we make use of augmented structu
 
 Reed et al.~\cite{reed1987stencils} focus on obtaining partitions best-suited to the \emph{stencil structure} associated with a particular computation, that is its neighbour-access pattern. They derive partition shapes for some common stencil structures, optimised to minimise inter-partition communication costs.
 
-This is similar to our approach, where the structured regions are detected on the basis of relation-maps, such as cell-vertex or edge-cell maps.
+Tang et al.~\cite{tang2011pochoir} present a full-fledged \emph{Pochoir Stencil Compiler}. It specifies a domain-specific language that allows users to write a higher-level specification of a stencil computation embedded in C++ code. The compiler then automatically generates very efficient \emph{cache-oblivious}\footnote{The authors of~\cite{frigo1999cache} define a cache oblivious algorithm as that which ``[does not contain] parameters (set at either compile-time or runtime that can be tuned to optimize the cache complexity for the particular cache size and line length''} parallel loops that execute the stencil computation.
+
+As discussed in subsection~\ref{subsec:given-kernel-function}, this is similar to our approach, where the structured regions are detected on the basis of relation-maps, such as cell-vertex or edge-cell maps.
 
 
 % \url{https://www.cs.sfu.ca/~bgb2/personal/papers/nand11miccai.pdf}

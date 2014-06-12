@@ -1,0 +1,115 @@
+
+\section{Structured region boundaries}
+%% TODO REFERENCE generalized definition
+When running a core-computation over structured data, we would like to ensure that direct neighbour accesses are always within bounds. To this end, we define the concepts of \emph{interior} structured elements and \emph{fringe} structured elements, with respect to a given relation-map.
+
+Let $R: S \mapsto S$ be a relation-map on an element set $S$. We assume that $S$ has been partitioned into $k$ structured regions $S_1$ to $S_k$, as well as the remaining unstructured partition $S_0$.
+Let $e \in S_i$ be some structured mesh element in some structured region $S_i$.
+
+We say that $e$ is an \emph{interior structured element} iff all neighbours $n$ of $e$, as defined by $R$, are structured mesh elements in $S_i$. Stated formally:
+$$\forall n \in S. R(e,n) \implies n \in S_i$$
+Conversely, a \emph{fringe structured element} is one which does not satisfy this property, that is it has some neighbour in $R$ which is not found within the structured region $S_i$.
+
+Figure~\ref{fig:fringe-cells} exemplifies this for structured cell regions.
+
+\begin{figure}
+\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells}
+\caption{The image depicts the boundaries induced by a cell-cell relation-map. The two structured regions are coloured in blue and red. Lighter shades denote interior structured cells, and darker shades denote fringe structured cells.}
+\label{fig:fringe-cells}
+\end{figure}
+
+
+\section{Laying out the basis: vertex associative data}
+\label{subsec:vertex-associative-data}
+With the regions of structured vertices extracted, we would like to lay out the associative vertex data in a convenient order such that the neighbours' data may be accessed directly. Recalling our decision in~\ref{sentence:2d-array}, we choose to detect rectangular structured regions so as to place them in two-dimensional arrays.
+
+% TODO REFERENCE FUTURE WORKS
+This still leaves us to determine the data layout within a two-dimensional array. We use a row-major order as it enables very simple (cheap) neighbour address calculations; column-major order exhibits the same property and may been used equally. Alternative orderings, as well as the general description of space filling curves are displayed by bruv), and may be worth exploring in future works.
+
+Then given a rectangular structured vertex region $\Structured$ with $m$ rows and $n$ columns, we can represent its associative data in a two-dimensional array $Dat$ in row-major order. Clearly, the associative data of \emph{any} structured vertex $n_{r,c} \in \Structured$ can be accessed by $Dat[r][c]$. Similarly, we can access the associative data of the vertex neighbours of any \emph{interior} structured vertex $n_{r,c} \in \Structured$ by $Dat[r][c+1]$, $Dat[r][c-1]$, $Dat[r+1][c]$, and $Dat[r-1][c]$.
+
+
+\section{Overlaying the remaining associative data}
+Our construction thus far only allows us to directly address data via a vertex-vertex relation, and we would like to extend the benefits to include other relation-maps. The key insight is the knowledge that relation-maps do not define an arbitrary relation, rather they \emph{represent compositional relationships in the mesh hierarchy}:
+\begin{itemize}
+\item A structured vertex $n_{r,c}$ forms a horizontal edge with $n_{r,c+1}$, and a vertical edge with $n_{r+1,c}$.
+\item Four structured vertices of the given relative positions form the vertices of a quadrilateral cell: $n_{r,c}$, $n_{r,c+1}$, $n_{r+1,c}$, and $n_{r+1,c+1}$.
+\item Four structured vertex pairs of the given relative positions form the edges of a quadrilateral cell: $n_{r,c}$ with $n_{r,c+1}$, $n_{r,c+1}$ with $n_{r+1,c+1}$, $n_{r+1,c+1}$ with $n_{r+1,c}$, and $n_{r+1,c}$ with $n_{r,c}$.
+\end{itemize}
+
+
+We can then derive for each structured vertex region
+\begin{enumerate*}[label=\alph*)]
+\item a structured cell region,
+\item a structured horizontal-edges region, and
+\item a structured vertical-edge region
+\end{enumerate*}.
+We refer to a given structured vertex region and the structured regions derived from it as \emph{corresponding structured regions}.
+
+The edge case is an interesting one: the reason that we derive two structured regions, horizontal and vertical, is that they exhibit a different neighbour access pattern. Effectively,
+
+
+In addition, as with vertex associative data, the associative data for each of the derived structured regions may be laid out in any convenient order; we continue with the same row-major order.
+
+\subsection{Redefining boundaries}
+Given the above information, we can generalize our definition of interior and fringe structured elements to allow for relation-maps between different element sets.
+
+Let $R: S \mapsto T$ be a relation-map between element sets $S$ and $T$. We assume that $S$ and $T$ have each been partitioned into $k$ \emph{corresponding} structured regions $S_1$ to $S_k$ and $T_1$ to $T_k$, respectively, where each structured region $S_i$ corresponds to structured region $T_i$. Additionally, $S_0$ and $T_0$ represent the unstructured partitions in each of $S$ and $T$\footnote{As per our definition, $S_0$ and $T_0$ cannot be corresponding structured regions, as they are not structured!}.
+Let $e \in S_i$ be some structured mesh element in some structured region $S_i$.
+
+We say that $e$ is an \emph{interior structured element} iff all neighbours $n$ of $e$, as defined by $R$, are structured mesh elements in the corresponding structured region $T_i$. Stated formally:
+$$\forall n \in T. R(e,n) \implies n \in T_i$$
+Conversely, a \emph{fringe structured element} is one which does not satisfy this property, that is it has some neighbour in $R$ which is not found within the corresponding structured region $T_i$.
+
+
+
+\begin{figure}
+\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-edges}
+\caption{The image depicts the boundaries induced by an edge-to-cell relation-map. Fringe structured edges (having only one structured cell neighbour) are highlighted in dark blue, and interior structured edges (having both neighbours structured cells) are highlighted in light blue. All structured cells are are dotted. Structured vertices, represented by circles, demarcate the structured vertex region.}
+\label{fig:fringe-edges}
+\end{figure}
+
+
+
+
+
+Now iterating over \emph{internal} structured mesh elements no longer requires a relation-map: for a given element we can derive any of its \emph{structured} neighbours of any element type in a stencil-like fashion (as explained in subsection~\ref{subsec:given-kernel-function}).
+
+%% TODO figure showing how to get from cell id to node ids , edge id to nodes/cells, etc
+
+\section{Element renumbering}
+So far we have only considered neighbour accesses for interior structured elements; this leaves us with two classes of mesh elements:
+\begin{itemize}
+\item Fringe structured mesh elements.
+These may have both structured and unstructured neighbours (or potentially non-neighbours if the element is at a \emph{mesh} boundary). They are accessed directly via address calculation by their internal structured neighbours, and indirectly via relation-maps by their fringe structured neighbours and their unstructured neighbours (if any).
+
+\item Unstructured mesh elements.
+These always access (and are accessed by) their neighbours indirectly via relation-maps.
+\end{itemize}
+
+Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason that structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writeable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
+
+
+We can enumerate all the possible neighbour access types as follows:
+\begin{itemize}
+\item Two interior structured elements.
+Both elements must be co-located in the same structured region, and are directly addressable. No further data needs to be stored.
+\item An interior structured element and a fringe structured element.
+Same as above.
+\item Two fringe structured elements.
+The two elements may or may not fall in the same structured region. In the former case, the above applies. In the latter case, why may occur if two structured regions are adjacent, the elements must be indirectly addressed.
+\item A fringe structured element and an unstructured element.
+The two elements are not co-located and must be indirectly addressed.
+\item Two unstructured elements.
+The two elements are co-located in the same partition, but must be indirectly addressed.
+\end{itemize}
+
+We would like to minimize the cost and complication of cross-region neighbour access, which arise due to fringe structured elements. To this avail, all regions for the given associative data, structured and unstructured, are stored in a single address space. All structured regions are stored sequentially in the order of their discovery\footnote{This is no compelling reason for this decision; this was merely done to simplify adding structured regions as they are discovered.}, followed by the remaining unstructured elements.
+The relation-map can then simply store indices to denote each element's neighbours. In fact, if we maintain the explicit neighbour relations for \emph{all} mesh elements, both structured and unstructured, a core-computation loop completely oblivious to our manipulations may execute over the relation-maps.
+
+% TODO FUTURE WORK?
+The main downside to storing is the missed opportunity to completely exclude interior structured nodes from the relation map.
+
+
+
+Looking back to the definition of a kernel function in subsection~\ref{subsec:given-kernel-function}, we find that in addition to the derived indexing variables of neighbours, the kernel function also requires the indexing variable referring to the current element.

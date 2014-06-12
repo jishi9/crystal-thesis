@@ -1,3 +1,107 @@
+In this chapter we evaluate various aspects of our work in structure detection.
+We first present a technical evaluation of the algorithm, assessing the quality of its output and runtime performance. We also look at the performance characteristics achieved when incorporating our structure detection into the core-computation workflow.
+
+
+\section{Metrics}
+\subsection{Execution metrics}
+\begin{itemize}
+\item Baseline execution time
+The runtime of the core-computation \emph{without} using any structured region information. Mesh elements are accessed using indirection maps.
+
+\item Crystal execution time
+The runtime of the core-computation using structured region information. Mesh elements in structured regions are accessed directly using address calculations; mesh elements in unstructured regions are accessed using indirection maps.
+\end{itemize}
+Both measures exclude initialization and cleaning up time, which in any case have been found to be negligible.
+
+\subsection{Detection metrics}
+
+Crystal detection time:
+The running time of the Crystal detection algorithm. This is inclusive of file operations related to the mesh data.
+
+Detection coverage:
+Either the number or percentage (as defined in context) of vertices in the mesh detected as structured elements.
+
+Detection coverage cap:
+When the detection coverage is artificially capped up to a maximum value.
+
+\subsection{Combined metrics}
+Crystal detection and execution time:
+The combined runtime of Crystal detection time and Crystal execution time.
+
+\subsection{Mesh metrics}
+Mesh size:
+The number of vertices in the mesh.
+
+(Structured) region size:
+The number of vertices in structured subregions.
+
+Number of (structured) regions:
+The number of structured subregions detected in a mesh.
+
+
+\section{Benchmarks}
+\subsection{Airfoil}
+\subsection{NACA0012}
+\subsection{NACA0021}
+
+\section{Experimental method}
+All experiments are performed on a model HP 800 G1 TWR. The processor is an Intel\textregistered{} Core\texttrademark{} i7-4770 3.40GHz with four physical cores\footnote{Note that the experiments were run serially}, supporting the SSE 4.1/4.2 and  AVX 2.0 instruction sets~\cite{intelprocessor}. The main memory capacity of the machine is 16GB.
+
+The creation of the source mesh, where applicable, is never timed, and Crystal loads and uses the data in-memory as standard arrays. Creation refers to storage of the relevant entity set metadata (number of vertices cells, etc), relation maps, and the associative data (typically spatial coordinates). This non-expensive process involves converting the mesh into a custom data format based on Protocol Buffers~\cite{protocolbuffers} with ZIP compression applied using the Minizip library~\cite{minizip}. Our justification behind this is to offer a simplified programming model for data retrieval, manipulation and storage. To our best knowledge this presents no significant advantage to Crystal, if at all.
+
+The Crystal detection code is written in Python and run using the Python interpreter version 2.7.4~\cite{python}.
+
+The Crystal execution code is compiled using the Intel\textregistered{} C and C++ Compilers version 14.0.2 20140120~\cite{icc} with the following optimization flags set:
+\begin{itemize}
+\item -xHost
+\begin{quote}Generate instructions for the highest instruction set and processor available on the compilation host machine.\end{quote}
+\item -static-intel
+\begin{quote}Link Intel provided libraries statically.\end{quote}
+\item -ipo
+\begin{quote}Enable multi-file IP [inter-procedural] optimization between files.\end{quote}
+\item -O3
+\begin{quote}Optimize for maximum speed and enable more aggressive optimizations that may not improve performance on some programs.\end{quote}
+\end{itemize}
+
+% TODO REFERENCE
+The baseline (OP2) (REFERENCE) execution code is compiled using the same version of Intel\textregistered{} C and C++ Compilers using the provided Makefile. We use the sequential CPU-only version (double-precision airfoil\_plain) (REFERENCE), compiled by issuing the command \texttt{make airfoil\_seq}. The optimization flags set are as follows:
+\begin{itemize}
+\item -O3 (as above)
+\item -xAVX
+\begin{quote}May generate Intel\textregistered{} Advanced Vector Extensions (Intel\textregistered{} AVX), Intel\textregistered{} SSE4.2, SSE4.1, SSSE3, SSE3, SSE2, and SSE instructions for Intel\textregistered{} processors.\end{quote}
+\item -parallel
+\begin{quote}Enable the auto-parallelizer to generate multi-threaded code for loops that can be safely executed in parallel.\end{quote}
+\end{itemize}
+
+
+\section{Technical evaluation}
+\section{Detected structure quality}
+It is difficult to produce a single definitive metric with which we can unequivocally define the quality of our detected structure. We can, however, look at properties that are in line with that target, and derive useful metrics by combining them.
+
+Percentage of mesh elements detected as structured:
+This metric is most useful when we know the maximum value that would be expected or possible.
+Without this knowledge, the metric is a one-sided test: a high percentage is a positive sign, whereas a lower percentage is indeterminate.
+
+Structured region size:
+Larger structured regions are desirable, but similarly to the previous, the maximum possible size is mesh-dependant and may not be known.
+
+Number of structured regions:
+On its own this metric is a tricky one to resolve. It is useful, however, to act as a relative scale for other metrics such as structured region size.
+
+
+
+
+
+We first present a technical evaluation of the algorithm, in terms of its
+% \begin{enumerate*}[label=\alph*)]
+% \item quality
+
+
+\subsection{Sensitivity to vertex numbering}
+We compare the sensitivity of the core-computation algorithms to vertex renumbering, that is whether their runtime performance is impacted by different vertex numberings.
+
+Various numberings were applied to the (almost) fully structured airfoil mesh, with the results shown in figure~\ref{fig:plot-airfoil-numbering}. It is clear that the baseline algorithm is highly sensitive to vertex numbering, whereas Crystal is insensitive to numbering, remaining constant throughout. This demonstrates that the performance of Crystal is consistent for a given mesh.
+
 \begin{figure}[h]
   \centering
   \input{plot-airfoil-numbering}
@@ -5,6 +109,8 @@
 \label{fig:plot-airfoil-numbering}
 \end{figure}
 
+
+\section{}
 
 \begin{figure}[h]
   \centering
@@ -23,4 +129,27 @@
 
 
 
+\begin{figure}[h]
+  \centering
+  \input{plot-naac0012-failedseeds-over-seeds}
+\caption{Number of successfully planted seeds versus total}
+\label{fig:plot-naac0012-failedseeds-over-seeds}
+\end{figure}
+
+
+\begin{figure}[h]
+  \centering
+  \input{plot-naca0012-structure-over-seeds}
+\caption{Number of structured vertices detected versus planted seeds}
+\label{fig:plot-naca0012-structure-over-seeds}
+\end{figure}
+
+
+
+
 \section{Structure detection}
+
+
+\section{Qualitative}
+
+\includesvg[width=\textwidth, svgpath=images/evaluation/]{greedy-example}

@@ -40,7 +40,7 @@ The vertices in the highlighted region seem like good candidates for a ``structu
 \drawnaca{images/defining-structure/}{naca0012-node-structure}
 
 %% TODO Maybe not introduce data structure yet????
-We can propagate this inherent structure from the mesh model to the underlying data structure, representing this two-dimensional lattice using a two-dimensional array. Vertices may be assigned Cartesian coordinates, but in spirit of the space's discreteness we shall use rows and columns instead.
+We can propagate this inherent structure from the mesh model to the underlying data structure, representing this two-dimensional lattice using a two-dimensional array. Vertices may be assigned Cartesian coordinates, but in spirit of the space's discreteness we shall use rows and columns instead.\label{sentence:2d-array}
 
 \drawnaca{images/defining-structure/}{naca0012-node-grid}
 
@@ -53,7 +53,7 @@ Let us call $\VertexSet$ the set of all vertices, and $\strV \subseteq \VertexSe
 
 \subsection{Representing the vertex-vertex adjacency}
 
-Now consider the vertex-vertex adjacency relation $\AdjVV: \VertexSet \mapsto \VertexSet$ in context of the ``structured region'' $\strV$. We can directly locate a particular neighbour of any vertex, for example its north neighbour, so long as that neighbour is also within the structured region. This restricts the set of vertices with fully-accessible neighbours to those which are not on the borders of the ``structured region''. This is the subset of vertices $\adjstrV \subseteq \strV$ which are structured \emph{with respect to} $\AdjVV$. This induces a new relation which operates purely within the structured region:
+Now consider the vertex-vertex adjacency relation $\AdjVV: \VertexSet \mapsto \VertexSet$ in context of the ``structured region'' $\strV$. We can directly locate a particular neighbour of any vertex, for example its north neighbour, so long as that neighbour is also within the structured region. This restricts the set of vertices with fully-accessible neighbours to those which are not on the borders or the fringe of the ``structured region''. This is the subset of vertices $\adjstrV \subseteq \strV$ which are structured \emph{with respect to} $\AdjVV$. This induces a new relation which operates purely within the structured region:
 $$\AdjVVstr: \adjstrV \mapsto \strV$$
 
 \drawnaca{images/defining-structure/}{naca0012-node-neighbours}

@@ -144,7 +144,7 @@ Given a mesh model and its underlying representation, computation logic provided
 Our contract to the user is described in what follows.
 
 \subsection{Given: operating set}
-We are given an entity set over which to operate, for example the set of edges or the set of cells. We refer to this entity set as the \emph{operating set}. The core-computation consists of executing a computation for each element of the operating set. This is analogous to the \emph{map} phase of the MapReduce programming model\footnote{REFERENCE}, though we restrict our usage of the term \emph{map} to refer to relation maps.
+We are given an entity set over which to operate, for example the set of edges or the set of cells. We refer to this entity set as the \emph{operating set}. The core-computation consists of executing a computation for each element of the operating set. This is analogous to the \emph{map} phase of the MapReduce programming model~\cite{dean2008mapreduce}, though we restrict our usage of the term \emph{map} to refer to relation maps.
 
 \subsection{Given: relation-map tree}
 We are given a tree structure defining which relation maps to use and how to access them. This is best explained through an example, illustrated in figure~\ref{fig:relation-tree}. The core-computation will, for each element in the operating set, gather all indexing variables as described by the relation-map tree.
@@ -194,9 +194,15 @@ We are given a tree structure defining which relation maps to use and how to acc
 
 
 \subsection{Given: kernel function}
-We are given a kernel function specifying the computation logic, which is applied to each element in the operating set. It takes as arguments all gathered indexing variables, and it has read and write access to the mesh's associated data.
+\label{subsec:given-kernel-function}
+We are given a kernel function specifying the computation logic, which is applied to each element in the operating set. It takes as arguments all gathered indexing variables, including that of the current element, and it has read and write access to the mesh's associated data. The access pattern of a kernel function is similar to that of a stencil computation, as defined by~\cite{tang2011pochoir}:
+\begin{quote}
+A stencil computation repeatedly updates each point of a d-dimensional grid as a function of itself and its near neighbours.
+\end{quote}
+As we define it, however, kernel functions are in fact more general than a stencil computation, as they access neighbouring elements across different operating sets.
 
-The kernel function is applied to the operating set elements in no particular order; the indexing variables, however, are passed to the kernel in some known order.
+
+The kernel function is applied to the operating set elements in no particular order; the indexing variables, however, are passed to the kernel in some known order, typically in the order stored in the relation-map.
 
 
 \subsection{Expected operation}
@@ -209,3 +215,28 @@ Given all the above, a core-computation is then performed as follows:
     \item Call the kernel function, passing the gathered indexing variables in some known order. The kernel function may access any associative data using these indexing variables.
     \end{enumerate}
 \end{enumerate}
+
+
+
+\section{Background on airfoils}
+%% TODO CROSS REFERNCE to benchmarks
+While not strictly needed for understanding our work, we nonetheless describe briefly airfoils and their function to offer a broader context. Much of this section was adapted from~\cite{abbott2012theory}, \cite{kuethe1986foundations} and~\cite{boeing2014airfoil}. Our description is nonetheless undoubtedly an overly simplistic one, and we would recommend that the aforementioned literature be sought for a fuller picture.
+
+An airplane achieves flight by creating a lower air pressure over the wing (\emph{the upper surface}) whilst maintaining a higher air pressure below the wing (\emph{the lower surface}). The exact way in which this is achieved is characteristic of the wing shape as well as other factors. The pressure differential causes air in the lower surface to push towards the upper surface, creating a lift force. If the lift force is sufficient to counteract the gravitational force, the airplane flies.
+
+An airfoil is the two-dimensional cross-section \emph{shape} of a wing. They are used to model the hydrodynamics (fluid motion) surrounding a particular wing shape in different contexts, including the velocity and angle of motion (known as the \emph{angle of attack}). Figure~\ref{fig:airfoil-crosscut} shows how the cross-section is taken, as well as the modelled air flow.
+
+\begin{figure}
+\includegraphics[width=\imagewidth]{images/background/airfoil_crosscut.jpg}
+    \caption{The cross-section used to obtain the airfoil shape. Incoming air flow is split between the upper surface (purple) and the lower surface (blue). The image was obtained from~\cite{boeing2014airfoil}.}
+    \label{fig:airfoil-crosscut}
+\end{figure}
+
+
+In 1929, the National Advisory Committee for Aeronautics (NACA) began to study various airfoils. They developed families of airfoil constructions parametrized by various geometric variables, depicted in figure~\ref{fig:airfoil-geometry}. We use specific instantiations of these airfoil families as benchmarks for Crystal.
+
+\begin{figure}
+\includegraphics[width=\imagewidth]{images/background/airfoil.png}
+    \caption{A depiction of the geometric properties of airfoil. The image was obtained from~\cite{kuethe1986foundations}.}
+    \label{fig:airfoil-geometry}
+\end{figure}
