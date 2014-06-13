@@ -1,3 +1,4 @@
+\newcommand{\imagewidth}{0.8\textwidth}
 
 \section{Structured region boundaries}
 %% TODO REFERENCE generalized definition
@@ -61,7 +62,7 @@ We say that $e$ is an \emph{interior structured element} iff all neighbours $n$ 
 $$\forall n \in T. R(e,n) \implies n \in T_i$$
 Conversely, a \emph{fringe structured element} is one which does not satisfy this property, that is it has some neighbour in $R$ which is not found within the corresponding structured region $T_i$.
 
-
+Figure~\ref{fig:fringe-edges} shows an example for an edge-to-cell relation-map.
 
 \begin{figure}
 \includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-edges}
@@ -89,7 +90,7 @@ These always access (and are accessed by) their neighbours indirectly via relati
 
 Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason that structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writeable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
 
-
+%% TODO figure with different accesses
 We can enumerate all the possible neighbour access types as follows:
 \begin{itemize}
 \item Two interior structured elements.
@@ -111,5 +112,42 @@ The relation-map can then simply store indices to denote each element's neighbou
 The main downside to storing is the missed opportunity to completely exclude interior structured nodes from the relation map.
 
 
+Figures~\ref{fig:original-numbering} and~\ref{fig:renumbering} show an example of renumbering applied to cells.
+
+\begin{figure}
+\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells-original-numbers}
+\caption{A mesh with the original cell numbering shown. The numbers on unstructured cells are omitted.}
+\label{fig:original-numbering}
+\end{figure}
+
+\begin{figure}
+\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells-renumbered}
+\caption{A mesh with the Crystal cell numbering shown. The numbers on unstructured cells are omitted.}
+\label{fig:renumbering}
+\end{figure}
+
+
 
 Looking back to the definition of a kernel function in subsection~\ref{subsec:given-kernel-function}, we find that in addition to the derived indexing variables of neighbours, the kernel function also requires the indexing variable referring to the current element.
+
+
+
+{
+	\definecolor{red-interior}{RGB}{255,157,157}
+	\definecolor{red-fringe}{RGB}{255,0,0}
+	\definecolor{blue-interior}{RGB}{0,255,255}
+	\definecolor{blue-fringe}{RGB}{0,194,194}
+	\newlength{\charheight}
+	\settoheight{\charheight}{\hbox{A}}
+	{
+		\small
+		\tabcolsep=0.35mm
+		\include{supp/dat1}
+	}
+
+	{
+		\small
+		\tabcolsep=0.35mm
+		\include{supp/dat2}
+	}
+}
