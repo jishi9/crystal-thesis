@@ -1,4 +1,4 @@
-\newcommand{\imagewidth}{0.8\textwidth}
+% \newcommand{\imagewidth}{0.8\textwidth}
 
 \section{Structured region boundaries}
 %% TODO REFERENCE generalized definition
@@ -20,7 +20,7 @@ Figure~\ref{fig:fringe-cells} exemplifies this for structured cell regions.
 \end{figure}
 
 
-\section{Laying out the basis: vertex associative data}
+\section{Laying out vertices}
 \label{subsec:vertex-associative-data}
 With the regions of structured vertices extracted, we would like to lay out the associative vertex data in a convenient order such that the neighbours' data may be accessed directly. Recalling our decision in~\ref{sentence:2d-array}, we choose to detect rectangular structured regions so as to place them in two-dimensional arrays.
 
@@ -30,7 +30,35 @@ This still leaves us to determine the data layout within a two-dimensional array
 Then given a rectangular structured vertex region $\Structured$ with $m$ rows and $n$ columns, we can represent its associative data in a two-dimensional array $Dat$ in row-major order. Clearly, the associative data of \emph{any} structured vertex $n_{r,c} \in \Structured$ can be accessed by $Dat[r][c]$. Similarly, we can access the associative data of the vertex neighbours of any \emph{interior} structured vertex $n_{r,c} \in \Structured$ by $Dat[r][c+1]$, $Dat[r][c-1]$, $Dat[r+1][c]$, and $Dat[r-1][c]$.
 
 
-\section{Overlaying the remaining associative data}
+\begin{figure}
+\sidebysidevertical
+{
+	\begin{tabular}{c|c|c|c|c}
+	 &               &               &               & \\ \hline \rowcolor{yellow!40}
+	 &               & $Dat_{r-1,c}$ &               & \\ \hline \rowcolor{green!40}
+	 & $Dat_{r,c-1}$ & $Dat_{r,c}$   & $Dat_{r,c+1}$ & \\ \hline \rowcolor{red!40}
+	 &               & $Dat_{r+1,c}$ &               & \\ \hline
+	 &               &               &               &
+	\end{tabular}
+	\caption{Logical layout of the $Dat$ array. Neighbours are horizontally and vertically contiguous.}
+}
+{
+	\begin{tabular}{c|c|c|c|c|c|c|c|c}
+	\hline
+	\ldots & \cellcolor{yellow!40} $Dat_{r-1,c}$ &
+	\ldots & \cellcolor{green!40} $Dat_{r,c-1}$ & \cellcolor{green!40} $Dat_{r,c}$ & \cellcolor{green!40} $Dat_{r,c+1}$ &
+	\ldots & \cellcolor{red!40} $Dat_{r+1,c}$ &
+	\ldots \\
+	\hline
+	\end{tabular}
+	\caption{Physical layout of the $Dat$ array. The contiguous data elements are contiguous in memory.}
+}
+\caption{The layout the $Dat$ array, representing vertex-vertex associative data. This data stored may represent the spatial coordinates of vertices, for example.}
+\end{figure}
+
+
+
+\section{Overlaying the remaining mesh elements}
 Our construction thus far only allows us to directly address data via a vertex-vertex relation, and we would like to extend the benefits to include other relation-maps. The key insight is the knowledge that relation-maps do not define an arbitrary relation, rather they \emph{represent compositional relationships in the mesh hierarchy}:
 \begin{itemize}
 \item A structured vertex $n_{r,c}$ forms a horizontal edge with $n_{r,c+1}$, and a vertical edge with $n_{r+1,c}$.
@@ -47,7 +75,7 @@ We can then derive for each structured vertex region
 \end{enumerate*}.
 We refer to a given structured vertex region and the structured regions derived from it as \emph{corresponding structured regions}.
 
-The edge case is an interesting one: the reason that we derive two structured regions, horizontal and vertical, is that they exhibit a different neighbour access pattern. Effectively,
+The edge case is an interesting one: the reason that we derive two structured regions, horizontal and vertical, is that they exhibit a different neighbour access pattern.
 
 
 In addition, as with vertex associative data, the associative data for each of the derived structured regions may be laid out in any convenient order; we continue with the same row-major order.
@@ -55,7 +83,7 @@ In addition, as with vertex associative data, the associative data for each of t
 \subsection{Redefining boundaries}
 Given the above information, we can generalize our definition of interior and fringe structured elements to allow for relation-maps between different element sets.
 
-Let $R: S \mapsto T$ be a relation-map between element sets $S$ and $T$. We assume that $S$ and $T$ have each been partitioned into $k$ \emph{corresponding} structured regions $S_1$ to $S_k$ and $T_1$ to $T_k$, respectively, where each structured region $S_i$ corresponds to structured region $T_i$. Additionally, $S_0$ and $T_0$ represent the unstructured partitions in each of $S$ and $T$\footnote{As per our definition, $S_0$ and $T_0$ cannot be corresponding structured regions, as they are not structured!}.
+Let $R: S \mapsto T$ be a relation-map between element sets $S$ and $T$. We assume that $S$ and $T$ have each been partitioned into $k$ mutually \emph{corresponding} structured regions $S_1$ to $S_k$ and $T_1$ to $T_k$, respectively, where each structured region $S_i$ corresponds to structured region $T_i$. Additionally, $S_0$ and $T_0$ represent the unstructured partitions in each of $S$ and $T$\footnote{As per our definition, $S_0$ and $T_0$ cannot be corresponding structured regions, as they are not structured!}.
 Let $e \in S_i$ be some structured mesh element in some structured region $S_i$.
 
 We say that $e$ is an \emph{interior structured element} iff all neighbours $n$ of $e$, as defined by $R$, are structured mesh elements in the corresponding structured region $T_i$. Stated formally:
@@ -71,18 +99,194 @@ Figure~\ref{fig:fringe-edges} shows an example for an edge-to-cell relation-map.
 \end{figure}
 
 
+\subsection{Identifying element numbering}
+Deriving an overlaid structured region is simple, and allows for direct access to neighbouring elements. This derivation method, however, does not reveal the implicitly defined partitioning of mesh elements (into structured and unstructured mesh elements), in particular we do not know how to iterate over the unstructured mesh elements, as demonstrated in figure~\ref{fig:comparing-loops} for the case of a cell-cell relation-map.
+
+If we can find the element ids corresponding to the derived structured elements, we can then deduce contents of the other partition: the unstructured elements. For this we require a relation-map from vertices to the element type in question, so then we can map the vertices forming the derived mesh element to its respective element id. This relation-map may already be provided, or we may need to derive it from other relation-maps.
+
+As an example, consider a relation-map mapping each cell to a unique set of four vertices. If we invert this map, then we obtain a relation-map mapping sets of four vertices to a unique cell, each. Since the map is indexed by sets of vertices, a direct-indexed array is not an appropriate choice of data structure, and the use of, for example, a hash table would be required. Alternatively, we may represent the relation-map as a map $\AdjVC$ mapping each vertex to a set of cells adjacent to it. Determining the unique cell (if any) composed of four vertices $\{ n_1, n_2, n_3, n_4\}$ can then be determined by the following:
+$$\AdjVC(n_1) \cap \AdjVC(n_2) \cap \AdjVC(n_3) \cap \AdjVC(n_4)$$
+
+\begin{figure}
+% Listing 1
+\newsavebox{\firstlisting}
+\begin{lrbox}{\firstlisting}
+
+\begin{lstlisting}[language=python]
+# Apply the kernel function to each cell and its neighbour cells.
+for (cell_id, neighbour_cells_ids) in cell2cells:
+	kernel_function(cell_id, neighbour_cells_ids)
+\end{lstlisting}
+\end{lrbox}
+
+% Listing 2
+\newsavebox{\secondlisting}
+\begin{lrbox}{\secondlisting}
+\begin{lstlisting}[language=python]
+# Apply the kernel function to each interior structured cell
+# and its neighbour cells.
+for region in structured_regions:
+	# ... details omitted
+	kernel_function(cell_id, neighbour_cells_ids)
+
+# Apply the kernel function to the remaining unvisited cells
+remaining_cell2cells = ... # this is currently unknown
+for (cell_id, neighbour_cells_ids) in remaining_cell2cells:
+	kernel_function(cell_id, neighbour_cells_ids)
+\end{lstlisting}
+\end{lrbox}
+
+% Side-by-side
+\sidebysideverticalnoncenter
+{
+\usebox{\firstlisting}
+\caption{Applying a kernel function over the original cell-cell relation-map. \lstinline|cell2cells| is the cell-cell relation-map.}
+\label{subfig:original-loop}
+}
+{
+\usebox{\secondlisting}
+\caption{Applying a kernel function over the interior structured cells, followed by the remaining cells. \lstinline|remaining_cell2cells| is a subset of the cell-cell relation-map which excludes interior structured cells.}
+\label{subfig:crystal-loop}
+}
+
+\caption{A comparison between ~(\ref{subfig:original-loop}) the original iteration over cells, and~(\ref{subfig:crystal-loop}) the split iterations over the interior structured cells and the remaining cells. Not knowing the iteration space of the remaining cells loop demonstrates the need to determine the structure-induced partitioning.}
+\label{fig:comparing-loops}
+\end{figure}
 
 
 
-Now iterating over \emph{internal} structured mesh elements no longer requires a relation-map: for a given element we can derive any of its \emph{structured} neighbours of any element type in a stencil-like fashion (as explained in subsection~\ref{subsec:given-kernel-function}).
+\begin{figure}
+	\includesvg[width=\imagewidth, svgpath=images/renumbering/]{inverting-map}
+
+{\begin{tabular}{|ccc|}
+$c_{0}$ & $\mapsto$ & $\{n_{16},n_{15},n_{8},n_{6}\}$ \\
+$c_{1}$ & $\mapsto$ & $\{n_{10},n_{19},n_{9},n_{0}\}$ \\
+$c_{2}$ & $\mapsto$ & $\{n_{8},n_{6},n_{12},n_{14}\}$ \\
+$c_{3}$ & $\mapsto$ & $\{n_{15},n_{3},n_{6},n_{2}\}$ \\
+$c_{4}$ & $\mapsto$ & $\{n_{18},n_{7},n_{10},n_{19}\}$ \\
+$c_{5}$ & $\mapsto$ & $\{n_{13},n_{13},n_{7},n_{16}\}$ \\
+$c_{6}$ & $\mapsto$ & $\{n_{7},n_{16},n_{19},n_{8}\}$ \\
+$c_{7}$ & $\mapsto$ & $\{n_{6},n_{2},n_{14},n_{11}\}$ \\
+$c_{8}$ & $\mapsto$ & $\{n_{4},n_{5},n_{15},n_{3}\}$ \\
+$c_{9}$ & $\mapsto$ & $\{n_{1},n_{17},n_{18},n_{7}\}$ \\
+$c_{10}$ & $\mapsto$ & $\{n_{19},n_{8},n_{0},n_{12}\}$ \\
+$c_{11}$ & $\mapsto$ & $\{n_{13},n_{4},n_{16},n_{15}\}$ \\
+\end{tabular}}
+
+
+
+{\begin{tabular}{|ccc|}
+$n_{0}$ & $\mapsto$ & $\{c_{1},c_{10}\}$ \\
+$n_{1}$ & $\mapsto$ & $\{c_{9}\}$ \\
+$n_{2}$ & $\mapsto$ & $\{c_{3},c_{7}\}$ \\
+$n_{3}$ & $\mapsto$ & $\{c_{8},c_{3}\}$ \\
+$n_{4}$ & $\mapsto$ & $\{c_{8},c_{11}\}$ \\
+$n_{5}$ & $\mapsto$ & $\{c_{8}\}$ \\
+$n_{6}$ & $\mapsto$ & $\{c_{0},c_{2},c_{3},c_{7}\}$ \\
+$n_{7}$ & $\mapsto$ & $\{c_{9},c_{4},c_{5},c_{6}\}$ \\
+$n_{8}$ & $\mapsto$ & $\{c_{0},c_{2},c_{10},c_{6}\}$ \\
+$n_{9}$ & $\mapsto$ & $\{c_{1}\}$ \\
+$n_{10}$ & $\mapsto$ & $\{c_{1},c_{4}\}$ \\
+$n_{11}$ & $\mapsto$ & $\{c_{7}\}$ \\
+$n_{12}$ & $\mapsto$ & $\{c_{2},c_{10}\}$ \\
+$n_{13}$ & $\mapsto$ & $\{c_{11},c_{5}\}$ \\
+$n_{14}$ & $\mapsto$ & $\{c_{2},c_{7}\}$ \\
+$n_{15}$ & $\mapsto$ & $\{c_{0},c_{8},c_{3},c_{11}\}$ \\
+$n_{16}$ & $\mapsto$ & $\{c_{0},c_{11},c_{5},c_{6}\}$ \\
+$n_{17}$ & $\mapsto$ & $\{c_{9}\}$ \\
+$n_{18}$ & $\mapsto$ & $\{c_{9},c_{4}\}$ \\
+$n_{19}$ & $\mapsto$ & $\{c_{1},c_{10},c_{4},c_{6}\}$ \\
+\end{tabular}}
+
+
+
+{\begin{tabular}{|ccc|}
+$\{n_{16},n_{15},n_{8},n_{6}\}$ & $\mapsto$ & $c_{0}$ \\
+$\{n_{10},n_{19},n_{9},n_{0}\}$ & $\mapsto$ & $c_{1}$ \\
+$\{n_{8},n_{6},n_{12},n_{14}\}$ & $\mapsto$ & $c_{2}$ \\
+$\{n_{15},n_{3},n_{6},n_{2}\}$ & $\mapsto$ & $c_{3}$ \\
+$\{n_{18},n_{7},n_{10},n_{19}\}$ & $\mapsto$ & $c_{4}$ \\
+$\{n_{13},n_{13},n_{7},n_{16}\}$ & $\mapsto$ & $c_{5}$ \\
+$\{n_{7},n_{16},n_{19},n_{8}\}$ & $\mapsto$ & $c_{6}$ \\
+$\{n_{6},n_{2},n_{14},n_{11}\}$ & $\mapsto$ & $c_{7}$ \\
+$\{n_{4},n_{5},n_{15},n_{3}\}$ & $\mapsto$ & $c_{8}$ \\
+$\{n_{1},n_{17},n_{18},n_{7}\}$ & $\mapsto$ & $c_{9}$ \\
+$\{n_{19},n_{8},n_{0},n_{12}\}$ & $\mapsto$ & $c_{10}$ \\
+$\{n_{13},n_{4},n_{16},n_{15}\}$ & $\mapsto$ & $c_{11}$ \\
+\end{tabular}}
+	% {
+	% 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+	% 	0                & 1               & 2               & 3               & 4                & 5                &
+	% 	6                & 7               & 8               & 9               & 10               & 11               \\
+	% 	$\{16,15,8,6\}$  & $\{10,19,9,0\}$ & $\{8,6,12,14\}$ & $\{15,3,6,2\}$  & $\{18,7,10,19\}$ & $\{13,13,7,16\}$ &
+	% 	$\{7,16,19,8\}$  & $\{6,2,14,11\}$ & $\{4,5,15,3\}$  & $\{1,17,18,7\}$ & $\{19,8,0,12\}$  & $\{13,4,16,15\}$ \\
+	% 	\end{tabular}
+	% }
+
+	% {
+	% 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+	% 	0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\
+	% 	$\{1,10\}$ & $\{9\}$ & $\{3,7\}$ & $\{8,3\}$ & $\{8,11\}$ & $\{8\}$ & $\{0,2,3,7\}$ & $\{9,4,5,6\}$ & $\{0,2,10,6\}$ & $\{1\}$ & $\{1,4\}$ & $\{7\}$ & $\{2,10\}$ & $\{11,5\}$ & $\{2,7\}$ & $\{0,8,3,11\}$ & $\{0,11,5,6\}$ & $\{9\}$ & $\{9,4\}$ & $\{1,10,4,6\}$
+	% 	\end{tabular}
+	% }
+
+	% {
+	% 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+	% 	$\{16,15,8,6\}$ & $\{10,19,9,0\}$ & $\{8,6,12,14\}$ & $\{15,31,6,2\}$ & $\{18,7,10,19\}$ & $\{13,13,7,16\}$ & $\{7,16,19,8\}$ & $\{6,2,14,11\}$ & $\{4,5,15,3\}$ & $\{1,17,18,7\}$ & $\{19,8,0,12\}$ & $\{13,4,16,15\}$ \\
+	% 	0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11
+	% 	\end{tabular}
+	% }
+
+	\caption{}
+\end{figure}
+
+
+% \begin{lstlisting}[language=python]
+% for region in structured_regions:
+
+% 	# For each interior cell in region
+% 	for r in (1..region.num_rows-1):
+% 		for c in (1..region.num_cols-1):
+% 			cell_id = region.offset + r * region.elems_per_column + c
+% 			cell_north = region.offset + (r-1) * region.elems_per_column + c
+% 			cell_east = region.offset + r * region.elems_per_column + (c+1)
+% 			cell_south = region.offset + (r-1) * region.elems_per_column + c
+% 			cell_east = region.offset + r * region.elems_per_column + (c+1)
+
+
+% for (cell_id, neighbour_cells_ids) in cell2cells:
+% 	kernel_function(cell_id, neighbour_cells_ids)
+% \end{lstlisting}
+
+
+involved, in particular the fringe structured elements and the unstructured elements.
+
+We need to identify the elements in the overlaid structured region, as we have with vertices, which in turn will identify the other partition containing the fringe structured elements and the unstructured elements.
+
+The derived mesh elements need to be associated with a mesh entity, by obtaining its unique identifier.
+
+
+
+
+
+
+
+
+
+Now iterating over \emph{interior} structured mesh elements no longer requires a relation-map: for a given element we can derive any of its \emph{structured} neighbours of any element type in a stencil-like fashion (as explained in subsection~\ref{subsec:given-kernel-function}).
 
 %% TODO figure showing how to get from cell id to node ids , edge id to nodes/cells, etc
 
-\section{Element renumbering}
+
+
+
+
+
+\section{Renumbering elements}
 So far we have only considered neighbour accesses for interior structured elements; this leaves us with two classes of mesh elements:
 \begin{itemize}
 \item Fringe structured mesh elements.
-These may have both structured and unstructured neighbours (or potentially non-neighbours if the element is at a \emph{mesh} boundary). They are accessed directly via address calculation by their internal structured neighbours, and indirectly via relation-maps by their fringe structured neighbours and their unstructured neighbours (if any).
+These may have both structured and unstructured neighbours (or potentially non-neighbours if the element is at a \emph{mesh} boundary). They are accessed directly via address calculation by their interior structured neighbours, and indirectly via relation-maps by their fringe structured neighbours and their unstructured neighbours (if any).
 
 \item Unstructured mesh elements.
 These always access (and are accessed by) their neighbours indirectly via relation-maps.
@@ -114,40 +318,54 @@ The main downside to storing is the missed opportunity to completely exclude int
 
 Figures~\ref{fig:original-numbering} and~\ref{fig:renumbering} show an example of renumbering applied to cells.
 
+% Graph colors
+\definecolor{red-interior}{RGB}{255,157,157}
+\definecolor{red-fringe}{RGB}{255,0,0}
+\definecolor{blue-interior}{RGB}{0,255,255}
+\definecolor{blue-fringe}{RGB}{0,194,194}
+\newlength{\charheight}
+\settoheight{\charheight}{\hbox{A}}
+
 \begin{figure}
-\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells-original-numbers}
-\caption{A mesh with the original cell numbering shown. The numbers on unstructured cells are omitted.}
+\sidebysidevertical
+{
+	\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells-original-numbers}
+	\caption{Mesh showing the the original cell numbering of the structured regions. Numbering of unstructured cells is omitted. Light and dark shades denote interior and fringe structured cells, respectively.}
+}
+{
+	\small
+	\tabcolsep=0.32mm
+	\include{supp/dat1}
+	\caption{The original data layout of cell associative data.}
+}
+\caption{The original cell numbering. The boundaries shown are with respect to a \emph{cell-cell} relation-map.}
 \label{fig:original-numbering}
 \end{figure}
 
+
 \begin{figure}
-\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells-renumbered}
-\caption{A mesh with the Crystal cell numbering shown. The numbers on unstructured cells are omitted.}
+\sidebysidevertical
+{
+	\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells-renumbered}
+	\caption{A mesh with the Crystal cell numbering shown. Numbering of unstructured cells is omitted. Light and dark shades denote interior and fringe structured cells, respectively.}
+}
+{
+	\small
+	\tabcolsep=0.32mm
+	\include{supp/dat2}
+	\caption{The Crystal data layout of cell associative data.}
+}
+\caption{Crystal cell numbering. The boundaries shown are with respect to a \emph{cell-cell} relation-map.}
 \label{fig:renumbering}
 \end{figure}
-
 
 
 Looking back to the definition of a kernel function in subsection~\ref{subsec:given-kernel-function}, we find that in addition to the derived indexing variables of neighbours, the kernel function also requires the indexing variable referring to the current element.
 
 
 
-{
-	\definecolor{red-interior}{RGB}{255,157,157}
-	\definecolor{red-fringe}{RGB}{255,0,0}
-	\definecolor{blue-interior}{RGB}{0,255,255}
-	\definecolor{blue-fringe}{RGB}{0,194,194}
-	\newlength{\charheight}
-	\settoheight{\charheight}{\hbox{A}}
-	{
-		\small
-		\tabcolsep=0.35mm
-		\include{supp/dat1}
-	}
 
-	{
-		\small
-		\tabcolsep=0.35mm
-		\include{supp/dat2}
-	}
-}
+\subsection{Accessing neighbours in-order}
+the indexing variables, however, are passed to the kernel in some known order, typically in the order stored in the relation-map
+At present, we are able to
+

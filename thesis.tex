@@ -1,7 +1,7 @@
 \documentclass{report}
 
 
-\usepackage[table]{xcolor} % Before listings
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor} % Before listings
 \usepackage{amsmath} % Better matrix environment
 \usepackage{amssymb}
 \usepackage[inline]{enumitem} % inline numbering and resume numbering
@@ -11,7 +11,7 @@
 \usepackage{nth}
 \usepackage{hyperref}
 \usepackage{cleveref} % Must be loaded after hyperref
-\usepackage{caption}
+\usepackage[font=small,labelfont=bf]{caption}
 \usepackage{pgfplotstable}
 \pgfplotsset{compat=1.10}
 \usepackage{subcaption}
@@ -20,6 +20,8 @@
 \usepackage{tikz-qtree,tikz-qtree-compat} % Trees
 \usepackage{url}
 \usepackage{xkeyval}
+\usepackage{floatrow} % center floats
+% \usepackage{arydshln} % Dashed lines in tables
 
 \pdfoptionpdfminorversion=5
 
@@ -37,6 +39,22 @@
 \usetikzlibrary{patterns}
 
 \input{variables}
+
+
+%%%% TESTING %%%%%
+\usetikzlibrary{shapes,arrows, positioning, calc, patterns, shadows, external}
+%%%<
+\usepackage{verbatim}
+\usepackage{lmodern}
+% \usepackage{scrextend}
+\usepackage{relsize}
+% \usepackage[active,tightpage]{preview}
+% \PreviewEnvironment{tikzpicture}
+% \setlength\PreviewBorder{5pt}%
+%%%>
+\usetikzlibrary{chains,fit,shapes, shapes.multipart}
+
+
 
 
 \begin{document}

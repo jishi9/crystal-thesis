@@ -9,6 +9,10 @@
 % Adjacency relation
 \newcommand{\AdjVV}{Adj_{\VertexSet\VertexSet}}
 
+% Adjacency Vertices to cells
+\newcommand{\AdjVC}{Adj_{\VertexSet\CellSet}}
+
+
 % Cardinality of
 \newcommand{\card}[1]{\left\vert{#1}\right\vert}
 
@@ -78,48 +82,108 @@
 % Side-by-side caption
 \newcommand{\sidebyside}[2]{
 	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
 	#1
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
+	#2
+	\end{subfigure}
+}
+
+\newcommand{\sidebysidevertical}[2]{
+	\begin{subfigure}[b]{\textwidth}
+	\centering
+	#1
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+	\centering
+	#2
+	\end{subfigure}
+}
+
+\newcommand{\sidebysideverticalnoncenter}[2]{
+	\begin{subfigure}[b]{\textwidth}
+	#1
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
 	#2
 	\end{subfigure}
 }
 
 \newcommand{\sidebysidethree}[3]{
 	\begin{subfigure}[b]{0.32\textwidth}
+	\centering
 	#1
 	\end{subfigure}
 	\begin{subfigure}[b]{0.32\textwidth}
+	\centering
 	#2
 	\end{subfigure}
 	\begin{subfigure}[b]{0.32\textwidth}
+	\centering
 	#3
 	\end{subfigure}
 }
 
 \newcommand{\sidebysidethreevertical}[3]{
 	\begin{subfigure}[b]{\textwidth}
+	\centering
 	#1
 	\end{subfigure}
 	\begin{subfigure}[b]{\textwidth}
+	\centering
 	#2
 	\end{subfigure}
 	\begin{subfigure}[b]{\textwidth}
+	\centering
 	#3
 	\end{subfigure}
 }
 
 \newcommand{\sidebysidefour}[4]{
 	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
 	#1
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
 	#2
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
 	#3
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
 	#4
 	\end{subfigure}
 }
+
+
+% Listings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
