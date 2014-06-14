@@ -40,10 +40,13 @@
 
 
 % Z character
+\newlength\theight
+\settoheight{\theight}{t}
+
 \newsavebox{\zee}
 \begin{lrbox}{\zee}
 \begin{tikzpicture}%
-\draw (0,0) -- (1ex,0) -- (0, -1ex) -- (1ex, -1ex);%
+\draw (0,0) -- (\theight,0) -- (0, -\theight) -- (\theight, -\theight);%
 \end{tikzpicture}%
 \end{lrbox}
 

@@ -431,11 +431,16 @@ In the case of unstructured neighbour accesses, this is a non-issue: the neighbo
 
 We can represent all the possible different neighbour orderings as one of a fixed set of permutations. In the case of a cell-vertex relation-map, this would imply $4! = 24$ permutations, which can be stored in a mere 5 bits. The permutation of any particular element can be determined by comparing the structured region order with the order as stored in the corresponding relation-map. Figure~\ref{fig:neighbour-orderings} illustrates all the possible neighbour orderings for a cell-vertex relation-map.
 
+\newcommand{\cfamily}{$\mathlarger{\mathlarger\sqsubset}$}
+\newcommand{\zfamily}{\usebox{\zee}}
+\newcommand{\xfamily}{$\mathlarger{\mathlarger{\mathlarger\rtimes}}$}
+
+
 \begin{figure}
 \begin{tikzpicture}
 \drawpermutes{}
 \end{tikzpicture}
-\caption{An enumeration of all possible cell-vertex neighbour ordering. Note the three families of orderings: $\sqsubset$, $\rtimes$, and \usebox{\zee}.}
+\caption{An enumeration of all possible cell-vertex neighbour ordering. Note the three families of orderings: \cfamily{}, \xfamily{}, and \zfamily{}.}
 \label{fig:neighbour-orderings}
 \end{figure}
 
@@ -450,7 +455,7 @@ Approach~\ref{item:store-ordering} does not seem very attractive, as it will inc
 
 If neighbour orderings are uniform within each structured region (either by our construction above, or by a happy coincidence), then we can store each structured region's orientation with its meta-data. When iterating over each structured region in the core-computation, the correct ordering can then be applied.
 
-As a point of interest, notice how the different orderings in figure~\ref{fig:neighbour-orderings} fall into three families: $\sqsubset$, $\mathlarger\rtimes$, and \usebox{\zee}. Within each family, all the different orderings can be obtained through a series of rotations and reflections. If we apply such a series of transformations onto our structured region itself to match a canonical orientation, then we reduce our set of possible orderings to 3, one for each family; in all likelihood, only one family of orderings will be used throughout a mesh.
+As a point of interest, notice how the different orderings in figure~\ref{fig:neighbour-orderings} fall into three families: \cfamily{}, \xfamily{}, and \zfamily{}. Within each family, all the different orderings can be obtained through a series of rotations and reflections. If we apply such a series of transformations onto our structured region itself to match a canonical orientation, then we reduce our set of possible orderings to three, one for each family; in all likelihood, only one family of orderings will be used throughout a mesh.
 % CROSS REFERENCE TO COMPASS IN LOOP
 % We shall revisit this point later when we discuss the core-computation loop stuff.
 
