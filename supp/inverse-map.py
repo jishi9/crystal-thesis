@@ -20,6 +20,7 @@ def mkset(iterable, base):
 	return '\{%s\}' % ','.join('%s_{%d}' % (base, val) for val in iterable)
 
 print '{\\begin{tabular}{|ccc|}'
+print 'cell & $\\mapsto$ & vertices \\\\'
 for c, ns in zip(cells, node_sets):
 	print '$c_{%d}$ & $\\mapsto$ & $%s$ \\\\' % (c, mkset(ns, 'n'))
 print '\\end{tabular}}'
@@ -29,6 +30,7 @@ print '\n\n'
 
 
 print '{\\begin{tabular}{|ccc|}'
+print 'vertex & $\\mapsto$ & cells \\\\'
 for n, cs in n2cs:
 	print '$n_{%d}$ & $\\mapsto$ & $%s$ \\\\' % (n, mkset(cs, 'c'))
 # print ' & '.join(str(n) for n, _ in n2cs), '\\\\'
@@ -40,6 +42,7 @@ print '\n\n'
 
 
 print '{\\begin{tabular}{|ccc|}'
+print 'vertex-set & $\\mapsto$ & cell \\\\'
 for c, ns in zip(cells, node_sets):
 	print '$%s$ & $\\mapsto$ & $c_{%d}$ \\\\' % (mkset(ns, 'n'), c)
 print '\\end{tabular}}'

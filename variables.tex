@@ -35,6 +35,17 @@
 \newcommand{\rctoxy}[3][3=0]{#1*#2 + #3}
 
 
+% Image width for captions
+\newcommand{\imagewidth}{0.8\textwidth}
+
+
+% Z character
+\newsavebox{\zee}
+\begin{lrbox}{\zee}
+\begin{tikzpicture}%
+\draw (0,0) -- (1ex,0) -- (0, -1ex) -- (1ex, -1ex);%
+\end{tikzpicture}%
+\end{lrbox}
 
 % Line that can go anywhere, structured region or outside
 \tikzset{%
@@ -75,6 +86,7 @@
 \input{drawgrid.tikz}
 \input{drawellipsis.tikz}
 \input{drawmatrix.tikz}
+\input{draw-permutes.tikz}
 
 
 
@@ -86,6 +98,28 @@
 	#1
 	\end{subfigure}
 	\begin{subfigure}[b]{0.45\textwidth}
+	\centering
+	#2
+	\end{subfigure}
+}
+
+\newcommand{\sidebysidevcenter}[2]{
+	\begin{subfigure}[c]{0.45\textwidth}
+	\centering
+	#1
+	\end{subfigure}
+	\begin{subfigure}[c]{0.45\textwidth}
+	\centering
+	#2
+	\end{subfigure}
+}
+
+\newcommand{\sidebysidecaptions}[2]{
+	\begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	#1
+	\end{subfigure}\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
 	\centering
 	#2
 	\end{subfigure}
@@ -137,6 +171,18 @@
 	\end{subfigure}
 	\begin{subfigure}[b]{\textwidth}
 	\centering
+	#3
+	\end{subfigure}
+}
+
+\newcommand{\sidebysidethreeverticalnoncenter}[3]{
+	\begin{subfigure}[b]{\textwidth}
+	#1
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
+	#2
+	\end{subfigure}
+	\begin{subfigure}[b]{\textwidth}
 	#3
 	\end{subfigure}
 }

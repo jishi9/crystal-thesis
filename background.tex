@@ -1,5 +1,3 @@
-\newcommand{\imagewidth}{0.8\textwidth}
-
 In this chapter we introduce briefly the main notions required to appreciate this work.
 
 \section{The mathematical mesh model}
@@ -25,7 +23,7 @@ There is a key distinction to make between the geometric and topological propert
 
 Since meshes model a physical reality, the elements of a mesh may be spatially embedded: vertices are associated with points in space, and edges are formed as segments joining their two vertices. This affects \emph{geometric} properties of the mesh, such as its surface area or volume.
 
-On the other hand, the hierarchy of elements described above induces a mesh topology. This describes the connectedness of the mesh, that is to say how elements relate to one another. For instance, we may describe two vertices sharing an edge as \emph{adjacent}, or two cells being \emph{incident} on an edge.
+On the other hand, the hierarchy of elements described above induces a mesh topology. This describes the connectedness of the mesh, that is to say how elements relate to one another. For instance, we may describe two vertices sharing an edge as \emph{adjacent}, or two cells being sharing an edge as being \emph{incident} on that edge.
 \par
 In this work we concern ourselves solely with the topological structure of meshes, treating its geometry as arbitrary data that is associated with its respective elements (the position of a vertex for instance). Figure~\ref{fig:same-topology} illustrates the difference between the two concepts.
 
