@@ -1,3 +1,5 @@
+\label{chap:recharting-maps}
+
 % \newcommand{\imagewidth}{0.8\textwidth}
 
 \section{Defining structured region boundaries}
@@ -121,7 +123,6 @@ We hasten to point out despite the linear complexity of creating and accessing a
 % Listing 1
 \newsavebox{\firstlisting}
 \begin{lrbox}{\firstlisting}
-
 \begin{lstlisting}[language=python]
 for (cell_id, neighbour_cells_ids) in cell2cells:
 	kernel_function(cell_id, neighbour_cells_ids)
@@ -133,8 +134,8 @@ for (cell_id, neighbour_cells_ids) in cell2cells:
 \begin{lrbox}{\secondlisting}
 \begin{lstlisting}[language=python]
 for region in structured_regions:
-	for row in region.internal_structured_rows:
-		for column in region.internal_structured_cols:
+	for row in region.interior_structured_rows:
+		for column in region.interior_structured_cols:
 			# Compute cell ids ... (details omitted)
 			kernel_function(cell_id, neighbour_cells_ids)
 
@@ -328,6 +329,12 @@ The main downside to storing is the missed opportunity to completely exclude int
 \definecolor{red-fringe}{RGB}{255,0,0}
 \definecolor{blue-interior}{RGB}{0,255,255}
 \definecolor{blue-fringe}{RGB}{0,194,194}
+
+\definecolor{vertex-red-interior}{RGB}{244,129,233}
+\definecolor{vertex-red-fringe}{RGB}{131,4,25}
+\definecolor{vertex-blue-interior}{RGB}{39,120,250}
+\definecolor{vertex-blue-fringe}{RGB}{4,72,180}
+
 \newlength{\charheight}
 \settoheight{\charheight}{\hbox{A}}
 
@@ -341,7 +348,7 @@ The main downside to storing is the missed opportunity to completely exclude int
 	\small
 	\tabcolsep=0.32mm
 	\include{supp/dat1}
-	\caption{The cell storage layout in memory due to the original cell numbering. The numbers indicate cell ids, and the colours correspond to the mesh diagram above.}
+	\caption{The cell storage layout in memory due to the original cell numbering. The numbers (indicating cell ids), and the colours correspond to the mesh diagram above.}
 }
 \caption{The original cell numbering. The boundaries shown are with respect to a \emph{cell-cell} relation-map.}
 \label{fig:original-numbering}
@@ -358,7 +365,7 @@ The main downside to storing is the missed opportunity to completely exclude int
 	\small
 	\tabcolsep=0.32mm
 	\include{supp/dat2}
-	\caption{The cell storage layout in memory due to the Crystal cell numbering. The numbers indicate cell ids, and the colours correspond to the mesh diagram above.}
+	\caption{The cell storage layout in memory due to the Crystal cell numbering. The numbers (indicating cell ids) and the colours correspond to the mesh diagram above.}
 }
 \caption{Crystal cell numbering. The boundaries shown are with respect to a \emph{cell-cell} relation-map.}
 \label{fig:renumbering}
@@ -420,9 +427,10 @@ We choose to handle missing elements by extracting a structured sub-rectangle. T
 
 
 \section{Ensuring neighbour ordering}
-When iterating over a mesh entity set, such as the set of cells, we collect the needed indexing variables via a relation-map, for example vertices using a cell-vertex relation map. Recall the following the specification of kernel functions in subsection~\ref{subsec:given-kernel-function}:
+\label{sec:neighbour-ordering-intro}
+When iterating over a mesh entity set, such as the set of cells, we collect the needed indexing variables via a relation-map, for example vertices using a cell-vertex relation map. Recall the following specification of kernel functions in subsection~\ref{subsec:given-kernel-function}:
 \begin{quote}
-The indexing variables \ldots are passed to the kernel in some known order, typically in the order stored in the relation-map.
+The indexing variables \ldots{} are passed to the kernel in some known order, typically in the order stored in the relation-map.
 \end{quote}
 
 In the case of unstructured neighbour accesses, this is a non-issue: the neighbours are stored in some explicit ordering in the relation-map (as part of the given mesh specification). In the case of structured neighboured accesses, however, the neighbours are derived in some order which is independent from the one defined by the relation-map. Figure~\ref{fig:kernel-orderings} characterizes some examples of kernel functions where not respecting the order can be a problem.
@@ -445,18 +453,18 @@ We can represent all the possible different neighbour orderings as one of a fixe
 
 If neighbour orderings are different \emph{within} a structured region, we have to take one of the following approaches:
 \begin{enumerate}
-\item \label{item:store-ordering} Store information about the ordering with each element
+\item \label{item:store-ordering} Store information about the ordering with each element.
 \item \label{item:remove-unordered} Remove some elements from the structured region so as to maintain a uniform ordering within the structured region.This can be done in lieu of the discussion in section~\ref{sec:missing-elements} regarding the handling missing elements.
 \end{enumerate}
 
 Approach~\ref{item:store-ordering} does not seem very attractive, as it will incur both storage costs per element, and is likely to be expensive when executed in the core-computation. We follow approach~\ref{item:remove-unordered} and, as with our handling of missing elements, we extract a uniformly-ordered sub-rectangle from the structured region.
 
 
-If neighbour orderings are uniform within each structured region (either by our construction above, or by a happy coincidence), then we can store each structured region's orientation with its meta-data. When iterating over each structured region in the core-computation, the correct ordering can then be applied.
+If neighbour orderings are uniform within each structured region (either by our construction above, or by a happy coincidence), then we can store each structured region's ordering with its meta-data. When iterating over each structured region in the core-computation, the correct ordering can then be applied.
 
 As a point of interest, notice how the different orderings in figure~\ref{fig:neighbour-orderings} fall into three families: \cfamily{}, \xfamily{}, and \zfamily{}. Within each family, all the different orderings can be obtained through a series of rotations and reflections. If we apply such a series of transformations onto our structured region itself to match a canonical orientation, then we reduce our set of possible orderings to three, one for each family; in all likelihood, only one family of orderings will be used throughout a mesh.
-% CROSS REFERENCE TO COMPASS IN LOOP
-% We shall revisit this point later when we discuss the core-computation loop stuff.
+
+We shall revisit this point later when we discuss the core-computation loop stuff in section~\ref{sec:apply-reordering}.
 
 
 \begin{figure}

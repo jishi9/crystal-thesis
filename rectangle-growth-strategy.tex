@@ -1,3 +1,4 @@
+\label{chap:rectangle-growth}
 This chapter covers the detection of rectangular structured regions.
 
 An abstract discussion of various properties of algorithms is presented, and the desirable traits brought forth by each.
@@ -50,10 +51,10 @@ A \emph{relative structured position} refers to the position of a structured ele
 
 
 
-\section{Properties of detection algorithm}
+\section{Properties of detection algorithms}
 
 \subsection{Eager detection}
-An eager (or greedy) detection algorithm will include every structured element if finds immediately, regardless of the long term consequences. While this strategy may lead to suboptimal results, it avoids backtracking the structure detection which may be prohibitively costly. Figure~\ref{fig:eager-detection} depicts the sub-optimality of eager detection in contrast with non-eager detection.
+An eager (or greedy) detection algorithm will include every structured element it finds immediately, regardless of the long term consequences. While this strategy may lead to suboptimal results, it avoids backtracking the structure detection which may be prohibitively costly. Figure~\ref{fig:eager-detection} depicts the sub-optimality of eager detection in contrast with non-eager detection.
 
 
 \begin{figure}
@@ -90,13 +91,16 @@ An algorithm which exhibits continuous detection always adds a structured elemen
 
 In the case of non-contiguous detection, any non-contiguous blobs need to be consolidated. These blobs may be one of three cases:
 \begin{enumerate}
-\item Disjoint
+\item Disjoint:
+
 These may simply be taken as two separate structured regions.
 
-\item Compatible
+\item Compatible:
+
 The blobs can be merged in a lossless manner to form a single structured region.
 
-\item Incompatible
+\item Incompatible:
+
 The blobs cannot be merged without loss of structure due to inconsistencies between the blobs. It is then necessary to discard some structured elements.
 \end{enumerate}
 
@@ -169,7 +173,7 @@ The structured region is grown in a constant direction, for example a single row
 The structured region is grown in either of two directions, for example a single row of structured elements, appended and prepended to. This can be implemented efficiently using a double-ended queue with amortized constant time append and prepend operations.
 
 \subsubsection{Row-oriented detection}
-The structured region is represented as a group of rows, with the elements in individual rows grown using one of the above methods. The order in which the rows themselves are grown may also be utilize the same methods, with a nested data structure being a suitable implementation. For example, if rows are detected in an append-only fashion, and the individual elements are detected using append and prepend operations, then a suitable data structure would be a singly-linked list of double-ended queues.
+The structured region is represented as a group of rows, with the elements in individual rows grown using one of the above methods. The order in which the rows themselves are grown may also utilize the same methods, with a nested data structure being a suitable implementation. For example, if rows are detected in an append-only fashion, and the individual elements are detected using append and prepend operations, then a suitable data structure would be a singly-linked list of double-ended queues.
 
 \subsubsection{Indeterminate order detection}
 The structured region is grown in a non-linear order: grown elements may not always be contiguous to the structured region thus far. If the growth is indeed non-contiguous, the relative structured positions are \emph{not} always known, and structured elements may need to be repositioned. A possible implementation would be a jagged 2D array, that is an array of arrays, which is expanded as needed. A flat-array-based 2D array would (in the worst case) require reallocating all elements upon expansion, as opposed to reallocating a single row in the case of a jagged 2D array.
@@ -253,7 +257,7 @@ On the other hand if structure detection is non-contiguous, then we may later di
 \item Starting from a seed vertex, grow a quad.
 
 \item The quad is grown along one axis, both forwards and backwards, as far as possible, forming the length of the structured region. This is a per-row append/prepend traversal.
-\item The row grown above is extended along the orthogonal axis, both forwards and backwards, as far as possible. Each expanded row must have the length of the initial row exactly, forming the width of the structure region. This is a row-oriented append/prepend traversal.
+\item The row grown above is extended along the orthogonal axis, both forwards and backwards, as far as possible. Each expanded row must have the length of the initial row exactly, forming the width of the structured region. This is a row-oriented append/prepend traversal.
 \end{enumerate}
 
 The detection is clearly contiguous, with all structured element insertions running in amortized constant time. Only a constant amount of extra storage is required.
