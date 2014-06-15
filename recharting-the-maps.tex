@@ -1,8 +1,7 @@
 % \newcommand{\imagewidth}{0.8\textwidth}
 
 \section{Defining structured region boundaries}
-%% TODO REFERENCE generalized definition
-When running a core-computation over structured data, we would like to ensure that direct neighbour accesses are always within bounds. To this end, we define the concepts of \emph{interior} structured elements and \emph{fringe} structured elements, with respect to a given relation-map.
+When running a core-computation over structured data, we would like to ensure that direct neighbour accesses are always within bounds. To this end, we define the concepts of \emph{interior} structured elements and \emph{fringe} structured elements, with respect to a given relation-map between a set and itself. In subsection~\ref{subsec:generalise-boundaries} we generalise the definition relation-maps between arbitrary sets.
 
 Let $R: S \mapsto S$ be a relation-map on an element set $S$. We assume that $S$ has been partitioned into $k$ structured regions $S_1$ to $S_k$, as well as the remaining unstructured partition $S_0$.
 Let $e \in S_i$ be some structured mesh element in some structured region $S_i$.
@@ -82,6 +81,7 @@ The edge case is an interesting one: the reason that we derive two structured re
 In addition, as with vertex associative data, the associative data for each of the derived structured regions may be laid out in any convenient order; we continue with the same row-major order.
 
 \subsection{Redefining structured region boundaries: the general case}
+\label{subsec:generalise-boundaries}
 Given the above information, we can generalize our definition of interior and fringe structured elements to allow for relation-maps between different element sets.
 
 Let $R: S \mapsto T$ be a relation-map between element sets $S$ and $T$. We assume that $S$ and $T$ have each been partitioned into $k$ mutually \emph{corresponding} structured regions $S_1$ to $S_k$ and $T_1$ to $T_k$, respectively, where each structured region $S_i$ corresponds to structured region $T_i$. Additionally, $S_0$ and $T_0$ represent the unstructured partitions in each of $S$ and $T$\footnote{As per our definition, $S_0$ and $T_0$ cannot be corresponding structured regions, as they are not structured!}.
@@ -296,7 +296,6 @@ These always access (and are accessed by) their neighbours indirectly via relati
 
 Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason that structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writeable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
 
-%% TODO figure with different accesses
 We can enumerate all the possible neighbour access types as follows (see figure~\ref{fig:neighbour-types} for illustrations).
 \begin{enumerate}[label=\alph*)]
 \item Two interior structured elements.
@@ -405,7 +404,7 @@ $c_{11}$ & $\mapsto$ & $\{n_{13},n_{4},n_{16},n_{15}\}$ \\
 \end{tabular}
 \end{subfigure}
 
-\caption{The mesh from figure~\ref{fig:forward-map} with cell 6 missing.}
+\caption{The mesh from figure~\ref{fig:forward-map} with cell 6 missing, alongside its cell-vertex relation-map}
 \label{fig:missing-cell}
 \end{figure}
 

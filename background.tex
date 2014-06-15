@@ -60,13 +60,13 @@ Figure~\ref{fig:non-manifolds} demonstrates examples of non-manifold meshes. In 
 % Non-manifolds
 \begin{figure}
     \sidebysidefour
-    {\includesvg[width=\imagewidth, svgpath=images/background/]{bad-fan}
+    {\includesvg[width=\textwidth, svgpath=images/background/]{bad-fan}
         \caption{Faces incident on a vertex which do not form a continuous fan}}
-    {\includesvg[width=\imagewidth, svgpath=images/background/]{bad-fan2}
+    {\includesvg[width=\textwidth, svgpath=images/background/]{bad-fan2}
         \caption{An extra face that breaks off from the otherwise closed fan}}
-    {\includesvg[width=\imagewidth, svgpath=images/background/]{bad-multi-edge}
+    {\includesvg[width=\textwidth, svgpath=images/background/]{bad-multi-edge}
         \caption{More than two faces incident on a single edge}}
-    {\includesvg[width=\imagewidth, svgpath=images/background/]{bad-no-edge}
+    {\includesvg[width=\textwidth, svgpath=images/background/]{bad-no-edge}
         \caption{An edge with no incident faces}}
 
     \caption{Examples of non-manifold meshes.}
@@ -89,7 +89,7 @@ We describe how a mesh model is manifest at the data structure level. There are 
 In the following sections, the examples shall refer to the mesh depicted in figure~\ref{fig:example-mesh}.
 
 \begin{figure}
-    \includesvg[width=\imagewidth, svgpath=images/background/]{mesh-data-structure}
+    \includesvg[width=\textwidth, svgpath=images/background/]{mesh-data-structure}
     \caption{Example mesh with labelled elements.}
     \label{fig:example-mesh}
 \end{figure}
@@ -105,7 +105,7 @@ Each set represents a certain type of entity in the mesh, such as vertices or ce
 See figure~\ref{fig:entity-sets} for examples.
 
 \begin{figure}
-    \includesvg[width=\imagewidth, svgpath=images/background/]{entity-sets}
+    \includesvg[width=\textwidth, svgpath=images/background/]{entity-sets}
     \caption{The entity sets of the mesh in figure~\ref{fig:example-mesh}. These are (from left to right) the vertices, edges, and cells.}
     \label{fig:entity-sets}
 \end{figure}
@@ -117,7 +117,7 @@ This is the data over which we perform our computations and ultimately care abou
 See figure~\ref{fig:associative-data} for an example.
 
 \begin{figure}
-    \includesvg[width=\imagewidth, svgpath=images/background/]{associative-data}
+    \includesvg[width=\textwidth, svgpath=images/background/]{associative-data}
     \caption{Coordinate data associated with the vertices of the mesh in figure~\ref{fig:example-mesh}.}
     \label{fig:associative-data}
 \end{figure}
@@ -129,7 +129,7 @@ In a general unstructured mesh these relations must be explicitly stored, typica
 See figure~\ref{fig:relation} for an example.
 
 \begin{figure}
-    \includesvg[width=\imagewidth, svgpath=images/background/]{relation}
+    \includesvg[width=\textwidth, svgpath=images/background/]{relation}
     \caption{Inclusion relation from cells to vertices, as depicted in the mesh of figure~\ref{fig:example-mesh}.}
     \label{fig:relation}
 \end{figure}

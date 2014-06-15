@@ -79,7 +79,7 @@ An eager (or greedy) detection algorithm will include every structured element i
 	\drawmatrix[cell wd=0.6, cell ht=0.6]{\noneagermatrix}
 	\caption{A non-eager algorithm could instead decide to ignore the northern cell, yielding a larger structured region.}
 }
-\caption{Eager versus non-eager detection. Black cells and white cells denote unstructured and structured elements, respectively. Red cells denote structured elements detected as forming a rectangular structured region.\label{fig:eager-detection}}
+\caption{Eager versus non-eager detection. The dotted region represents unstructured elements. Blue cells denote structured elements detected as forming a rectangular structured region; white cells denote the remaining structured elements.\label{fig:eager-detection}}
 \end{figure}
 
 
@@ -129,22 +129,22 @@ Examples of the three cases are shown in figure~\ref{fig:non-contiguous-detectio
 	\drawmatrix[cell wd=0.6, cell ht=0.6]{\noncontiguousmatrix}
 	\caption{Non-contiguous detection may add cells which do not border the structured region detected thus far.}
 }
-\caption{Contiguous detection versus non-contiguous detection algorithms. White cells denote structured elements which have not been added to the structured region. Red cells denote structured elements detected thus far.\label{fig:contiguous-detection}}
+\caption{Contiguous detection versus non-contiguous detection algorithms. White cells denote structured elements which have not been added to the structured region. Blue cells denote structured elements detected thus far.\label{fig:contiguous-detection}}
 \end{figure}
 
 % Types of non-contiguous
 \begin{figure}
-\sidebysidethreevertical
+\sidebysidethreeverticaltop
 {
-	\includesvg[svgpath=images/detection-algorithms/,width=60mm]{disjoint-blobs}
+	\includesvg[svgpath=images/detection-algorithms/,width=\imagewidth]{disjoint-blobs}
 	\caption{Disjoint blobs of structured elements.}
 }
 {
-	\includesvg[svgpath=images/detection-algorithms/,width=60mm]{compatible-blobs}
+	\includesvg[svgpath=images/detection-algorithms/,width=\imagewidth]{compatible-blobs}
 	\caption{Compatible blobs of structured elements.}
 }
 {
-	\includesvg[svgpath=images/detection-algorithms/,width=60mm]{incompatible-blobs}
+	\includesvg[svgpath=images/detection-algorithms/,width=\imagewidth]{incompatible-blobs}
 	\caption{Incompatible blobs of structured elements. The two dashed cells are not adjacent in the mesh, but if added as structured element they would have adjacent positions in the structured region.}
 }
 \caption{Cases that may arise with non-contiguous detection.\label{fig:non-contiguous-detection}}
@@ -174,45 +174,75 @@ The structured region is represented as a group of rows, with the elements in in
 \subsubsection{Indeterminate order detection}
 The structured region is grown in a non-linear order: grown elements may not always be contiguous to the structured region thus far. If the growth is indeed non-contiguous, the relative structured positions are \emph{not} always known, and structured elements may need to be repositioned. A possible implementation would be a jagged 2D array, that is an array of arrays, which is expanded as needed. A flat-array-based 2D array would (in the worst case) require reallocating all elements upon expansion, as opposed to reallocating a single row in the case of a jagged 2D array.
 
+Assuming contiguous structure detection, then when adding a new structured element $e_{new}$ the following holds:
+\begin{enumerate*}[label=\alph*)]
+\item we know exactly which existing structured elements must be adjacent to $e_{new}$, and
+\item we only need to check the adjacency between $e_{new}$ and existing structured elements.
+\end{enumerate*}
+On the other hand if structure detection is non-contiguous, then we may later discover that some structured elements are no longer mutually compatible. We thus must check the adjacency between existing structured elements as we add new ones. Figure~\ref{fig:contiguous-comparison}
 
-% Detection traversal patterns
+
 \begin{figure}
-\sidebysidefour
+\pgfplotstableread{
+	1 1 1 2 0
+	1 1 1 2 0
+	1 1 6 2 0
+	1 5 9 0 0
+	1 1 0 0 0
+}{\contiguousmatrix}
+\pgfplotstableread{
+	1 1 1 2 1
+	1 1 1 2 1
+	1 1 6 2 1
+	1 5 9 7 1
+	1 1 0 0 0
+}{\noncontiguousmatrix}
+
+\sidebysidevertical
 {
-	\includesvg[svgpath=images/detection-algorithms/,height=10mm]{append-detection}
-	\caption{Single-row append detection.}
+\drawmatrix[cell wd=0.8, cell ht=0.8]{\contiguousmatrix}
+\caption{Contiguous detection, with $\times$ denoting the currently considered element. We must check that $\times$ is adjacent to both $A$ and $B$, but is not adjacent to any other structured element detected thus far.}
+\label{subfig:contiguous}
 }
 {
-	\includesvg[svgpath=images/detection-algorithms/,height=10mm]{append-prepend-detection}
-	\caption{Single-row append/prepend detection.}
+\drawmatrix[cell wd=0.8, cell ht=0.8]{\noncontiguousmatrix}
+\caption{Non-contiguous detection, with $\times$ denoting the currently considered element, which if added will join two disjoint components. We must check that $\times$ is adjacent to $A$, $B$, and $C$, but not adjacent to any other existing structured element. Furthermore, we must check that the existing structured elements in one component are \emph{not} adjacent to any structured elements in the other component, except through $\times$.}
+\label{subfig:non-contiguous}
 }
-{
-	\includesvg[svgpath=images/detection-algorithms/,height=34mm]{row-oriented}
-	\caption{Row-oriented detection, with rows detected in an append-only fashion, and elements within rows in an append/prepend fashion.}
-}
-{
-	\includesvg[svgpath=images/detection-algorithms/,height=51mm]{indeterminate-detection}
-	\caption{Indeterminate order detection. Note that some possible regions of expansions are not adjacent to the presently detected structured region.}
-}
-\caption{Examples of detection traversal patterns. The red blocks represent presently detected structured regions. The dashed pink blocks represent possible regions for expansion.\label{fig:detection-traversal-patterns}}
+
+\caption{Comparing the costs of contiguous structure detection~\ref{subfig:contiguous} and non-contiguous structure detection~\ref{subfig:non-contiguous}.}
+\label{fig:contiguous-comparison}
 \end{figure}
 
 
+% Detection traversal patterns
+\begin{figure}
+\begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\includesvg[svgpath=images/detection-algorithms/,width=\textwidth]{append-detection}
+	\caption{Single-row append detection.}
+\end{subfigure}
+\begin{subfigure}[t]{0.45\textwidth}
+	\centering
+	\includesvg[svgpath=images/detection-algorithms/,width=\textwidth]{append-prepend-detection}
+	\caption{Single-row append/prepend detection.}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+	\centering
+	\includesvg[svgpath=images/detection-algorithms/,width=0.8\textwidth]{row-oriented}
+	\vspace{4.5mm}
+	\caption{Row-oriented detection, with rows detected in an append-only fashion, and elements within rows in an append/prepend fashion.}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+% \vfill
+	\centering
+	\includesvg[svgpath=images/detection-algorithms/,width=\textwidth]{indeterminate-detection}
+	\caption{Indeterminate order detection. Note that some possible regions of expansions are not adjacent to the presently detected structured region.}
+\end{subfigure}
 
+\caption{Examples of detection traversal patterns. The blue blocks represent presently detected structured regions. The dashed pink blocks represent possible regions for expansion.\label{fig:detection-traversal-patterns}}
+\end{figure}
 
-Consider contiguity in a figure!!!!
-
----------------------
-                    |
-                    |
-          A         |
-        -------------
-     B  | C |
-        |----
-        |
----------
-
-If the the region were to be grown to include include element C, it must be the case that C is adjacent to both A and B, but is not adjacent to any other structured element thus far. Since the structure is always contiguous, we know at every point whether any two structured elements ought to be adjacent.
 
 
 \section{Detection algorithms}

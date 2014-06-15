@@ -38,7 +38,7 @@ Eppstein et al.~\cite{eppstein2008motorcycle} describe a method for partitioning
 
 Whilst the motivations are different, with the emphasis on applications in mesh compression and detecting mesh isomorphisms, the approach may be applicable to the scientific computation domain. Indeed, the authors state this explicitly:
 \begin{quote}
-These techniques may apply to areas beyond graphics such as scientific computation. Code for the finite element method can be greatly streamlined when applied to structured quadrilateral meshes. By partitioning unstructured meshes into structured submeshes, it should be possible to achieve similar speedups for semi-regular meshes.
+These techniques may apply to areas beyond graphics such as scientific computation. Code for the finite element method can be greatly streamlined when applied to structured quadrilateral meshes. By partitioning unstructured meshes into structured sub-meshes, it should be possible to achieve similar speedups for semi-regular meshes.
 \end{quote}
 
 We note, however, that the method makes a stronger assumption about the mesh, in that its ``structure is interrupted by a \emph{small number} of extraordinary vertices that do not have degree four [emphasis added]''.
@@ -55,7 +55,7 @@ Makem et al.~\cite{makem2012automatic} utilise properties of the modelled object
 \section{Structure in parallel computation}
 There is a plethora of work on mesh partitioning optimised for parallel computation. The techniques presented often frame their objectives around these maxims:
 \begin{enumerate}
-\item \label{item:maximize-locality} Maximizing intra-partition locality, thereby minimizing cross-partition communication.
+\item \label{item:maximize-locality} Maximize intra-partition locality, thereby minimizing cross-partition communication.
 \item \label{item:minimize-size} Minimize partition size, subject to it being sufficiently large to counterbalance the communication overheads.
 \item \label{item:maximize-number} The partitions should be balanced and plentiful in number, so as to utilise parallelism.
 ``A parallel computation is often only as efficient as the evenness with which its workload is distributed over the processors in a parallel machine.''

@@ -13,7 +13,7 @@
    id="svg31638"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="neighbour_types.svg">
+   sodipodi:docname="neighbour-types.svg">
   <metadata
      id="metadata33830">
     <rdf:RDF>
@@ -42,13 +42,13 @@
      fit-margin-left="-60"
      fit-margin-right="-60"
      fit-margin-bottom="-25"
-     inkscape:zoom="1.3739938"
-     inkscape:cx="222.45383"
-     inkscape:cy="101.90502"
+     inkscape:zoom="3.8862413"
+     inkscape:cx="264.31972"
+     inkscape:cy="207.2476"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g5375"
+     inkscape:current-layer="g31646"
      borderlayer="true" />
   <title
      id="title31640">fringe-cells</title>
@@ -404,11 +404,6 @@ CreationDate: Thu Jun 12 23:11:12 2014
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1"
-       d="M 403.439,390.819 423.08,357.114"
-       id="polyline32582"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1"
        d="m 516.282,486.261 -51.926,-3.604"
        id="polyline32590"
        inkscape:connector-curvature="0" />
@@ -654,7 +649,7 @@ CreationDate: Thu Jun 12 23:11:12 2014
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1"
-       d="m 677.75,467.872 24.66572,-82.08829"
+       d="M 677.75,467.872 697.52668,366.22754"
        id="polyline32932"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -669,16 +664,6 @@ CreationDate: Thu Jun 12 23:11:12 2014
        id="polyline33002"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1"
-       d="m 701.741,386.233 56.084,30.242"
-       id="polyline33046"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1"
-       d="m 712.62,340.401 -10.879,45.832"
-       id="polyline33050"
-       inkscape:connector-curvature="0" />
     <path
        style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
        d="m 481.66465,400.36409 -17.46732,-0.79893 -2.51437,-21.01801 c -1.3829,-11.5599 -2.21809,-21.31428 -1.85598,-21.67639 0.71107,-0.71107 43.41484,-5.91605 44.06414,-5.37079 0.30784,0.25851 9.06422,48.42799 9.06817,49.8847 10e-4,0.37887 -2.43442,0.29945 -31.29464,-1.02058 z"
@@ -709,12 +694,6 @@ CreationDate: Thu Jun 12 23:11:12 2014
        d="m 568.97874,398.39428 c -2.42152,-7.04462 -10.09551,-54.87721 -8.80963,-54.91114 0.85477,-0.0226 12.03452,-1.58345 24.8439,-3.46866 12.80937,-1.8852 23.49158,-3.24791 23.73824,-3.02824 1.00334,0.89356 20.69121,59.39177 20.16552,59.91745 -0.31274,0.31275 -11.62908,0.90156 -25.14741,1.30847 -13.51834,0.40691 -26.74185,1.00593 -29.38559,1.33115 -2.90282,0.35709 -5.04376,-0.098 -5.40503,-1.14903 z"
        id="path35452"
        inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       style="fill:none;stroke:#000000;stroke-width:1"
-       d="m 661.19209,331.19892 40.79518,55.29347"
-       id="polyline33050-8"
-       sodipodi:nodetypes="cc" />
     <path
        style="fill:#00ffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
        d="m 537.30028,513.64628 c -13.0203,-1.00487 -23.95874,-1.86679 -24.30766,-1.91538 -0.55769,-0.0777 3.85365,-23.87329 4.49925,-24.26978 0.67689,-0.4157 48.16346,3.30296 48.672,3.8115 0.70627,0.70627 -3.82875,24.5488 -4.63038,24.34386 -0.30797,-0.0787 -11.21292,-0.96533 -24.23321,-1.9702 z"

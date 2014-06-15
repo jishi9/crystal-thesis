@@ -1,11 +1,12 @@
 % Based on http://tex.stackexchange.com/questions/123719/drawing-a-large-binary-matrix-as-colored-grid-in-tikz
 
+\definecolor{neighbourstructurecolor}{RGB}{174,190,226}
 \makeatletter
 \tikzset{
     blank color/.initial=white,
     blank color/.get=\zerocol,
     blank color/.store in=\zerocol,
-    detected color/.initial=red,
+    detected color/.initial=neighbourstructurecolor,
     detected color/.get=\onecol,
     detected color/.store in=\onecol,
     blocked color/.initial=black,
@@ -34,10 +35,26 @@
         \draw[draw=gray,very thin,fill=\onecol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
       \fi
       \ifnum\colcnt=2
-        \draw[fill=\twocol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+        \fill[pattern=dots]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
       \fi
       \ifnum\colcnt=3
         \draw[draw=gray,very thin,fill=\threecol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+      \fi
+      \ifnum\colcnt=5
+        \draw[draw=gray,very thin,fill=\onecol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+        \node[rectangle, minimum width=\cellwd, minimum height=\cellht] at ($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) + (\cellwd/2,\cellht/2) $) {A};
+      \fi
+      \ifnum\colcnt=6
+        \draw[draw=gray,very thin,fill=\onecol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+        \node[rectangle, minimum width=\cellwd, minimum height=\cellht] at ($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) + (\cellwd/2,\cellht/2) $) {B};
+      \fi
+      \ifnum\colcnt=7
+        \draw[draw=gray,very thin,fill=\onecol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+        \node[rectangle, minimum width=\cellwd, minimum height=\cellht] at ($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) + (\cellwd/2,\cellht/2) $) {C};
+      \fi
+      \ifnum\colcnt=9
+        \draw[draw=gray,very thin,fill=\zerocol]($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) $) rectangle+(\cellwd,\cellht);
+        \node[rectangle, text=red] at ($ -\pgfplotstablerow*(0,\cellht) + \col*(\cellwd,0) + (\cellwd/2,\cellht/2) $) {$\mathlarger{\mathlarger{\mathlarger{\mathlarger\times}}}$};
       \fi
     }
   }

@@ -1,0 +1,1322 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="348.26797"
+   height="111.97499"
+   viewBox="0 0 348.26798 111.97499"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="non-consistent-direction.svg">
+  <metadata
+     id="metadata4418">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1301"
+     inkscape:window-height="744"
+     id="namedview4416"
+     showgrid="false"
+     inkscape:zoom="1.58"
+     inkscape:cx="189.73304"
+     inkscape:cy="43.186602"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g10"
+     fit-margin-top="-40"
+     fit-margin-left="-60"
+     fit-margin-right="-50"
+     fit-margin-bottom="-150" />
+  <title
+     id="title4">non-consistent-direction</title>
+  <desc
+     id="desc6">
+Creator: GL2PS 1.3.6, (C) 1999-2011 C. Geuzaine
+For: Gmsh
+CreationDate: Sun Jun 15 02:06:44 2014
+</desc>
+  <defs
+     id="defs8">
+    <marker
+       inkscape:stockid="CurveOut"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="CurveOut"
+       style="overflow:visible">
+      <path
+         id="path8364"
+         d="M -5.4129913,-5.0456926 C -2.6529913,-5.0456926 -0.41299131,-2.8056926 -0.41299131,-0.045692580 C -0.41299131,2.7143074 -2.6529913,4.9543074 -5.4129913,4.9543074"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="DotS"
+       style="overflow:visible">
+      <path
+         id="path8244"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.2,0,0,0.2,1.48,0.2)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="DotL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="DotL"
+       style="overflow:visible">
+      <path
+         id="path8238"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,5.92,0.8)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyTriangleOutM"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="EmptyTriangleOutM"
+       style="overflow:visible">
+      <path
+         id="path8340"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.4,0,0,0.4,-1.8,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyTriangleOutL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="EmptyTriangleOutL"
+       style="overflow:visible">
+      <path
+         id="path8337"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,-4.8,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Send"
+       style="overflow:visible">
+      <path
+         id="path8210"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-0.3,0,0,-0.3,0.69,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible">
+      <path
+         id="path8198"
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect7397"
+       is_visible="true" />
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="DotS-6"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path8244-4"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.2,0,0,0.2,1.48,0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyTriangleOutL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="EmptyTriangleOutL-8"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path8337-0"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(0.8,0,0,0.8,-4.8,0)" />
+    </marker>
+  </defs>
+  <g
+     shape-rendering="crispEdges"
+     id="g10"
+     transform="translate(-644.942,-235.487)">
+    <circle
+       cx="987.01398"
+       cy="325.42001"
+       r="2"
+       id="circle402"
+       sodipodi:cx="987.01398"
+       sodipodi:cy="325.42001"
+       sodipodi:rx="2"
+       sodipodi:ry="2"
+       style="fill:#000000"
+       d="m 989.01398,325.42001 c 0,1.10457 -0.89543,2 -2,2 -1.10457,0 -2,-0.89543 -2,-2 0,-1.10457 0.89543,-2 2,-2 1.10457,0 2,0.89543 2,2 z" />
+    <circle
+       cx="951.28198"
+       cy="330.297"
+       r="2"
+       id="circle546"
+       sodipodi:cx="951.28198"
+       sodipodi:cy="330.297"
+       sodipodi:rx="2"
+       sodipodi:ry="2"
+       style="fill:#000000"
+       d="m 953.28198,330.297 c 0,1.10457 -0.89543,2 -2,2 -1.10457,0 -2,-0.89543 -2,-2 0,-1.10457 0.89543,-2 2,-2 1.10457,0 2,0.89543 2,2 z" />
+    <polyline
+       points="1035.62,222.728 1008.58,196.414"
+       id="polyline648"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <circle
+       cx="915.37201"
+       cy="335.883"
+       r="2"
+       id="circle742"
+       sodipodi:cx="915.37201"
+       sodipodi:cy="335.883"
+       sodipodi:rx="2"
+       sodipodi:ry="2"
+       style="fill:#000000"
+       d="m 917.37201,335.883 c 0,1.10457 -0.89543,2 -2,2 -1.10457,0 -2,-0.89543 -2,-2 0,-1.10457 0.89543,-2 2,-2 1.10457,0 2,0.89543 2,2 z" />
+    <polyline
+       points="1035.62,222.728 1012.75,247.804"
+       id="polyline758"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="982.908,225.215 1008.58,196.414"
+       id="polyline780"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="1012.75,247.804 1042.71,263.169"
+       id="polyline836"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="982.908,225.215 1012.75,247.804"
+       id="polyline892"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="951.86,198.795 982.908,225.215"
+       id="polyline918"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <circle
+       cx="879.22803"
+       cy="342.29901"
+       r="2"
+       id="circle952"
+       sodipodi:cx="879.22803"
+       sodipodi:cy="342.29901"
+       sodipodi:rx="2"
+       sodipodi:ry="2"
+       style="fill:#000000"
+       d="m 881.22803,342.29901 c 0,1.10457 -0.89543,2 -2,2 -1.10457,0 -2,-0.89543 -2,-2 0,-1.10457 0.89543,-2 2,-2 1.10457,0 2,0.89543 2,2 z" />
+    <polyline
+       points="988.467,283.531 1012.75,247.804"
+       id="polyline1014"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="960.148,254.179 982.908,225.215"
+       id="polyline1032"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="951.86,198.795 924.083,231.788"
+       id="polyline1072"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="1028.62,291.631 988.467,283.531"
+       id="polyline1078"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="988.467,283.531 960.148,254.179"
+       id="polyline1152"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <circle
+       cx="842.771"
+       cy="349.71399"
+       r="2"
+       id="circle1154"
+       sodipodi:cx="842.771"
+       sodipodi:cy="349.71399"
+       sodipodi:rx="2"
+       sodipodi:ry="2"
+       style="fill:#000000"
+       d="m 844.771,349.71399 c 0,1.10457 -0.89543,2 -2,2 -1.10457,0 -2,-0.89543 -2,-2 0,-1.10457 0.89543,-2 2,-2 1.10457,0 2,0.89543 2,2 z" />
+    <polyline
+       points="924.083,231.788 906.065,199.718"
+       id="polyline1186"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="960.148,254.179 924.083,231.788"
+       id="polyline1188"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="1011.94,322.378 1013.72,322.172"
+       id="polyline1228"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="1010.16,322.586 1011.94,322.378"
+       id="polyline1236"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="945.283,274.812 960.148,254.179"
+       id="polyline1238"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="1008.38,322.795 1010.16,322.586"
+       id="polyline1246"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="1006.61,323.005 1008.38,322.795"
+       id="polyline1252"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="1004.83,323.217 1006.61,323.005"
+       id="polyline1256"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="988.467,283.531 985.651,325.595"
+       id="polyline1260"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="1003.05,323.43 1004.83,323.217"
+       id="polyline1268"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="1020.16,321.435 985.651,325.595"
+       id="polyline1274"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="985.651,325.595 1020.16,321.435"
+       id="polyline1276"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="950.669,297.689 988.467,283.531"
+       id="polyline1280"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="1001.27,323.645 1003.05,323.43"
+       id="polyline1282"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="999.486,323.862 1001.27,323.645"
+       id="polyline1290"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="997.706,324.079 999.486,323.862"
+       id="polyline1298"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="995.925,324.299 997.706,324.079"
+       id="polyline1308"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="994.143,324.52 995.925,324.299"
+       id="polyline1314"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="920.756,272.2 924.083,231.788"
+       id="polyline1316"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="924.083,231.788 881.5,235.86"
+       id="polyline1324"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="992.362,324.742 994.143,324.52"
+       id="polyline1326"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="990.579,324.967 992.362,324.742"
+       id="polyline1332"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="1025.29,340.768 990.851,344.915"
+       id="polyline1342"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="988.797,325.192 990.579,324.967"
+       id="polyline1348"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="987.014,325.42 988.797,325.192"
+       id="polyline1352"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="876.854,197.503 881.5,235.86"
+       id="polyline1354"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="945.283,274.812 950.669,297.689"
+       id="polyline1358"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="985.231,325.65 987.014,325.42"
+       id="polyline1364"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <circle
+       cx="805.87799"
+       cy="358.36801"
+       r="2"
+       id="circle1370"
+       sodipodi:cx="805.87799"
+       sodipodi:cy="358.36801"
+       sodipodi:rx="2"
+       sodipodi:ry="2"
+       style="fill:#000000"
+       d="m 807.87799,358.36801 c 0,1.10457 -0.89543,2 -2,2 -1.10457,0 -2,-0.89543 -2,-2 0,-1.10457 0.89543,-2 2,-2 1.10457,0 2,0.89543 2,2 z" />
+    <polyline
+       points="920.756,272.2 945.283,274.812"
+       id="polyline1374"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="983.446,325.883 985.231,325.65"
+       id="polyline1380"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="981.662,326.118 983.446,325.883"
+       id="polyline1390"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="979.876,326.356 981.662,326.118"
+       id="polyline1398"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="990.851,344.915 985.651,325.595"
+       id="polyline1404"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="978.091,326.596 979.876,326.356"
+       id="polyline1408"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="1029.96,358.343 995.579,362.478"
+       id="polyline1410"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="976.305,326.838 978.091,326.596"
+       id="polyline1414"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="974.518,327.081 976.305,326.838"
+       id="polyline1426"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="972.731,327.327 974.518,327.081"
+       id="polyline1430"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="970.944,327.573 972.731,327.327"
+       id="polyline1436"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="969.157,327.82 970.944,327.573"
+       id="polyline1444"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="985.651,325.595 951.282,330.297"
+       id="polyline1452"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="951.282,330.297 985.651,325.595"
+       id="polyline1454"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="967.369,328.068 969.157,327.82"
+       id="polyline1456"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="995.579,362.478 990.851,344.915"
+       id="polyline1462"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="965.581,328.317 967.369,328.068"
+       id="polyline1466"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="950.669,297.689 951.282,330.297"
+       id="polyline1470"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="963.794,328.566 965.581,328.317"
+       id="polyline1478"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="921.732,303.556 950.669,297.689"
+       id="polyline1480"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="962.006,328.815 963.794,328.566"
+       id="polyline1488"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="920.756,272.2 921.732,303.556"
+       id="polyline1492"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="960.218,329.063 962.006,328.815"
+       id="polyline1500"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="887.574,273.051 920.756,272.2"
+       id="polyline1502"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="958.43,329.312 960.218,329.063"
+       id="polyline1508"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="881.5,235.86 887.574,273.051"
+       id="polyline1510"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="956.643,329.56 958.43,329.312"
+       id="polyline1514"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="999.876,378.444 995.579,362.478"
+       id="polyline1522"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="990.851,344.915 956.55,349.605"
+       id="polyline1526"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="954.856,329.807 956.643,329.56"
+       id="polyline1528"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="881.5,235.86 842.182,239.037"
+       id="polyline1532"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="953.068,330.052 954.856,329.807"
+       id="polyline1534"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="951.282,330.297 953.068,330.052"
+       id="polyline1540"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="842.182,239.037 833.815,195.987"
+       id="polyline1548"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="949.486,330.575 951.282,330.297"
+       id="polyline1552"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="947.692,330.852 949.486,330.575"
+       id="polyline1562"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="945.897,331.127 947.692,330.852"
+       id="polyline1572"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="956.55,349.605 951.282,330.297 956.55,349.605"
+       id="polyline1576"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="944.103,331.401 945.897,331.127"
+       id="polyline1578"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="995.579,362.478 961.339,367.158"
+       id="polyline1580"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <circle
+       cx="768.354"
+       cy="368.62601"
+       r="2"
+       id="circle1586"
+       sodipodi:cx="768.354"
+       sodipodi:cy="368.62601"
+       sodipodi:rx="2"
+       sodipodi:ry="2"
+       style="fill:#000000"
+       d="m 770.354,368.62601 c 0,1.10457 -0.89543,2 -2,2 -1.10457,0 -2,-0.89543 -2,-2 0,-1.10457 0.89543,-2 2,-2 1.10457,0 2,0.89543 2,2 z" />
+    <polyline
+       points="942.31,331.674 944.103,331.401"
+       id="polyline1590"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="940.516,331.947 942.31,331.674"
+       id="polyline1596"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="938.722,332.219 940.516,331.947"
+       id="polyline1604"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="951.282,330.297 925.114,334.31"
+       id="polyline1618"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="925.114,334.31 951.282,330.297"
+       id="polyline1620"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="936.929,332.492 938.722,332.219"
+       id="polyline1624"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="921.732,303.556 925.114,334.31"
+       id="polyline1626"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="935.135,332.764 936.929,332.492"
+       id="polyline1632"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="933.341,333.038 935.135,332.764"
+       id="polyline1640"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="921.732,303.556 891.422,307.261"
+       id="polyline1642"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="961.339,367.158 956.55,349.605 961.339,367.158"
+       id="polyline1644"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="931.547,333.313 933.341,333.038"
+       id="polyline1650"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="887.574,273.051 891.422,307.261"
+       id="polyline1652"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="929.752,333.589 931.547,333.313"
+       id="polyline1660"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="927.957,333.866 929.752,333.589"
+       id="polyline1670"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="852.302,277.125 887.574,273.051"
+       id="polyline1674"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="926.162,334.146 927.957,333.866"
+       id="polyline1678"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="956.55,349.605 930.422,353.613"
+       id="polyline1682"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="924.365,334.428 926.162,334.146"
+       id="polyline1686"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="842.182,239.037 852.302,277.125"
+       id="polyline1696"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="922.568,334.713 924.365,334.428"
+       id="polyline1698"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="965.693,383.114 961.339,367.158 965.693,383.114"
+       id="polyline1702"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="920.771,335 922.568,334.713"
+       id="polyline1706"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="918.972,335.291 920.771,335"
+       id="polyline1714"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="930.422,353.613 925.114,334.31"
+       id="polyline1718"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="917.172,335.585 918.972,335.291"
+       id="polyline1722"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="915.372,335.883 917.172,335.585"
+       id="polyline1732"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="804.726,247.84 842.182,239.037"
+       id="polyline1736"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="961.339,367.158 935.248,371.161"
+       id="polyline1738"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="913.57,336.184 915.372,335.883"
+       id="polyline1744"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="911.768,336.486 913.57,336.184"
+       id="polyline1752"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="909.966,336.791 911.768,336.486"
+       id="polyline1760"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="925.114,334.31 895.854,339.24"
+       id="polyline1764"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="895.854,339.24 925.114,334.31"
+       id="polyline1766"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="908.163,337.097 909.966,336.791"
+       id="polyline1774"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="935.248,371.161 930.422,353.613"
+       id="polyline1778"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="891.422,307.261 895.854,339.24"
+       id="polyline1780"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="906.359,337.405 908.163,337.097"
+       id="polyline1782"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="904.556,337.715 906.359,337.405"
+       id="polyline1788"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="804.726,247.84 777.241,200.327"
+       id="polyline1798"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="902.751,338.028 904.556,337.715"
+       id="polyline1800"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="891.422,307.261 857.952,312.037"
+       id="polyline1808"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="900.946,338.342 902.751,338.028"
+       id="polyline1812"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="899.141,338.658 900.946,338.342"
+       id="polyline1818"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="996.621,496.462 951.282,330.297"
+       style="fill:none;stroke:#000000;stroke-width:2"
+       id="polyline158" />
+    <polyline
+       points="857.952,312.037 852.302,277.125"
+       id="polyline1828"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="930.422,353.613 901.575,358.476"
+       id="polyline1830"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="897.334,338.977 899.141,338.658"
+       id="polyline1834"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="895.527,339.298 897.334,338.977"
+       id="polyline1848"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="893.719,339.621 895.527,339.298"
+       id="polyline1858"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="852.302,277.125 816.693,283.43"
+       id="polyline1860"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="891.911,339.947 893.719,339.621"
+       id="polyline1864"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="890.102,340.275 891.911,339.947"
+       id="polyline1872"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="901.575,358.476 895.854,339.24"
+       id="polyline1880"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="888.292,340.606 890.102,340.275"
+       id="polyline1882"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="886.481,340.939 888.292,340.606"
+       id="polyline1894"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="804.726,247.84 816.693,283.43"
+       id="polyline1900"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="884.669,341.275 886.481,340.939"
+       id="polyline1904"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="882.856,341.614 884.669,341.275"
+       id="polyline1914"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="881.043,341.955 882.856,341.614"
+       id="polyline1922"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="879.228,342.299 881.043,341.955"
+       id="polyline1928"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="895.854,339.24 863.535,345.365"
+       id="polyline1930"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="863.535,345.365 895.854,339.24"
+       id="polyline1934"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="906.775,375.964 901.575,358.476"
+       id="polyline1938"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="777.958,260.624 804.726,247.84"
+       id="polyline1940"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="877.413,342.646 879.228,342.299"
+       id="polyline1944"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="739.83,247.386 777.241,200.327"
+       id="polyline1952"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="875.597,342.995 877.413,342.646"
+       id="polyline1954"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="863.535,345.365 857.952,312.037"
+       id="polyline1958"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="873.781,343.346 875.597,342.995"
+       id="polyline1960"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="871.964,343.699 873.781,343.346"
+       id="polyline1970"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="870.146,344.054 871.964,343.699"
+       id="polyline1978"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="857.952,312.037 823.447,318.355"
+       id="polyline1986"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="868.328,344.412 870.146,344.054"
+       id="polyline1990"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="901.575,358.476 870.041,364.451"
+       id="polyline1994"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="866.509,344.772 868.328,344.412"
+       id="polyline2006"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="864.689,345.134 866.509,344.772"
+       id="polyline2012"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="816.693,283.43 823.447,318.355"
+       id="polyline2020"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="862.868,345.499 864.689,345.134"
+       id="polyline2024"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="861.047,345.867 862.868,345.499"
+       id="polyline2036"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="859.224,346.238 861.047,345.867"
+       id="polyline2042"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="816.693,283.43 782.983,289.191"
+       id="polyline2046"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="870.041,364.451 863.535,345.365"
+       id="polyline2054"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="857.401,346.611 859.224,346.238"
+       id="polyline2056"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="855.576,346.988 857.401,346.611"
+       id="polyline2062"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="853.75,347.367 855.576,346.988"
+       id="polyline2072"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="782.983,289.191 777.958,260.624"
+       id="polyline2082"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="851.924,347.75 853.75,347.367"
+       id="polyline2084"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="739.83,247.386 777.958,260.624"
+       id="polyline2092"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="850.096,348.136 851.924,347.75"
+       id="polyline2096"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="848.267,348.525 850.096,348.136"
+       id="polyline2106"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="875.955,381.802 870.041,364.451"
+       id="polyline2112"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="846.436,348.918 848.267,348.525"
+       id="polyline2118"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="863.535,345.365 828.306,352.956"
+       id="polyline2122"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="828.306,352.956 863.535,345.365"
+       id="polyline2124"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="844.604,349.314 846.436,348.918"
+       id="polyline2128"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="842.771,349.714 844.604,349.314"
+       id="polyline2134"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="840.937,350.117 842.771,349.714"
+       id="polyline2150"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="696.143,206.592 739.83,247.386"
+       id="polyline2152"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="823.447,318.355 828.306,352.956"
+       id="polyline2154"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="839.103,350.522 840.937,350.117"
+       id="polyline2158"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="837.267,350.93 839.103,350.522"
+       id="polyline2170"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="835.431,351.34 837.267,350.93"
+       id="polyline2180"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="870.041,364.451 835.954,371.782"
+       id="polyline2182"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="833.594,351.753 835.431,351.34"
+       id="polyline2190"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="786.702,325.782 823.447,318.355"
+       id="polyline2192"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="831.755,352.169 833.594,351.753"
+       id="polyline2200"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="829.916,352.588 831.755,352.169"
+       id="polyline2210"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="782.983,289.191 786.702,325.782"
+       id="polyline2212"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="828.076,353.009 829.916,352.588"
+       id="polyline2218"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="826.234,353.435 828.076,353.009"
+       id="polyline2232"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="745.536,294.341 782.983,289.191"
+       id="polyline2240"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="824.391,353.863 826.234,353.435"
+       id="polyline2242"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="745.536,294.341 739.83,247.386"
+       id="polyline2244"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="835.954,371.782 828.306,352.956"
+       id="polyline2252"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="822.547,354.296 824.391,353.863"
+       id="polyline2254"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="820.702,354.731 822.547,354.296"
+       id="polyline2264"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="818.855,355.171 820.702,354.731"
+       id="polyline2272"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="817.006,355.615 818.855,355.171"
+       id="polyline2282"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="815.156,356.063 817.006,355.615"
+       id="polyline2290"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="813.304,356.515 815.156,356.063"
+       id="polyline2300"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="663.9,238.048 696.143,206.592"
+       id="polyline2304"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="739.83,247.386 695.917,273.628"
+       id="polyline2306"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="811.45,356.971 813.304,356.515"
+       id="polyline2314"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="809.595,357.432 811.45,356.971"
+       id="polyline2326"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="828.306,352.956 790.488,362.376"
+       id="polyline2330"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="790.488,362.376 828.306,352.956"
+       id="polyline2332"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="807.737,357.897 809.595,357.432"
+       id="polyline2334"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="805.878,358.368 807.737,357.897"
+       id="polyline2344"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="804.017,358.842 805.878,358.368"
+       id="polyline2352"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="790.488,362.376 786.702,325.782"
+       id="polyline2358"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="802.155,359.319 804.017,358.842"
+       id="polyline2364"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="800.293,359.798 802.155,359.319"
+       id="polyline2370"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="798.429,360.281 800.293,359.798"
+       id="polyline2388"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="786.702,325.782 748.387,333.19"
+       id="polyline2392"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="796.564,360.768 798.429,360.281"
+       id="polyline2396"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="717.32,298.762 745.536,294.341"
+       id="polyline2404"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="794.697,361.258 796.564,360.768"
+       id="polyline2410"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="748.387,333.19 745.536,294.341"
+       id="polyline2416"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="792.829,361.752 794.697,361.258"
+       id="polyline2422"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="790.96,362.25 792.829,361.752"
+       id="polyline2432"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="663.9,238.048 629.92,198.239"
+       id="polyline2438"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="789.088,362.752 790.96,362.25"
+       id="polyline2440"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="787.215,363.259 789.088,362.752"
+       id="polyline2452"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="695.917,273.628 663.9,238.048"
+       id="polyline2458"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="799.602,380.796 790.488,362.376"
+       id="polyline2460"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="785.34,363.77 787.215,363.259"
+       id="polyline2464"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="783.462,364.287 785.34,363.77"
+       id="polyline2472"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="717.32,298.762 695.917,273.628"
+       id="polyline2474"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="781.583,364.809 783.462,364.287"
+       id="polyline2482"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="779.701,365.336 781.583,364.809"
+       id="polyline2490"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="777.817,365.869 779.701,365.336"
+       id="polyline2500"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="775.93,366.408 777.817,365.869"
+       id="polyline2510"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="774.04,366.952 775.93,366.408"
+       id="polyline2518"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="772.148,367.504 774.04,366.952"
+       id="polyline2530"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="770.252,368.062 772.148,367.504"
+       id="polyline2538"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="790.488,362.376 750.605,374.087"
+       id="polyline2544"
+       style="fill:none;stroke:#d2d2d2;stroke-width:1" />
+    <polyline
+       points="750.605,374.087 790.488,362.376"
+       id="polyline2546"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="768.354,368.626 770.252,368.062"
+       id="polyline2550"
+       style="fill:none;stroke:#000000;stroke-width:2" />
+    <polyline
+       points="750.605,374.087 748.387,333.19"
+       id="polyline2572"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="629.92,198.239 585.442,229.909"
+       id="polyline2584"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="701.172,336.541 717.32,298.762"
+       id="polyline2592"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="695.917,273.628 664.805,303.98"
+       id="polyline2594"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="627.956,272.287 663.9,238.048"
+       id="polyline2600"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="748.387,333.19 701.172,336.541"
+       id="polyline2606"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="664.805,303.98 701.172,336.541"
+       id="polyline2708"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="664.805,303.98 627.956,272.287"
+       id="polyline2730"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="585.442,229.909 627.956,272.287"
+       id="polyline2738"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="701.172,336.541 709.427,388.692"
+       id="polyline2790"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="664.805,303.98 642.763,330.524"
+       id="polyline2818"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="654.969,363.444 701.172,336.541"
+       id="polyline2850"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="596.986,325.226 627.956,272.287"
+       id="polyline2900"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="654.969,363.444 642.763,330.524"
+       id="polyline2946"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="642.763,330.524 596.986,325.226"
+       id="polyline2980"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="668.021,406.968 654.969,363.444"
+       id="polyline3038"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <polyline
+       points="654.969,363.444 612.957,384.826"
+       id="polyline3096"
+       style="fill:none;stroke:#000000;stroke-width:1" />
+    <path
+       style="fill:none;stroke:#000072;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:12, 6;stroke-dashoffset:0;marker-start:url(#DotS);marker-end:url(#CurveOut)"
+       d="m 965.18977,277.41772 c -72.56061,-49.859 -206.84075,-1.70834 -267.72152,17.40507"
+       id="path8171"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#ff0000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:12, 6;stroke-dashoffset:0;marker-start:url(#DotS);marker-end:url(#CurveOut)"
+       d="M 965.15993,277.19952 C 911.79687,297.85232 741.8237,316.4056 706.29915,312.3261"
+       id="path8171-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <g
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+       id="text11571">
+      <path
+         d="m 977.63283,260.7797 -9.36,25.04 -2.32,0.48 0,1.64 7.84,0 0,-1.64 -2.6,-0.2 -0.4,-0.56 2.84,-7.64 9.44,0 2.88,7.64 -0.28,0.56 -2.48,0.2 0,1.64 9.08,0 0,-1.64 -2.4,-0.48 -9.6,-25.04 -2.64,0 m 0.64,4.2 4.12,11.08 -8.08,0 3.96,-11.08"
+         style=""
+         id="path4095" />
+    </g>
+    <g
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       id="text11571-9">
+      <path
+         d="m 677.37617,314.84091 15.44,0 0,-5.88 -2.04,0 -0.44,3.4 -0.6,0.64 -8.6,0 11.08,-15.88 0,-1.52 -14.44,0 0,5.56 1.88,0 0.44,-3.08 0.56,-0.64 7.4,0 -10.68,15.4 0,2"
+         style="font-variant:normal;font-stretch:normal;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+         id="path4098" />
+    </g>
+  </g>
+</svg>

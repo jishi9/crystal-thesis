@@ -23,10 +23,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="316.59517"
+     inkscape:cx="294.10146"
      inkscape:cy="143.40911"
      inkscape:document-units="px"
-     inkscape:current-layer="g6118"
+     inkscape:current-layer="flowRoot3081"
      showgrid="false"
      inkscape:window-width="1301"
      inkscape:window-height="744"
@@ -88,7 +88,7 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
+     inkscape:label="Shapes"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-27.361105,-212.63034)"
@@ -99,7 +99,7 @@
        inkscape:label="Tetrahedron :x0.00:y10.00:z20.00:x0.00:y0.00:z0.00">
       <g
          id="g8395"
-         transform="translate(0,-5.7299985)">
+         transform="translate(-5.4076375,-5.7299985)">
         <path
            inkscape:connector-curvature="0"
            inkscape:label="Face:2"
@@ -122,84 +122,227 @@
       </g>
       <path
          id="path6122-8"
-         d="M -201.51902,-99.041282 -133.11499,88.89724 -87.24154,-34.2171 -201.51902,-99.041282"
+         d="M -195.80036,-99.041282 -127.39634,88.89724 -81.522885,-34.2171 -195.80036,-99.041282"
          style="fill:#96fff7;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-opacity:1"
          inkscape:label="Face:1"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cccc" />
       <path
          id="path6122-8-7"
-         d="M -31.733067,-99.041283 36.67096,88.897241"
+         d="M -19.178485,-99.041283 49.225542,88.897241"
          style="fill:#008e55;fill-opacity:0.23000004;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-opacity:1"
          inkscape:label="Face:1"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cc" />
       <path
          id="path6122-8-7-7"
-         d="m 110.95852,-31.061481 46.18067,48.537472"
+         d="M 129.83351,-33.081786 163.89235,2.3237029"
          style="fill:#008e55;fill-opacity:0.23000004;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker-start:none;marker-mid:none;marker-end:url(#DotM)"
          inkscape:label="Face:1"
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cc" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Text"
+     style="display:none">
+    <g
+       transform="translate(444.45819,105.04128)"
+       style="display:inline"
+       id="g3015">
       <flowRoot
-         xml:space="preserve"
-         id="flowRoot8126"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         transform="translate(-471.81931,-317.67162)"><flowRegion
-           id="flowRegion8128"><rect
-             id="rect8130"
-             width="154.55334"
-             height="43.436558"
-             x="57.578693"
-             y="426.0676" /></flowRegion><flowPara
-           id="flowPara8132">Poly</flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
+         transform="translate(-483.33464,-317.44179)"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
          id="flowRoot8136"
-         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-         transform="translate(-510.28633,-317.44179)"><flowRegion
+         xml:space="preserve"><flowRegion
            id="flowRegion8138"><rect
-             id="rect8140"
-             width="179.80717"
+             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans"
+             y="440.20975"
+             x="67.680222"
              height="51.517773"
-             x="67.680222"
-             y="440.20975"
-             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+             width="179.80717"
+             id="rect8140" /></flowRegion><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
            id="flowPara8142">Polyhedron</flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
+         transform="translate(-262.53387,-317.44179)"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
          id="flowRoot8136-0"
-         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-         transform="translate(-261.36015,-317.44179)"><flowRegion
+         xml:space="preserve"><flowRegion
            id="flowRegion8138-8"><rect
-             id="rect8140-7"
-             width="279.81226"
-             height="71.720833"
-             x="67.680222"
+             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans"
              y="440.20975"
-             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+             x="67.680222"
+             height="71.720833"
+             width="279.81226"
+             id="rect8140-7" /></flowRegion><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
            id="flowPara8142-7">Polygon</flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
+         transform="translate(-86.984972,-317.44179)"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
          id="flowRoot8136-0-6"
-         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-         transform="translate(-79.024765,-317.44179)"><flowRegion
+         xml:space="preserve"><flowRegion
            id="flowRegion8138-8-4"><rect
-             id="rect8140-7-5"
-             width="279.81226"
-             height="71.720833"
-             x="67.680222"
+             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans"
              y="440.20975"
-             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+             x="67.680222"
+             height="71.720833"
+             width="279.81226"
+             id="rect8140-7-5" /></flowRegion><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
            id="flowPara8142-7-5">Edge</flowPara></flowRoot>      <flowRoot
-         xml:space="preserve"
-         id="flowRoot8136-0-1"
+         transform="translate(36.23415,-314.83242)"
          style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
-         transform="translate(36.23415,-314.83242)"><flowRegion
+         id="flowRoot8136-0-1"
+         xml:space="preserve"><flowRegion
            id="flowRegion8138-8-7"><rect
-             id="rect8140-7-7"
-             width="279.81226"
-             height="71.720833"
-             x="67.680222"
+             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans"
              y="440.20975"
-             style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans" /></flowRegion><flowPara
+             x="67.680222"
+             height="71.720833"
+             width="279.81226"
+             id="rect8140-7-7" /></flowRegion><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
            id="flowPara8142-7-6">Vertex</flowPara></flowRoot>    </g>
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="Text copy"
+     id="g3069"
+     inkscape:groupmode="layer">
+    <g
+       id="g3071"
+       style="display:inline"
+       transform="translate(444.45819,105.04128)">
+      <g
+         transform="translate(-483.33464,-317.44179)"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         id="flowRoot3073">
+        <path
+           d="m 68.7435,472.31875 8.064,0 0,-1.312 -2.272,-0.16 -0.544,-0.448 0,-6.304 c 0.991999,0.096 1.792001,0.16 2.4,0.16 5.151995,0 8.288,-2.784 8.288,-6.88 0,-4.864 -2.752006,-6.528 -8.896,-6.528 l -7.296,0 0,1.28 2.08,0.192 0.544,0.448 0,17.632 -0.544,0.448 -1.824,0.16 0,1.312 m 5.248,-9.76 0,-10.176 c 0.575999,-0.064 1.152001,-0.064 1.664,-0.064 4.095996,0 6.048,1.568 6.048,4.992 0,3.52 -1.952004,5.408 -5.6,5.408 -0.48,0 -1.184001,-0.064 -2.112,-0.16"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3106" />
+        <path
+           d="m 94.1705,456.60675 c -4.319996,0 -7.424,3.232 -7.424,8 0,4.736 3.136004,8 7.424,8 4.287996,0 7.456,-3.264 7.456,-8 0,-4.736 -3.136004,-8 -7.456,-8 m 0,1.376 c 2.591997,0 4.448,2.496 4.448,6.624 0,4.16 -1.856003,6.624 -4.448,6.624 -2.559997,0 -4.416,-2.496 -4.416,-6.624 0,-4.16 1.824003,-6.624 4.416,-6.624"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3108" />
+        <path
+           d="m 103.7085,472.31875 7.488,0 0,-1.152 -1.824,-0.16 -0.576,-0.512 0,-21.728 -1.216,0 -3.904,1.152 0,0.992 2.464,0 0,19.584 -0.544,0.512 -1.888,0.16 0,1.152"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3110" />
+        <path
+           d="m 111.7805,456.92675 0,1.184 1.952,0.192 5.376,13.888 c -0.8,2.272 -1.728,3.872 -2.592,4.8 l -3.072,-1.216 c -0.544,0.512 -0.832,1.088 -0.832,1.728 0,1.056 0.864,1.792 2.208,1.792 2.08,0 3.616,-1.76 5.12,-5.376 l 6.4,-15.552 1.856,-0.256 0,-1.184 -5.696,0 0,1.184 1.728,0.128 0.256,0.512 -4,9.952 -3.84,-9.952 0.384,-0.512 1.696,-0.128 0,-1.184 -6.944,0"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3112" />
+        <path
+           d="m 132.137,448.76675 -3.904,1.152 0,0.992 2.464,0 0,19.584 -0.544,0.512 -1.728,0.16 0,1.152 7.008,0 0,-1.152 -1.504,-0.16 -0.576,-0.512 0,-10.72 c 1.376,-0.704 2.56,-1.056 3.584,-1.056 2.368,0 3.232,0.96 3.232,3.296 l 0,8.48 -0.544,0.512 -1.504,0.16 0,1.152 6.976,0 0,-1.152 -1.696,-0.16 -0.576,-0.512 0,-9.024 c 0,-3.2 -1.504,-4.864 -4.288,-4.864 -1.376,0 -3.04,0.736 -5.184,1.92 l 0,-9.76 -1.216,0"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3114" />
+        <path
+           d="m 160.0235,468.92675 c -1.824,1.216 -3.424,1.856 -5.024,1.856 -3.232,0 -5.376,-2.432 -5.376,-6.528 0,-0.096 0,-0.224 0,-0.352 l 10.368,0 c 0.032,-0.352 0.032,-0.672 0.032,-0.992 0,-3.936 -2.272,-6.304 -5.76,-6.304 -4.288,0 -7.392,3.296 -7.392,8.128 0,4.704 2.912,7.872 7.136,7.872 2.016,0 4.096,-0.64 6.016,-1.92 l 0,-1.76 m -2.848,-6.368 -7.392,0 c 0.192,-2.72 2.016,-4.512 4.064,-4.512 2.144,0 3.328,1.408 3.328,4 0,0.16 0,0.352 0,0.512"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3116" />
+        <path
+           d="m 173.631,450.91075 0,6.016 c -0.992,-0.224 -1.952,-0.352 -2.848,-0.352 -4.864,0 -8.256,3.42401 -8.256,8.544 0,4.48 2.688,7.488 6.176,7.488 1.76,0 3.296,-0.64 4.928,-1.952 l 0,1.664 4.736,0 0,-1.152 -1.536,-0.16 -0.544,-0.512 0,-21.728 -1.216,0 -3.904,1.152 0,0.992 2.464,0 m 0,18.56 c -1.184,0.736 -2.336,1.12 -3.488,1.12 -2.88,0 -4.8,-2.272 -4.8,-6.016 0,-4 2.24,-6.592 5.472,-6.592 0.768,0 1.728,0.192 2.816,0.512 l 0,10.976"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3118" />
+        <path
+           d="m 180.3975,472.31875 7.712,0 0,-1.152 -2.24,-0.16 -0.544,-0.512 0,-9.152 c 1.312,-1.536 2.432,-2.336 3.488,-2.336 0.672,0 1.216,0.256 1.632,0.768 l 1.024,0 0,-2.752 c -0.672,-0.288 -1.28,-0.416 -1.92,-0.416 -0.256,0 -0.544,0 -0.8,0.064 -1.152,0.928 -2.304,1.952 -3.424,3.104 l 0,-3.008 -1.216,0 -3.712,1.152 0,0.992 2.272,0 0,11.584 -0.576,0.512 -1.696,0.16 0,1.152"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3120" />
+        <path
+           d="m 200.2955,456.60675 c -4.32,0 -7.424,3.232 -7.424,8 0,4.736 3.136,8 7.424,8 4.288,0 7.456,-3.264 7.456,-8 0,-4.736 -3.136,-8 -7.456,-8 m 0,1.376 c 2.592,0 4.448,2.496 4.448,6.624 0,4.16 -1.856,6.624 -4.448,6.624 -2.56,0 -4.416,-2.496 -4.416,-6.624 0,-4.16 1.824,-6.624 4.416,-6.624"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3122" />
+        <path
+           d="m 209.8975,472.31875 7.008,0 0,-1.152 -1.536,-0.16 -0.544,-0.512 0,-10.72 c 1.376,-0.704 2.56,-1.056 3.584,-1.056 2.368,0 3.232,0.96 3.232,3.296 l 0,8.48 -0.544,0.512 -1.536,0.16 0,1.152 7.008,0 0,-1.152 -1.728,-0.16 -0.544,-0.512 0,-9.024 c 0,-3.2 -1.536,-4.864 -4.32,-4.864 -1.376,0 -3.008,0.736 -5.152,1.92 l 0,-1.76 -1.216,0 -3.712,1.152 0,0.992 2.272,0 0,11.584 -0.544,0.512 -1.728,0.16 0,1.152"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3124" />
+      </g>
+      <g
+         transform="translate(-262.53387,-317.44179)"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         id="flowRoot3081">
+        <path
+           d="m 68.7435,472.31875 8.064,0 0,-1.312 -2.272,-0.16 -0.544,-0.448 0,-6.304 c 0.991999,0.096 1.792001,0.16 2.4,0.16 5.151995,0 8.288,-2.784 8.288,-6.88 0,-4.864 -2.752006,-6.528 -8.896,-6.528 l -7.296,0 0,1.28 2.08,0.192 0.544,0.448 0,17.632 -0.544,0.448 -1.824,0.16 0,1.312 m 5.248,-9.76 0,-10.176 c 0.575999,-0.064 1.152001,-0.064 1.664,-0.064 4.095996,0 6.048,1.568 6.048,4.992 0,3.52 -1.952004,5.408 -5.6,5.408 -0.48,0 -1.184001,-0.064 -2.112,-0.16"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3127" />
+        <path
+           d="m 94.1705,456.60675 c -4.319996,0 -7.424,3.232 -7.424,8 0,4.736 3.136004,8 7.424,8 4.287996,0 7.456,-3.264 7.456,-8 0,-4.736 -3.136004,-8 -7.456,-8 m 0,1.376 c 2.591997,0 4.448,2.496 4.448,6.624 0,4.16 -1.856003,6.624 -4.448,6.624 -2.559997,0 -4.416,-2.496 -4.416,-6.624 0,-4.16 1.824003,-6.624 4.416,-6.624"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3129" />
+        <path
+           d="m 103.7085,472.31875 7.488,0 0,-1.152 -1.824,-0.16 -0.576,-0.512 0,-21.728 -1.216,0 -3.904,1.152 0,0.992 2.464,0 0,19.584 -0.544,0.512 -1.888,0.16 0,1.152"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3131" />
+        <path
+           d="m 111.7805,456.92675 0,1.184 1.952,0.192 5.376,13.888 c -0.8,2.272 -1.728,3.872 -2.592,4.8 l -3.072,-1.216 c -0.544,0.512 -0.832,1.088 -0.832,1.728 0,1.056 0.864,1.792 2.208,1.792 2.08,0 3.616,-1.76 5.12,-5.376 l 6.4,-15.552 1.856,-0.256 0,-1.184 -5.696,0 0,1.184 1.728,0.128 0.256,0.512 -4,9.952 -3.84,-9.952 0.384,-0.512 1.696,-0.128 0,-1.184 -6.944,0"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3133" />
+        <path
+           d="m 139.433,457.50275 c -1.216,-0.608 -2.4,-0.896 -3.616,-0.896 -3.776,0 -6.208,2.176 -6.208,5.28 0,2.4 1.504,4.288 3.968,4.832 -1.024,1.216 -1.536,2.208 -1.536,3.04 0,0.512 0.128,0.992 0.32,1.44 -2.176,0.384 -3.456,1.92 -3.456,3.968 0,2.56 2.112,4.128 5.792,4.128 2.432,0 4.64,-0.736 6.336,-2.112 1.248,-1.024 1.92,-2.4 1.92,-3.584 0,-2.368 -1.664,-3.36 -5.44,-3.936 l -3.072,-0.48 c -0.032,-0.352 -0.064,-0.608 -0.064,-0.768 0,-0.512 0.128,-0.992 0.352,-1.44 0.192,0 0.384,0 0.544,0 3.712,0 6.112,-2.144 6.112,-4.992 0,-1.12 -0.288,-2.048 -0.896,-2.976 l 3.52,0 0,-1.504 -4.576,0 m -3.936,0.352 c 1.856,0 3.136,1.504 3.136,3.936 0,2.4 -1.28,3.936 -3.136,3.936 -1.856,0 -3.136,-1.536 -3.136,-3.936 0,-2.464 1.28,-3.936 3.136,-3.936 m -1.28,13.504 3.104,0.576 c 2.24,0.416 3.264,0.768 3.264,2.496 0,1.792 -1.92,3.392 -4.768,3.392 -2.624,0 -4.352,-1.472 -4.352,-3.328 0,-1.408 0.992,-2.592 2.752,-3.136"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3135" />
+        <path
+           d="m 152.983,456.60675 c -4.32,0 -7.424,3.232 -7.424,8 0,4.736 3.136,8 7.424,8 4.288,0 7.456,-3.264 7.456,-8 0,-4.736 -3.136,-8 -7.456,-8 m 0,1.376 c 2.592,0 4.448,2.496 4.448,6.624 0,4.16 -1.856,6.624 -4.448,6.624 -2.56,0 -4.416,-2.496 -4.416,-6.624 0,-4.16 1.824,-6.624 4.416,-6.624"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3137" />
+        <path
+           d="m 162.585,472.31875 7.008,0 0,-1.152 -1.536,-0.16 -0.544,-0.512 0,-10.72 c 1.376,-0.704 2.56,-1.056 3.584,-1.056 2.368,0 3.232,0.96 3.232,3.296 l 0,8.48 -0.544,0.512 -1.536,0.16 0,1.152 7.008,0 0,-1.152 -1.728,-0.16 -0.544,-0.512 0,-9.024 c 0,-3.2 -1.536,-4.864 -4.32,-4.864 -1.376,0 -3.008,0.736 -5.152,1.92 l 0,-1.76 -1.216,0 -3.712,1.152 0,0.992 2.272,0 0,11.584 -0.544,0.512 -1.728,0.16 0,1.152"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3139" />
+      </g>
+      <g
+         transform="translate(-86.984972,-317.44179)"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         id="flowRoot3089">
+        <path
+           d="m 68.7435,472.31875 16.48,0 0,-5.216 -1.664,0 -0.544,3.232 -0.448,0.512 -8.576,0 0,-8.96 5.248,0 0.448,0.48 0.32,2.304 1.504,0 0,-7.04 -1.504,0 -0.32,2.336 -0.448,0.448 -5.248,0 0,-8.096 7.392,0 0.448,0.48 0.448,2.72 1.792,0 0,-4.672 -15.328,0 0,1.28 1.824,0.192 0.544,0.448 0,17.632 -0.544,0.448 -1.824,0.16 0,1.312"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3142" />
+        <path
+           d="m 98.381,450.91075 0,6.016 c -0.991999,-0.224 -1.952001,-0.352 -2.848,-0.352 -4.863995,0 -8.256,3.42401 -8.256,8.544 0,4.48 2.688003,7.488 6.176,7.488 1.759998,0 3.296002,-0.64 4.928,-1.952 l 0,1.664 4.736,0 0,-1.152 -1.536,-0.16 -0.544,-0.512 0,-21.728 -1.216,0 -3.904,1.152 0,0.992 2.464,0 m 0,18.56 c -1.183999,0.736 -2.336001,1.12 -3.488,1.12 -2.879997,0 -4.8,-2.272 -4.8,-6.016 0,-4 2.240003,-6.592 5.472,-6.592 0.767999,0 1.728001,0.192 2.816,0.512 l 0,10.976"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3144" />
+        <path
+           d="m 115.9955,457.50275 c -1.216,-0.608 -2.4,-0.896 -3.616,-0.896 -3.776,0 -6.208,2.176 -6.208,5.28 0,2.4 1.504,4.288 3.968,4.832 -1.024,1.216 -1.536,2.208 -1.536,3.04 0,0.512 0.128,0.992 0.32,1.44 -2.176,0.384 -3.456,1.92 -3.456,3.968 0,2.56 2.112,4.128 5.792,4.128 2.432,0 4.64,-0.736 6.336,-2.112 1.248,-1.024 1.92,-2.4 1.92,-3.584 0,-2.368 -1.664,-3.36 -5.44,-3.936 l -3.072,-0.48 c -0.032,-0.352 -0.064,-0.608 -0.064,-0.768 0,-0.512 0.128,-0.992 0.352,-1.44 0.192,0 0.384,0 0.544,0 3.712,0 6.112,-2.144 6.112,-4.992 0,-1.12 -0.288,-2.048 -0.896,-2.976 l 3.52,0 0,-1.504 -4.576,0 m -3.936,0.352 c 1.856,0 3.136,1.504 3.136,3.936 0,2.4 -1.28,3.936 -3.136,3.936 -1.856,0 -3.136,-1.536 -3.136,-3.936 0,-2.464 1.28,-3.936 3.136,-3.936 m -1.28,13.504 3.104,0.576 c 2.24,0.416 3.264,0.768 3.264,2.496 0,1.792 -1.92,3.392 -4.768,3.392 -2.624,0 -4.352,-1.472 -4.352,-3.328 0,-1.408 0.992,-2.592 2.752,-3.136"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3146" />
+        <path
+           d="m 135.2735,468.92675 c -1.824,1.216 -3.424,1.856 -5.024,1.856 -3.232,0 -5.376,-2.432 -5.376,-6.528 0,-0.096 0,-0.224 0,-0.352 l 10.368,0 c 0.032,-0.352 0.032,-0.672 0.032,-0.992 0,-3.936 -2.272,-6.304 -5.76,-6.304 -4.288,0 -7.392,3.296 -7.392,8.128 0,4.704 2.912,7.872 7.136,7.872 2.016,0 4.096,-0.64 6.016,-1.92 l 0,-1.76 m -2.848,-6.368 -7.392,0 c 0.192,-2.72 2.016,-4.512 4.064,-4.512 2.144,0 3.328,1.408 3.328,4 0,0.16 0,0.352 0,0.512"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3148" />
+      </g>
+      <g
+         transform="translate(36.23415,-314.83242)"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+         id="flowRoot3097">
+        <path
+           d="m 66.9515,450.84675 0,1.28 2.048,0.384 7.52,19.968 2.208,0 7.36,-19.968 1.984,-0.384 0,-1.28 -6.368,0 0,1.28 1.984,0.192 0.32,0.448 -5.792,16.128 -6.016,-16.128 0.352,-0.448 1.856,-0.192 0,-1.28 -7.456,0"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3151" />
+        <path
+           d="m 101.7735,468.92675 c -1.823998,1.216 -3.424002,1.856 -5.024,1.856 -3.231997,0 -5.376,-2.432 -5.376,-6.528 0,-0.096 0,-0.224 0,-0.352 l 10.368,0 c 0.032,-0.352 0.032,-0.672 0.032,-0.992 0,-3.936 -2.272003,-6.304 -5.76,-6.304 -4.287996,0 -7.392,3.296 -7.392,8.128 0,4.704 2.912004,7.872 7.136,7.872 2.015998,0 4.096002,-0.64 6.016,-1.92 l 0,-1.76 m -2.848,-6.368 -7.392,0 c 0.192,-2.72 2.016002,-4.512 4.064,-4.512 2.143998,0 3.328,1.408 3.328,4 0,0.16 0,0.352 0,0.512"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3153" />
+        <path
+           d="m 104.085,472.31875 7.712,0 0,-1.152 -2.24,-0.16 -0.544,-0.512 0,-9.152 c 1.312,-1.536 2.432,-2.336 3.488,-2.336 0.672,0 1.216,0.256 1.632,0.768 l 1.024,0 0,-2.752 c -0.672,-0.288 -1.28,-0.416 -1.92,-0.416 -0.256,0 -0.544,0 -0.8,0.064 -1.152,0.928 -2.304,1.952 -3.424,3.104 l 0,-3.008 -1.216,0 -3.712,1.152 0,0.992 2.272,0 0,11.584 -0.576,0.512 -1.696,0.16 0,1.152"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3155" />
+        <path
+           d="m 118.191,458.84675 0,10.336 c 0,2.272 0.672,3.232 3.328,3.232 1.248,0 2.688,-0.224 4.192,-0.704 l 0,-1.184 c -0.736,0.16 -1.472,0.256 -2.208,0.256 -2.24,0 -2.656,-1.056 -2.656,-3.488 l 0,-8.448 4.864,0 0,-1.504 -4.864,0 0,-3.392 -1.184,0 -1.376,2.976 -2.112,0.928 0,0.992 2.016,0"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3157" />
+        <path
+           d="m 140.3985,468.92675 c -1.824,1.216 -3.424,1.856 -5.024,1.856 -3.232,0 -5.376,-2.432 -5.376,-6.528 0,-0.096 0,-0.224 0,-0.352 l 10.368,0 c 0.032,-0.352 0.032,-0.672 0.032,-0.992 0,-3.936 -2.272,-6.304 -5.76,-6.304 -4.288,0 -7.392,3.296 -7.392,8.128 0,4.704 2.912,7.872 7.136,7.872 2.016,0 4.096,-0.64 6.016,-1.92 l 0,-1.76 m -2.848,-6.368 -7.392,0 c 0.192,-2.72 2.016,-4.512 4.064,-4.512 2.144,0 3.328,1.408 3.328,4 0,0.16 0,0.352 0,0.512"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3159" />
+        <path
+           d="m 142.326,456.92675 0,1.184 1.952,0.352 4.288,6.24 -4.608,6.176 -1.824,0.256 0,1.184 6.048,0 0,-1.184 -1.824,-0.224 -0.16,-0.384 3.264,-4.64 2.976,4.768 -0.16,0.256 -1.344,0.224 0,1.184 6.816,0 0,-1.184 -1.92,-0.256 -4.704,-6.848 4.224,-5.6 1.792,-0.32 0,-1.184 -5.76,0 0,1.184 1.536,0.192 0.256,0.416 -2.912,4.096 -2.688,-4.192 0.16,-0.32 1.472,-0.192 0,-1.184 -6.88,0"
+           style="font-family:Bitstream Charter;-inkscape-font-specification:Bitstream Charter"
+           id="path3161" />
+      </g>
+    </g>
   </g>
 </svg>
