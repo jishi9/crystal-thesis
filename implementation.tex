@@ -1,5 +1,5 @@
-In this chapter we discuss the details of our implementation of the detection algorithms discussed in previous chapters, as well as the core-computation for the airfoil computation.
-
+\label{chap:implementation}
+We discuss our implementation of the detection algorithms discussed previously, as well as the core-computation for the airfoil computation.
 
 \section{Pipeline}
 
@@ -117,3 +117,7 @@ The function takes similar arguments to \lstinline|run_structured_cells|, only d
 \section{Airfoil computation}
 % TODO reference
 \texttt{run-airfoil-computation.cc} is a rewrite of the airfoil computation found in OP2~\ref{}. It runs over many iterations, running multiple kernels over cells and edges in each epoch.
+
+
+\section{Chapter summary}
+In this chapter we detailed important aspects of our prototype implementation, including the mesh storage format and third-party libraries used. We described the important function that have been implemented, and crucially the scope of our implementation within our general discussion of structure detection.

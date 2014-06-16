@@ -1,3 +1,6 @@
+\label{chap:detect-quad-grid}
+Taking forth our length-first search algorithm, we expand fill in the details glossed over by our earlier discussion, delineating it into a formal algorithmic specification.
+
 % Initial vertex
 \newcommand{\vinit}{v_{init}}
 
@@ -1040,3 +1043,8 @@ $\begin{bmatrix}
 	\end{bmatrix}$
 \item Set $r_a = n_{i+1,1} \cdots n_{i+1,c}$ and $r_b = n_{i+2,1} \cdots n_{i+2,c}$, and continue from step~\ref{step:reverse_extend_row}.
 \end{enumerate}
+
+\section{Chapter summary}
+In this chapter we refined our sketch of the length-first search algorithm into a more precise form.
+% TODO
+ % Into a precise form more amenable for complexity analysis. We also discuss the algorithmic complexity of the algorithm, and find it to be linear in the number of vertices.

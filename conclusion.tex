@@ -1,0 +1,19 @@
+We have covered in much depth the topic of structure in meshes:
+\begin{itemize}
+\item The meaning of structure and strategies for extracting it.
+\item Exposing the detected structure through the mesh representation.
+\item Best exploiting structure in computation.
+\end{itemize}
+
+\section{Extracting structure}
+% TODO algorithmic complexity of length-first search?
+In chapter~\ref{chap:diving-into-problem} we toy with the idea of structure in meshes. We intuitively derive definitions for structure and corresponding suitable data structures. Building on the insights which we have reached, we discuss in chapter~\ref{chap:rectangle-growth} the abstract properties of structure detection algorithms, and develop sketches of a few such algorithms. In chapter~\ref{chap:detect-quad-grid} we take one of these algorithms, length-first search, and refine its description into a detailed formal algorithmic description.
+
+\section{Exposing structure}
+Having \emph{identified} structured regions , in chapter~\ref{chap:recharting-maps} we discuss methods of renumbering the mesh elements to expose the structure efficiently, and of including auxiliary structure-related meta-data, all while maintaining exactly the topology and geometry of the original mesh. We also discuss detecting structured regions based on the available relation-maps, overlaying structured regions of other mesh elements, and how to best represent them.
+
+\section{Exploiting structure}
+Moving forward in chapter~\ref{chap:exploit-structure} we uncover the final piece of the puzzle. We present how we can \emph{leverage} and exploit the exposed structure in computations by transforming the data accesses passed to the computation kernel.
+
+\section{Trailing off}
+We briefly discuss our implementation in chapter~\ref{chap:implementation}, including details about its general organization, the mesh data format used, as well as the major functions developed. Finally in chapter~\ref{chap:evaluation}, we evaluate our work in terms of the effectiveness of the structure detection itself as well as the performance results it achieved.

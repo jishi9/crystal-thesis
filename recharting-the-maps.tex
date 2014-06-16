@@ -1,4 +1,5 @@
 \label{chap:recharting-maps}
+Having identified the structured regions in the mesh, we discuss how this structure may be \emph{exposed} at the data layout level.
 
 % \newcommand{\imagewidth}{0.8\textwidth}
 
@@ -26,6 +27,7 @@ Figure~\ref{fig:fringe-cells} exemplifies this for structured cell regions.
 With the regions of structured vertices extracted, we would like to lay out the associative vertex data in a convenient order such that the neighbours' data may be accessed directly. Recalling our decision in~\ref{sentence:2d-array}, we choose to detect rectangular structured regions so as to place them in two-dimensional arrays.
 
 % TODO REFERENCE FUTURE WORKS
+% TODO REFERENCE HANA BOOK
 This still leaves us to determine the data layout within a two-dimensional array. We use a row-major order as it enables very simple (cheap) neighbour address calculations; column-major order exhibits the same property and may been used equally. Alternative orderings, as well as the general description of space filling curves are displayed by bruv), and may be worth exploring in future works.
 
 Then given a rectangular structured vertex region $\Structured$ with $m$ rows and $n$ columns, we can represent its associative data in a two-dimensional array $Dat$ in row-major order. Clearly, the associative data of \emph{any} structured vertex $n_{r,c} \in \Structured$ can be accessed by $Dat[r][c]$. Similarly, we can access the associative data of the vertex neighbours of any \emph{interior} structured vertex $n_{r,c} \in \Structured$ by $Dat[r][c+1]$, $Dat[r][c-1]$, $Dat[r+1][c]$, and $Dat[r-1][c]$. Figure~\ref{fig:array-layout} illustrates the data layout and the resultant memory access pattern.
@@ -288,7 +290,7 @@ So far we have only considered neighbour accesses for interior structured elemen
 \begin{itemize}
 \item Fringe structured mesh elements.
 
-These may have both structured and unstructured neighbours (or potentially non-neighbours if the element is at a \emph{mesh} boundary). They are accessed directly via address calculation by their interior structured neighbours, and indirectly via relation-maps by their fringe structured neighbours and their unstructured neighbours (if any).
+These may have both structured and unstructured neighbours (or potentially non-neighbours if the element is at a \emph{mesh} boundary). They are accessed directly via address calculation by their interior structured neighbours, and indirectly via relation-maps by their fringe structured neighbours\footnote{In principle, fringe structured elements can access their fringe neighbours via address calculation so long as they fall within the same structured region. This however, would require a ``mixed neighbour-addressing'' mode for fringe elements, which complicates the addressing logic.} and their unstructured neighbours (if any).
 
 \item Unstructured mesh elements.
 
@@ -297,7 +299,7 @@ These always access (and are accessed by) their neighbours indirectly via relati
 
 Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason that structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writeable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
 
-We can enumerate all the possible neighbour access types as follows (see figure~\ref{fig:neighbour-types} for illustrations).
+We can enumerate all the possible neighbour access types as follows (see figure~\ref{fig:neighbour-types} for illustrations). We later discuss which neighbour access types would be most beneficial to use.
 \begin{enumerate}[label=\alph*)]
 \item Two interior structured elements.
 Both elements must be co-located in the same structured region, and are directly addressable. No further data needs to be stored.
@@ -533,3 +535,6 @@ def slope_kernel(cell_id, v0_id, v1_id, v2_id, v3_id):
 \caption{Examples of kernel functions (applied to cells and their corresponding vertices) with a varying tolerances towards the presented neighbour orderings. The variables \lstinline|xs| and \lstinline|ys| are vertex associative data representing x and y coordinates.\\Note that our aim is to give an intuition as to why ordering may not matter sometimes. The fact that a mesh is really ``ordering tolerant'' hinges on the commutativity and associativity of operations such as addition, for which the latter may not hold for floating point representations.}
 \label{fig:kernel-orderings}
 \end{figure}
+
+\section{Chapter summary}
+In this chapter we discussed tactics for effectively exposing the detected structure of the mesh. This covered methodologies for renumbering the mesh elements, and design decision for the structured regions' the meta-data. We also deliberated techniques for detecting overlaid structured regions and data structures to represent them, and discussed ways to manage the issues associated with overlaid structures.

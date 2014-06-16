@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+\begin{axis}[
+ybar,
+xmode = log,
+bar width=1mm,
+% flexible yticklabels from table={data-naca0021-region-sizes.tsv}{category}{},
+% y tick label style={rotate=45, anchor=north east},
+% ytick=data,
+xlabel = Structured region size,
+ylabel = Average frequency,
+legend pos = south east
+]
+
+
+\addplot [
+fill=blue!80!white,
+% pattern=horizontal lines light blue
+] table [
+y = frequency,
+x = regionsize
+] {data-naca0021-region-sizes.tsv};
+
+
+% \addlegendentry{Baseline run};
+
+\end{axis}
+\end{tikzpicture}

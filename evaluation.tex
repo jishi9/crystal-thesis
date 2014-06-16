@@ -1,3 +1,5 @@
+\label{chap:evaluation}
+
 In this chapter we evaluate various aspects of our work in structure detection.
 We first present a technical evaluation of the algorithm, assessing the quality of its output and runtime performance. We also look at the performance characteristics achieved when incorporating our structure detection into the core-computation workflow.
 
@@ -154,6 +156,23 @@ Various numberings were applied to the (almost) fully structured airfoil mesh, w
 
 \section{Structure detection}
 
+\begin{figure}[h]
+  \centering
+  \input{plot-naca0012-region-sizes}
+\caption{Distribution of structured region sizes in NACA0012}
+\label{fig:plot-naca0012-region-sizes}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \input{plot-naca0021-region-sizes}
+\caption{Distribution of structured region sizes in NACA0021}
+\label{fig:plot-naca0021-region-sizes}
+\end{figure}
+
+Average frequency over 200 trials.
+
+An interesting observation is that there are some gaps in the region sizes even around the high frequency. These gaps correspond to prime numbers, as the number of elements in a non-single-file integral rectangular grid cannot be prime.
 
 \section{Qualitative}
 

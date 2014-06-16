@@ -1,8 +1,7 @@
 It is widely believed that the performance of computations over structured meshes is superior to those over meshes with no inherent structure.
 Unstructured meshes, however, are more ubiquitous in practice, necessitated by the demands of many real world applications.
-To bridge this gap, we present Crystal, a group of algorithms for \emph{extracting} regions of uniform structure in an unstructured mesh and reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation} of the underlying structure.
-To this end, we demonstrate how a compute kernel may be transformed through code generation, and evaluate the performance improvement of a non-linear airfoil lift calculation.
-
+To bridge this gap, we present Crystal, a group of algorithms for \emph{extracting} regions of uniform quadrilateral structure in an unstructured mesh and reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation} of the underlying structure.
+To this end, we demonstrate how a compute kernel may be transformed to leverage the detected structure, and evaluate the performance improvement of a non-linear airfoil lift calculation.
 
 
 \section{Motivation}
@@ -10,20 +9,24 @@ Scientific computing is a large research area touching on various areas in the s
 
 Meshes may be represented using various data structures such as the winged-edge, the half-edge, or the face-based representation. Representations often rely on encoding relationship between elements in some form of explicitly-defined mapping between mesh elements.
 
+\pagebreak
 As an example, below is a mesh representing a Micro CT image of a Berea sandstone \footnote{The Berea-8 mesh was kindly provided by Dr. Gerard Gorman}.
 
 
-{\centering
+\begin{figure}[H]
+\centering
 \includegraphics[width=\imagewidth]{berea-crop.pdf}
-}
+\end{figure}
 
 A close-up image reveals that it is composed of many\footnote{Millions, in fact} of small triangles forming tetrahedra:
 
-{\centering
+\begin{figure}[H]
+\centering
 \includegraphics[width=\imagewidth]{berea-closeup-crop.pdf}
-}
+\end{figure}
 
-
+\pagebreak
+\subsection{Representing non-structure}
 Suppose that we wish to compute the surface area of this mesh. For this two pieces of information are required:
 \begin{itemize}
 \item The position of each vertex in space.
@@ -97,8 +100,8 @@ Notice how adjacent cells access vertices in a random fashion\footnote{Or at lea
 Numerous strategies have been devoted to deal with this problem, notably applying a space filling curve to obtain a more favourable numbering, with closer elements tending to have closer numberings. While the space filling curve most certainly improves cache locality, it does not make use of more obvious structure that may exist. A mesh that is irregular and unstructured on the whole may contain subregions of high regularity and uniform structure, whose regularity/uniformity may be locally exploitable in a more direct manner, for potentially higher performance gains!
 
 
-If on the other hand we look at a fully structured mesh such as this one:
-
+\subsection{Representing structure}
+To contrast, let us consider the following fully structured mesh:
 \begin{figure}[H]
 \centering
 \includesvg[width=\imagewidth, svgpath=images/intro/]{fully-structured}
@@ -115,14 +118,13 @@ As the vertices form a two-dimensional lattice, we can store their coordinates i
 \end{tabular}
 \end{figure}
 
-The cells are now defined implicitly, one between each four vertices forming a quad! We need not explicitly store the mesh connectivity and computations can access the data directly without going through indirections.
-
+The cells are now defined implicitly, one between each four vertices forming a quad. We need not explicitly store the mesh connectivity and computations can access the data directly without going through indirections.
 
 
 
 \section{Contributions}
 
-We present Crystal, a group of algorithms for \emph{extracting} regions of regularity in a mesh, reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation}. The Crystal algorithms are embodied in a working prototype implementation.
+We present Crystal, a group of algorithms for \emph{extracting} regions of regularity in a mesh, reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation}. The Crystal algorithms are also embodied in a working prototype implementation.
 
 We present a summary of our contributions, and discuss them in detail in what follows.
 

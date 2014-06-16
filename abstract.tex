@@ -1,0 +1,10 @@
+\begin{abstract}
+It is widely believed that the performance of computations over structured meshes is superior to those over meshes with no inherent structure.
+Unstructured meshes, however, are more ubiquitous in practice, necessitated by the demands of many real world applications.
+
+Existing methods are typically applied at the mesh generation stage, altering the geometric and topological arrangement of the mesh in order to tease out fragments of structure. Altering the mesh in this way may not always be acceptable, or indeed possible, and it furthermore breaks the abstraction between model and representation.
+
+To bridge this gap, we present Crystal, a group of algorithms for \emph{extracting} regions of uniform quadrilateral structure in an unstructured mesh and reorganizing the mesh \emph{representation} to \emph{expose} said structure in order to enable efficient \emph{exploitation} of the underlying structure, all whilst preserving the mesh model.
+
+To this end, we demonstrate how a loop executing a compute kernel may be transformed to leverage the detected structure, and evaluate the performance improvement of a non-linear airfoil lift calculation.
+\end{abstract}

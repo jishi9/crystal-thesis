@@ -1,4 +1,4 @@
-\documentclass{report}
+\documentclass[titlepage]{report}
 
 
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor} % Before listings
@@ -6,7 +6,11 @@
 \usepackage{amssymb}
 \usepackage[inline]{enumitem} % inline numbering and resume numbering
 \usepackage{etoolbox} % If conditions
-\usepackage{graphicx}
+
+% Title page stuff
+\usepackage[pdftex]{graphicx}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
 \usepackage{listings} % for code
 \usepackage{nth}
 \usepackage{hyperref}
@@ -23,6 +27,14 @@
 \usepackage{floatrow} % center floats
 \usepackage{relsize}
 % \usepackage{arydshln} % Dashed lines in tables
+
+% Make bibliography appear in table of contents
+\usepackage[nottoc,numbib]{tocbibind}
+
+% TOC
+\setcounter{tocdepth}{1}
+
+
 
 % Image directory
 \graphicspath{{images/intro/}}
@@ -51,6 +63,12 @@
 \input{variables}
 
 \begin{document}
+% Title page etc
+\input{title}
+\input{abstract}
+\input{thanks}
+
+\tableofcontents
 
 \chapter{Introduction}
 \input{intro}
@@ -82,6 +100,9 @@
 
 \chapter{Evaluation}
 \input{evaluation}
+
+\chapter{Conclusion}
+\input{conclusion}
 
 \chapter{Future works}
 \input{future-works}
