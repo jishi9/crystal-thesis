@@ -147,7 +147,7 @@ Starting from the initial vertex $\vinit$, call it $n_{1,1}$, we would like to d
 	\end{tikzpicture}
 
 
-	\item $a$ and $b$ have more than two neighbours in common\footnote{note that the set is non-empty by construction}, expressed by:
+	\item $a$ and $b$ have more than two neighbours in common\footnote{Note that the set is non-empty by construction}, expressed by:
 	$$ \card{\AdjVV(a) \cap \AdjVV(b)} > 2$$
 	We cannot form a quad, and hence return immediately with $\Structured = \varnothing$.
 
@@ -202,10 +202,10 @@ The structured region looks as follows thus far.
 
 
 
-%%%% PHASE 2
+%%%% Definition A
 
-%% Phase 2 summary
-\section{Phase 2: Extend a quad}
+%% Definition A summary
+\section{Function definition: Extend a quad}
 Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which must be a valid quad in a structured region, we would like to find two more vertices $n_{1, i+2}$ and $n_{2,i+2}$, such that $Q_{i+1} = \Quad {n_{1,i+1}} {n_{1,i+2}} {n_{2,i+1}} {n_{2,i+2}}$ forms a valid quad in a structured quad region. They must satisfy the following constraints:
 
 \begin{itemize}
@@ -214,7 +214,7 @@ Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which m
 \item Each of the vertices $n_{1, i+2}$ and $n_{2,i+2}$ must \emph{not} neighbour any vertex that has been visited thus far, apart from those vertices explicitly mentioned.
 \end{itemize}
 
-%% Phase 2 diagram
+%% Definition A diagram
 
 \begin{tikzpicture}[scale=1]
 	% Default action for each node
@@ -251,7 +251,7 @@ Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which m
 \end{tikzpicture}
 
 
-%% Phase 2 algorithm
+%% Definition A algorithm
 
 \subsection{Algorithm}
 
@@ -318,14 +318,14 @@ Otherwise add the two vertices to $\Visited$.
 
 
 
-%%%% PHASE 3
+%%%% PHASE 2
 
-\section{Phase 3: Extend a row}
-%% Phase 3.1 summary
+\section{Phase 2: Extend a row}
+%% Phase 2.1 summary
 ``Extend a quad'' is iteratively applied, starting from $Q_1 = \Qinit$, to yield successive quads until it fails.
 The resulting vertices are appended to the \emph{right} of $\Structured$ to form a single quad row in a structured quad region, or equivalently a successive pair of node rows.
 
-%% Phase 3.1 diagram
+%% Phase 2.1 diagram
 \begin{tikzpicture}[scale=1]
 	% Default action for each node
 	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
@@ -387,13 +387,13 @@ The resulting vertices are appended to the \emph{right} of $\Structured$ to form
 
 
 
-%% Phase 3.2 summary
+%% Phase 2.2 summary
 Next, ``Extend a quad'' is again iteratively applied, this time with $Q_1 = \Qinitmirror$, the mirror image of $Q_{init}$ about the y-axis.
 The repeated application yields successive quads until the procedure fails.
 The resulting vertices are appended to the \emph{left} of $\Structured$ to extend the existing quad row, or equivalently a successive pair of node rows.
 
 
-%% Phase 3.2 diagram
+%% Phase 2.2 diagram
 \begin{tikzpicture}[scale=1]
 	% Default action for each node
 	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
@@ -491,7 +491,7 @@ The resulting vertices are appended to the \emph{left} of $\Structured$ to exten
 
 
 
-%% Phase 3 algorithm
+%% Phase 2 algorithm
 
 \subsection{Algorithm}
 
@@ -537,10 +537,10 @@ where $n_{1,c}$ and $n_{2,c}$ denote the rightmost vertices in $\Structured$.
 
 
 
-%%%% PHASE 4
+%%%% Definition B
 
-\section{Phase 4: Extend rows}
-%% Phase 4 summary
+\section{Function definition: Extend rows}
+%% Definition B summary
 We are given a quad row in a structured quad region, that is a pair of successive node rows, call them $r_i$ and $r_{i+1}$.
 The nodes in each row are denoted by $n_{i,1} \cdots n_{i,c}$ and $n_{i+1,1} \cdots n_{i+1,c}$, respectively, where $c >= 3$ is the number of node columns.
 
@@ -554,7 +554,7 @@ We extend this pair of node rows $r_i$ and $r_{i+1}$ by a third node row, $r_{i+
 \end{itemize}
 
 
-%% Phase 4 diagram
+%% Definition B diagram
 \begin{tikzpicture}[scale=1]
 	% Default action for each node
 	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
@@ -627,7 +627,7 @@ We extend this pair of node rows $r_i$ and $r_{i+1}$ by a third node row, $r_{i+
 
 
 
-%% Phase 4 algorithm
+%% Definition B algorithm
 
 \subsection{Algorithm}
 
@@ -914,15 +914,15 @@ that is $\AdjVV(n_{i+2,c}) \cap \Visited = \{ n_{i+2,c-1} , n_{i+1,c} \}$. If th
 
 
 
-%%%% PHASE 5
+%%%% PHASE 3
 
-\section{Phase 5: Extend rows}
-%% Phase 5.1 summary
+\section{Phase 3: Extend rows}
+%% Phase 3.1 summary
 ``Extend a row'' is iteratively applied, starting from $r_1 = n_{1,1} \cdots n_{1,c}$ and $r_2 = n_{2,1} \cdots n_{2,c}$, to yield successive rows until it fails.
 The resulting rows are appended \emph{below} $\Structured$.
 
 
-%% Phase 5.1 diagram
+%% Phase 3.1 diagram
 \begin{tikzpicture}
 	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
 
@@ -952,11 +952,11 @@ The resulting rows are appended \emph{below} $\Structured$.
 
 
 
-%% Phase 5.2 summary
+%% Phase 3.2 summary
 ``Extend a row'' is iteratively applied, starting from the mirror image of the initial rows about the x-axis, that is $r_1 = n_{2,1} \cdots n_{2,c}$ and $r_2 = n_{1,1} \cdots n_{1,c}$, to yield successive rows until it fails.
 The resulting rows are appended \emph{above} $\Structured$.
 
-%% Phase 5.2 diagram
+%% Phase 3.2 diagram
 \begin{tikzpicture}
 	\tikzstyle{every node}=[draw, shape=circle, minimum size=1.3cm];
 
@@ -997,7 +997,7 @@ The resulting rows are appended \emph{above} $\Structured$.
 \end{tikzpicture}
 
 
-%% Phase 5 algorithm
+%% Phase 3 algorithm
 
 \subsection{Algorithm}
 

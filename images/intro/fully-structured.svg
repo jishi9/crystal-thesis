@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="663.5329"
+   height="504.98929"
+   viewBox="0 0 663.5329 504.98929"
+   id="svg5564"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="fully-structured.svg">
+  <metadata
+     id="metadata5900">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1301"
+     inkscape:window-height="744"
+     id="namedview5898"
+     showgrid="false"
+     inkscape:zoom="0.63047184"
+     inkscape:cx="190.73034"
+     inkscape:cy="229.70207"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g5572"
+     fit-margin-top="20"
+     fit-margin-left="20"
+     fit-margin-right="20"
+     fit-margin-bottom="20" />
+  <title
+     id="title5566">inverting-map</title>
+  <desc
+     id="desc5568">
+Creator: GL2PS 1.3.6, (C) 1999-2011 C. Geuzaine
+For: Gmsh
+CreationDate: Sat Jun 14 02:46:14 2014
+</desc>
+  <defs
+     id="defs5570" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Background"
+     transform="translate(-383.22274,-121.76914)"
+     style="display:inline">
+    <g
+       style="display:inline"
+       shape-rendering="crispEdges"
+       id="g5572">
+      <polyline
+         points="538.999,168.263 501.956,276.598 460.554,386.474"
+         id="polyline5710"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="417.002,506.342 460.554,386.474"
+         id="polyline5712"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="538.999,168.263 650.719,184.525"
+         id="polyline5718"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="501.956,276.598 614.859,299.276"
+         id="polyline5724"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="577.253,413.539 460.554,386.474"
+         id="polyline5726"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="542.558,532.971 417.002,506.342"
+         id="polyline5728"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="650.719,184.525 614.859,299.276 577.253,413.539"
+         id="polyline5734"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="577.253,413.539 542.558,532.971"
+         id="polyline5738"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="768.571,201.939 650.719,184.525"
+         id="polyline5742"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="733.055,321.551 614.859,299.276"
+         id="polyline5748"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="577.253,413.539 696.385,434.408"
+         id="polyline5750"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="542.558,532.971 669.57,548.461"
+         id="polyline5754"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="733.055,321.551 768.571,201.939"
+         id="polyline5758"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="696.385,434.408 733.055,321.551"
+         id="polyline5760"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="696.385,434.408 669.57,548.461"
+         id="polyline5764"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="889.643,230.748 768.571,201.939"
+         id="polyline5768"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="733.055,321.551 852.029,346.87"
+         id="polyline5770"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="815.864,456.775 696.385,434.408"
+         id="polyline5776"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="669.57,548.461 784.605,558.727"
+         id="polyline5782"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="889.643,230.748 852.029,346.87"
+         id="polyline5790"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="852.029,346.87 815.864,456.775"
+         id="polyline5794"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="784.605,558.727 815.864,456.775"
+         id="polyline5798"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="889.643,230.748 1006.12,261.319"
+         id="polyline5806"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="852.029,346.87 968.698,376.484"
+         id="polyline5810"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="931.509,486.393 815.864,456.775"
+         id="polyline5812"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="889.574,584.542 784.605,558.727"
+         id="polyline5814"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="968.698,376.484 1006.12,261.319"
+         id="polyline5822"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <polyline
+         points="931.509,486.393 968.698,376.484"
+         id="polyline5826"
+         style="fill:none;stroke:#000000;stroke-width:1" />
+      <path
+         transform="translate(-36.59962,107.97379)"
+         style="fill:none;stroke:#000000;stroke-width:1;display:inline"
+         d="M 925.34047,476.85981 968.698,376.484"
+         id="polyline5826-1"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+    </g>
+  </g>
+</svg>

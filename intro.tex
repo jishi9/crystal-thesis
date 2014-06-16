@@ -1,33 +1,36 @@
 It is widely believed that the performance of computations over structured meshes is superior to those over meshes with no inherent structure.
 Unstructured meshes, however, are more ubiquitous in practice, necessitated by the demands of many real world applications.
 To bridge this gap, we present Crystal, a group of algorithms for \emph{extracting} regions of uniform structure in an unstructured mesh and reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation} of the underlying structure.
-To this end, we demonstrate how a compute kernel may be transformed through code generation, and evaluate the performance improvement  of a nonlinear airfoil lift calculation.
+To this end, we demonstrate how a compute kernel may be transformed through code generation, and evaluate the performance improvement of a non-linear airfoil lift calculation.
 
 
 
 \section{Motivation}
-Scientific computing is a large research branch touching on various areas in the scientific community as well as in various industries. An integral part of it is concerned with algorithms and techniques which operate on a mesh representation of a model, typically modelling physical phenomena such as the motion of fluids. In essence, a mesh is a discretisation of a field that serves as an approximation of the true underlying field, making it amenable to numerical computation methods.
+Scientific computing is a large research area touching on various areas in the scientific community as well as in various industries. An integral part of it is concerned with algorithms and techniques which operate on a mesh representation of a model, typically modelling physical phenomena such as the motion of fluids. In essence, a mesh is a discretisation of a field that serves as an approximation of the true underlying field, making it amenable to numerical computation methods. The meshes are then the target of many numerical computations; evaluating partial differential equations is a classic example, which uses techniques such as the finite-element and finite-volume\footnote{See~\cite{versteeg2007introduction} by Versteeg and Malalasekera for an excellent introduction to computational fluid dynamics and the finite-volume method.} methods, the latter used widely on unstructured meshes.
 
- for example see [Tezduyar Flow simulation and high performance computing...]
-% [Flow simulation and high performance computing, 1996a T. Tezduyar, http://www.tafsm.org/PUB_PRE/jALL/j63-CM96.pdf]
-. See [...]
-% [http://www.sv.vt.edu/classes/MSE2094_NoteBook/97ClassProj/num/widas/history.html]
-for a good introduction on finite element analysis.
+Meshes may be represented using various data structures such as the winged-edge, the half-edge, or the face-based representation. Representations often rely on encoding relationship between elements in some form of explicitly-defined mapping between mesh elements.
+
+As an example, below is a mesh representing a Micro CT image of a Berea sandstone \footnote{The Berea-8 mesh was kindly provided by Dr. Gerard Gorman}.
 
 
-Various methods of representing meshes exist, including X, Y, and Z
-% [http://en.wikipedia.org/wiki/Polygon_mesh#Representations]
-. Representations typically rely on encoding some form of explicitly-defined mapping between mesh elements. This can be represented straightforwardly as a flat array, with the array indices representing elements in the source set, and each value being one or more values representing one or more elements in the destination/target set. We focus our attention to the case where the number of target elements mapped to from each source element is uniform. Such a map is known as a uniform-arity map.
+{\centering
+\includegraphics[width=\imagewidth]{berea-crop.pdf}
+}
 
-Consider for instance a quadrilateral mesh with two element sets \texttt{C} and \texttt{V}, representing the set of cells and vertices, respectively.
-We can include some spatial coordinate data, which associates each vertex $v \in V$ with a coordinate pair $(x_v, y_v)$, representing its position in 2D space.
+A close-up image reveals that it is composed of many\footnote{Millions, in fact} of small triangles forming tetrahedra:
 
-We can then define an adjacency map (of uniform arity 4) from cells to vertices:
+{\centering
+\includegraphics[width=\imagewidth]{berea-closeup-crop.pdf}
+}
 
-$$\texttt{C} \rightarrow \texttt{V}^4$$
 
-Now consider an operation over this mesh, which performs a computation for each cell $c \in C$ as a function of its adjacent nodes $\{n | n \in Map[c]\}$, for instance computing the area of the cell. In particular consider the chain of memory access indirections and the resulting memory access patterns:
+Suppose that we wish to compute the surface area of this mesh. For this two pieces of information are required:
+\begin{itemize}
+\item The position of each vertex in space.
+\item The vertices that form each face; equivalently, the vertex connectivity.
+\end{itemize}
 
+This information may be represented generally with a data structure similar to the following:
 %
 %             |   |             |   |
 %             |   |  /----n3--->|   | -> (x_1, y_1)
@@ -42,19 +45,84 @@ Now consider an operation over this mesh, which performs a computation for each 
 %             |   |             |   |
 %           cell2nodes         node2coordinate
 
-Notice that proximate (or indeed adjacent) nodes in the mesh need not exhibit a uniform memory access pattern. This is detrimental to performance for various reasons:
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+% http://tex.stackexchange.com/questions/60897/arrows-between-two-tables
+\matrix (A) [matrix of nodes,nodes={draw, minimum size=.65cm, text width=2cm,align=center}] at (0,1)
+{
+cell 0\\ cell 1\\ cell 2\\ cell 3\\ cell 4\\ cell 5\\
+};
+
+\matrix (B) [matrix of nodes,nodes={draw, minimum size=.65cm, text width=2cm,align=center}] at (7,1)
+{
+\emph{(-0.5,1)} \\ \emph{(1,-0.5)} \\ \emph{(-1,1)} \\ \emph{(-0.5,-1)} \\ \emph{(0.5,-0.5)} \\ \emph{(0.5,1)} \\ \emph{(0.5,0.5)} \\ \emph{(-1,-0.5)} \\ \emph{(-1,-1)} \\ \emph{(1,0.5)} \\ \emph{(-0.5,0.5)} \\ \emph{(-1,0.5)} \\ \emph{(-0.5,-0.5)} \\
+};
+
+\draw[->, -{Stealth[length=3mm]}] (A-1-1.east) -- (B-7-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-1-1.east) -- (B-10-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-1-1.east) -- (B-5-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-1-1.east) -- (B-2-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-2-1.east) -- (B-11-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-2-1.east) -- (B-7-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-2-1.east) -- (B-13-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-2-1.east) -- (B-5-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-3-1.east) -- (B-1-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-3-1.east) -- (B-6-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-3-1.east) -- (B-11-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-3-1.east) -- (B-7-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-4-1.east) -- (B-8-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-4-1.east) -- (B-13-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-4-1.east) -- (B-9-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-4-1.east) -- (B-4-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-5-1.east) -- (B-3-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-5-1.east) -- (B-1-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-5-1.east) -- (B-12-1.west);
+\draw[->, -{Stealth[length=3mm]}] (A-5-1.east) -- (B-11-1.west);
+
+\node (C) [below=.25cm of A]{Cells};
+\node (C) [below=.25cm of B]{Vertex coordinates};
+\end{tikzpicture}
+\end{figure}
+
+
+Notice how adjacent cells access vertices in a random fashion\footnote{Or at least random looking. The point is that there is clearly no structure.}. This is detrimental to performance for various reasons:
+
 \begin{enumerate}
-\item They do not exhibit spatial locality, a property which most modern CPU caches bank on to attain higher performance in IO bound applications, which may manifest through decisions regarding cache replacement strategies or data pre-fetching.
+\item They exhibit weak spatial locality, a property which most modern CPU caches bank on to attain higher performance in IO bound applications, which may manifest through decisions regarding cache replacement strategies or data pre-fetching.
 \item The indirection maps compete with valuable data for memory access as well as memory storage, both resulting in degraded cache performance.
 \item Looking up addresses, as opposed to computing them directly, will typically prohibit or limit the scope of compiler-performed optimizations, not least vectorizations.
 \end{enumerate}
 
-Numerous strategies have been devoted to deal with this problem, notably applying a space filling curve to obtain a more favourable numbering, with closer elements tending to have closer numberings. While the space filling curve most certainly improves cache locality, it does not make use more obvious structure that may exist. A mesh that is irregular and unstructured on the whole may contain subregions of high regularity and uniform structure, whose regularity/uniformity may be locally exploitable in a more direct manner, for potentially higher performance gains!
+Numerous strategies have been devoted to deal with this problem, notably applying a space filling curve to obtain a more favourable numbering, with closer elements tending to have closer numberings. While the space filling curve most certainly improves cache locality, it does not make use of more obvious structure that may exist. A mesh that is irregular and unstructured on the whole may contain subregions of high regularity and uniform structure, whose regularity/uniformity may be locally exploitable in a more direct manner, for potentially higher performance gains!
+
+
+If on the other hand we look at a fully structured mesh such as this one:
+
+\begin{figure}[H]
+\centering
+\includesvg[width=\imagewidth, svgpath=images/intro/]{fully-structured}
+\end{figure}
+
+As the vertices form a two-dimensional lattice, we can store their coordinates in a two-dimensional array such as the following:
+\begin{figure}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+(2.0,8.9) & (3.9,8.4) & (5.9,7.9) & (7.9,7.4) & (9.9,6.9) \\
+(1.4,6.8) & (3.3,6.4) & (5.3,6.0) & (7.3,5.5) & (5.3,4.9) \\
+(0.7,4.9) & (2.7,4.5) & (4.7,4.1) & (6.7,3.6) & (4.6,3.1) \\
+(0.0,2.9) & (2.1,2.6) & (4.2,2.4) & (6.2,2.0) & (8.2,2.5) \\
+\end{tabular}
+\end{figure}
+
+The cells are now defined implicitly, one between each four vertices forming a quad! We need not explicitly store the mesh connectivity and computations can access the data directly without going through indirections.
+
+
 
 
 \section{Contributions}
 
-We present Crystal, a group of algorithms for \emph{extracting} regions of regularity in a mesh, reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation}.
+We present Crystal, a group of algorithms for \emph{extracting} regions of regularity in a mesh, reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation}. The Crystal algorithms are embodied in a working prototype implementation.
 
 We present a summary of our contributions, and discuss them in detail in what follows.
 
