@@ -1,35 +1,44 @@
 \begin{tikzpicture}
-\begin{axis}[
-xbar,
-flexible yticklabels from table={data-airfoil-numbering.tsv}{category}{},
-y tick label style={rotate=45, anchor=north east},
-ytick=data,
-ylabel = Renumbering applied,
-xlabel = Core-computation runtime (s),
-legend pos = south east
-]
+  \begin{axis}[
+    ybar,
+    width=12cm,
+    % height=3.5cm,
+    enlarge x limits=0.25,
+    xlabel = Renumbering applied,
+	ylabel = Core-computation runtime (s),
+    symbolic x coords={Original,Metis space-filling curve,Random},
+    xtick=data,
+    % nodes near coords, nodes near coords align={horizontal},
+	legend pos = north west,
+    ]
+
+	\addplot [
+	pattern=crosshatch,
+	pattern color=red,
+	] table [
+	symbolic x coords =category,
+	y = baseline
+	] {data-airfoil-numbering.tsv};
+	\addlegendentry{Baseline OP2};
 
 
-\addplot [
-draw=blue,
-pattern=horizontal lines light blue
-] table [
-y expr=\coordindex,
-x = baseline
-] {data-airfoil-numbering.tsv};
+	\addplot [
+	pattern=horizontal lines light blue,
+	] table [
+	symbolic x coords = category,
+	y = mine-unstr
+	] {data-airfoil-numbering.tsv};
+	\addlegendentry{Crystal/ no structure info};
 
 
-\addlegendentry{Baseline run};
+	\addplot [
+	pattern=north east lines,
+	pattern color =green,
+	] table [
+	symbolic x coords = category,
+	y = mine
+	] {data-airfoil-numbering.tsv};
+	\addlegendentry{Crystal/ structure info};
 
-\addplot [
-draw=black,
-pattern=horizontal lines dark blue
-] table [
-y expr=\coordindex,
-x = mine
-] {data-airfoil-numbering.tsv};
-
-\addlegendentry{Crystal run};
-
-\end{axis}
+  \end{axis}
 \end{tikzpicture}

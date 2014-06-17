@@ -6,10 +6,8 @@
     height=5cm,
     % enlarge y limits=0.5,
     xlabel = Structured region size,
-	ylabel = Average frequency,
+	ylabel = {Vertices in structured regions of the given size},
 	xmode = log,
-    % symbolic x coords={Original,Metis space-filling curve,Random},
-    % xtick=data,
     % nodes near coords, nodes near coords align={horizontal},
 	legend pos = north west,
     ]
@@ -21,9 +19,9 @@
 fill=blue!80!white,
 % pattern=horizontal lines light blue
 ] table [
-y = frequency,
+y expr = \thisrow{frequency} * \thisrow{regionsize},
 x = regionsize
-] {data-naca0021-region-sizes.tsv};
+] {data-naca0012-region-sizes.tsv};
 
 
 \end{axis}

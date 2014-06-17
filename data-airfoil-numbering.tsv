@@ -1,7 +1,6 @@
-% Vary mesh numbering: https://docs.google.com/spreadsheets/d/1tyaeTaenPTouxFXEhvMujRSK3KNwU8cgRdvVpxETT88
-% NOTE: **WITHOUT** ignorecompass and ignorecheck
-category	baseline	mine
-{Original}	207.4105069	130.6711133
-{Crystal}	205.8143138	NaN
-{Space-filling curve}	233.6164727	129.8842033
-{Random}	383.0885643	130.5658747
+% Vary mesh numbering: https://docs.google.com/spreadsheets/d/1GRIPy9J8CUmclXl9QwwPDtLA_gxIhKQD5Y3XJh_WdUc/edit#gid=713629961
+% NOTE: **WITHOUT** ignorecompass
+category	baseline	mine	mine-unstr
+{Original}	197.341	100.819	97.271
+{Metis space-filling curve}	229.460	102.450	113.594
+{Random}	380.216	101.923	212.428

@@ -1,13 +1,7 @@
-It is widely believed that the performance of computations over structured meshes is superior to those over meshes with no inherent structure.
-Unstructured meshes, however, are more ubiquitous in practice, necessitated by the demands of many real world applications.
-To bridge this gap, we present Crystal, a group of algorithms for \emph{extracting} regions of uniform quadrilateral structure in an unstructured mesh and reorganizing the mesh to \emph{expose} said structure in order to enable efficient \emph{exploitation} of the underlying structure.
-To this end, we demonstrate how a compute kernel may be transformed to leverage the detected structure, and evaluate the performance improvement of a non-linear airfoil lift calculation.
-
-
 \section{Motivation}
 Scientific computing is a large research area touching on various areas in the scientific community as well as in various industries. An integral part of it is concerned with algorithms and techniques which operate on a mesh representation of a model, typically modelling physical phenomena such as the motion of fluids. In essence, a mesh is a discretisation of a field that serves as an approximation of the true underlying field, making it amenable to numerical computation methods. The meshes are then the target of many numerical computations; evaluating partial differential equations is a classic example, which uses techniques such as the finite-element and finite-volume\footnote{See~\cite{versteeg2007introduction} by Versteeg and Malalasekera for an excellent introduction to computational fluid dynamics and the finite-volume method.} methods, the latter used widely on unstructured meshes.
 
-Meshes may be represented using various data structures such as the winged-edge, the half-edge, or the face-based representation. Representations often rely on encoding relationship between elements in some form of explicitly-defined mapping between mesh elements.
+Meshes may be represented using various data structures such as the winged-edge, the half-edge, or the face-based representation. Representations often rely on encoding relationship between elements in some form of explicitly-defined mapping between mesh elements (chapter~\ref{chap:background}).
 
 \pagebreak
 As an example, below is a mesh representing a Micro CT image of a Berea sandstone \footnote{The Berea-8 mesh was kindly provided by Dr. Gerard Gorman}.
@@ -136,19 +130,18 @@ We present a summary of our contributions, and discuss them in detail in what fo
 
 
 \subsection{Extracting structure}
-We formally define a notion of vertex structure in a mesh, in particular the properties that the vertex-vertex adjacency must exhibit within a structured region.
+We formally define a notion of vertex structure in a mesh, in particular the properties that the vertex-vertex adjacency must exhibit within a structured region. This covers the topics of
 
 
-On this basis, a vertex structure extraction algorithm is devised and implemented. The algorithm traverses a constructed graph whose vertices correspond to the mesh's original vertices, and whose edges represent the vertex-vertex adjacency relation. Each structured region is ``grown'' from a given seed vertex, ensuring with each step that the extracted region is a well-formed structured region.
+On this basis, a vertex structure extraction algorithm is devised and implemented. The algorithm traverses a constructed graph whose vertices correspond to the mesh's original vertices, and whose edges represent the vertex-vertex adjacency relation. Each structured region is ``grown'' from a given seed vertex, ensuring with each step that the extracted region is a well-formed structured region (chapters~\ref{mesh} through~\ref{detect_quad_grid}). The illustration on the title page of this thesis showcase the result of structure detection for our tools.
 
 We also define the notion of a structured region for cells and edges, and develop algorithms for deriving said structure using previously extracted vertex structure.
 
-
 \subsection{Exposing structure}
-We describe how the underlying data storage layout must be reorganised to reflect the extracted structure and facilitate its exploitation. This must take into account elements within the unstructured regions, ensuring that accesses via the modified maps remain consistent with the originals.
+We describe how the underlying data storage layout must be reorganised to reflect the extracted structure and facilitate its exploitation. This must take into account elements within the unstructured regions, ensuring that accesses via the modified maps remain consistent with the originals (chapter~\ref{recharting-the-maps}).
 
 \subsection{Exploiting structure}
-Using the information gathered from the extracted structure, we can transform the data storage layout so as to implicitly represent the adjacency relationships between various mesh elements. This alleviates the need to use indirection maps when running computations over a structured region, substituting them for a small constant amount of meta-data per structured region that is used to define each region's dimensions and orientation. Computations over an unstructured region execute as normal using restructured versions of the original maps and data.
+Using the information gathered from the extracted structure, we can transform the data storage layout so as to implicitly represent the adjacency relationships between various mesh elements. This alleviates the need to use indirection maps when running computations over a structured region, substituting them for a small constant amount of meta-data per structured region that is used to define each region's dimensions and orientation. Computations over an unstructured region execute as normal using restructured versions of the original maps and data (chapter~\ref{exploit-structure}).
 
 This allows us to transform a cell-to-nodes access operation from the following, which uses indirections to access the node data:
 \begin{lstlisting}[language=c++]
@@ -186,7 +179,3 @@ for (int row = 0 ; row < num_rows ; ++row) {
 	}
 }
 \end{lstlisting}
-
-
-\subsection{Unfinished Sentences...}
-In particular, we present and evaluate an implementation for extracting and exposing structure in quadrilateral meshes on various examples, and evaluate a 33\% performance improvement achieved by exploiting the structure on the airfoil computation.

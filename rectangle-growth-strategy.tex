@@ -248,12 +248,13 @@ On the other hand if structure detection is non-contiguous, then we may later di
 \section{Detection algorithms}
 
 \subsection{Length-first search}
+\label{subsec:length-first-search}
 
 \begin{enumerate}
 \item Starting from a seed vertex, grow a quad.
 
 \item The quad is grown along one axis, both forwards and backwards, as far as possible, forming the length of the structured region. This is a per-row append/prepend traversal.
-\item The row grown above is extended along the orthogonal axis, both forwards and backwards, as far as possible. Each expanded row must have the length of the initial row exactly, forming the width of the structured region. This is a row-oriented append/prepend traversal.
+\item \label{step:row-expansion} The row grown above is extended along the orthogonal axis, both forwards and backwards, as far as possible. Each expanded row must have the length of the initial row exactly, forming the width of the structured region. This is a row-oriented append/prepend traversal.
 \end{enumerate}
 
 The detection is clearly contiguous, with all structured element insertions running in amortized constant time. Only a constant amount of extra storage is required.
@@ -265,8 +266,23 @@ The algorithm is also an eager one, deciding the length of the structured region
 \subsection{Descending-staircase search}
 \begin{enumerate}
 \item Follow the same steps as in length-first search, with one exception: in step~\ref{step:row-expansion}, each expanded row may have a length which is at most the length of its predecessor.
-\item Find the rectangle with the maximum area, using an algorithm such as XXXXXX.
+\item Find the rectangle with the maximum area. Daniels et al. discuss in~\cite{daniels1997finding} algorithms for obtaining such a rectangle, which has time complexity $O(\alpha(n))$, where$\alpha(n)$ is the slowly growing Ackermann function.
 \end{enumerate}
+
+The algorithm has the same property of being contiguous, and it runs under the same time and space complexity requirements.
+
+Unlike length-first-search, however, this algorithm is not an eager one, as it defers the decision of selecting which elements belong in the structured region.
+
+
+
+\subsection{Scan-line search}
+This algorithm is identical to descending-staircase search, except that there is no restriction on the length of each expanded row. It has virtually the same properties of descending-staircase search, except:
+\begin{itemize}
+\item The complexity of finding the the rectangle with the maximum area increases to $O(n log^2 n)$.
+\item By constraining its row expansion, descending-staircase search avoids taking long thin routes which are heuristically less likely to lead to a useful structure.
+\end{itemize}
+
+
 
 
 

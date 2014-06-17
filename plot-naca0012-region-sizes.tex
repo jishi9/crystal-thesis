@@ -1,14 +1,17 @@
 \begin{tikzpicture}
-\begin{axis}[
-ybar,
-xmode = log,
-bar width=1mm,
-% flexible yticklabels from table={data-naca0012-region-sizes.tsv}{category}{},
-% y tick label style={rotate=45, anchor=north east},
-% ytick=data,
-xlabel = Structured region size,
-ylabel = Average frequency,
-legend pos = south east
+  \begin{axis}[
+    ybar,
+    bar width=0.5mm,
+    width=12cm,
+    height=5cm,
+    % enlarge y limits=0.5,
+    xlabel = Structured region size,
+	ylabel = Average frequency,
+	xmode = log,
+    % nodes near coords, nodes near coords align={horizontal},
+	legend pos = north west,
+    ]
+ pos = south east
 ]
 
 
@@ -20,8 +23,6 @@ y = frequency,
 x = regionsize
 ] {data-naca0012-region-sizes.tsv};
 
-
-% \addlegendentry{Baseline run};
 
 \end{axis}
 \end{tikzpicture}
