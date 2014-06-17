@@ -292,7 +292,7 @@ These may have both structured and unstructured neighbours (or potentially non-n
 These always access (and are accessed by) their neighbours indirectly via relation-maps.
 \end{itemize}
 
-Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason why structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writeable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
+Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason why structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
 
 We can enumerate all the possible neighbour access types as follows (see figure~\ref{fig:neighbour-types} for illustrations). We later discuss which neighbour access types would be most beneficial to use.
 \begin{enumerate}[label=\alph*)]
@@ -417,7 +417,7 @@ We can handle this problem in a number of different ways, continuing the example
 \item The mesh region is not structured to our satisfaction; the underlying structured vertex region (and any corresponding structured regions, such as a corresponding edge structured region) are dropped.
 \item The underlying vertex structured region is indeed structured, and can be used for accesses that do not involve cells. Only the overlaid structured cell region is dropped.
 \item The cells may be systematically missing near the fringe of the structured region. We can attempt to extract a sub-rectangle which does not contain any missing cells, and simply store the offsets defining that sub-rectangle.
-\item Arbitrarily positioned structured cells may be missing, but a large number may still be structured. We can skip over the missing gaps using a bitmask, similar to the approach discussed in subsection~\ref{subsec:structure-bitmap}.
+\item Arbitrarily positioned structured cells may be missing, but a large number may still be structured. We can skip over the missing gaps using a bit-mask, similar to the approach discussed in subsection~\ref{subsec:structure-bitmap}.
 \end{itemize}
 
 We choose to handle missing elements by extracting a structured sub-rectangle. The approach involves minimum storage overhead, and is inexpensive to apply in both structured detection as well as in executing the core-computation .
@@ -454,7 +454,7 @@ If neighbour orderings are different \emph{within} a structured region, we have 
 \item \label{item:remove-unordered} Remove some elements from the structured region so as to maintain a uniform ordering within the structured region.This can be done in lieu of the discussion in section~\ref{sec:missing-elements} regarding the handling missing elements.
 \end{enumerate}
 
-Approach~\ref{item:store-ordering} does not seem very attractive, as it will incur both storage costs per element, and is likely to be expensive when executed in the core-computation. We follow approach~\ref{item:remove-unordered} and, as with our handling of missing elements, we extract a uniformly-ordered sub-rectangle from the structured region.
+Approach~\ref{item:store-ordering} does not seem very attractive, as it will incur both storage costs per element, and is likely to be expensive when executed in the core-computation. We foll approach~\ref{item:remove-unordered} and, as with our handling of missing elements, we extract a uniformly-ordered sub-rectangle from the structured region.
 
 
 If neighbour orderings are uniform within each structured region (either by our construction above, or by a happy coincidence), then we can store each structured region's ordering with its meta-data. When iterating over each structured region in the core-computation, the correct ordering can then be applied.

@@ -189,7 +189,7 @@ Figure~\ref{fig:plot-naca0021-node-region-sizes} shows the frequency of vertices
 \subsection{Experimental method}
 All experiments are performed on a model HP 800 G1 TWR. The processor is an Intel\textregistered{} Core\texttrademark{} i7-4770 3.40GHz with four physical cores\footnote{Note that the experiments were run serially}, supporting the SSE 4.1/4.2 and  AVX 2.0 instruction sets~\cite{intelprocessor}. The main memory capacity of the machine is 16GB.
 
-The creation of the source mesh, where applicable, is never timed, and Crystal loads and uses the data in-memory as standard arrays. Creation refers to storage of the relevant entity set metadata (number of vertices cells, etc), relation maps, and the associated data (typically spatial coordinates). This non-expensive process involves converting the mesh into a custom data format based on Protocol Buffers~\cite{protocolbuffers} with ZIP compression applied using the Minizip library~\cite{minizip}. Our justification behind this is to offer a simplified programming model for data retrieval, manipulation and storage. To our best knowledge this presents no significant advantage to Crystal, if at all.
+The creation of the source mesh, where applicable, is never timed, and Crystal loads and uses the data in-memory as standard arrays. Creation refers to storage of the relevant entity set meta-data (number of vertices cells, etc), relation maps, and the associated data (typically spatial coordinates). This non-expensive process involves converting the mesh into a custom data format based on Protocol Buffers~\cite{protocolbuffers} with ZIP compression applied using the Minizip library~\cite{minizip}. Our justification behind this is to offer a simplified programming model for data retrieval, manipulation and storage. To our best knowledge this presents no significant advantage to Crystal, if at all.
 
 The Crystal detection code is written in Python and run using the Python interpreter version 2.7.4~\cite{python}.
 
@@ -239,7 +239,7 @@ As a general discussion point, following several investigations into our impleme
 
 
 \section{Detected structure quality}
-It is difficult to produce a single definitive metric with which we can unequivocally define the quality of our detected structure. We can, however, look at properties that are in line with that target, and derive useful metrics by combining them.
+It is difficult to produce a single definitive metric with which we can unequivocally define the quality of our detected structure. We can, however, look at properties that are in line with that target, and derive useful met. We can, however, look at properties that are in line with that target, and derive useful metrics by combining them.
 
 Percentage of mesh elements detected as structured:
 This metric is most useful when we know the maximum value that would be expected or possible.
