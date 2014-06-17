@@ -1,4 +1,4 @@
-This project covered extensive grounds on BLA BLA BLA BLA. With that said, there are plenty of interesting future directions to be pursued, and intriguing tangents to be followed.
+This project covered extensive grounds on the topic identifying and leveraging structured regions in quad meshes. With that said, there are plenty of interesting future directions to be pursued, and intriguing tangents to be followed.
 
 \section{Non-quad meshes}
 In their current state, our algorithms only work on meshes with exclusively quadrilateral faces. Future works may accommodate for quadrilateral-based structure in mixed element-type meshes, for example a combination of quadrilaterals and triangles, is quite straightforward. Extending our work to detect structures composed of a different element-type would be a natural extension of this.
@@ -13,7 +13,6 @@ We only consider a particular kind of structure, a discrete Cartesian space, for
 \section{3D meshes}
 Our work deals with quadrilaterals, typically modelling surfaces of three-dimensional objects. One may ponder whether similar structural properties, and associated benefits, exist for meshes modelling the volumes of three-dimensional objects, in other words meshes composed of three-dimensional elements such as tetrahedra
 
-% TODO cross reference with within-quad pattern
 An interesting direction to investigate is developing a structure detection algorithm which is given a cube with a certain pattern inscribed within it, extending the concept we discussed above to embedding of an arbitrary vertex topology within a cube. A defining question to answer would be whether structure in a tetrahedral mesh can be represented as the tiling of cubes in three-dimensional space.
 
 
@@ -27,11 +26,10 @@ One may wish to go further, incorporating use of geometric information into the 
 Our structure detection algorithm was designed to run in a serial fashion, sequentially choosing random seed points and growing structure from there. Developing a parallel variant of the algorithm is important for scalability, as some meshes may simply be too large to process on a single machine. The discussion on non-contiguous detection and merging structured blobs is a good starting point for this. Particle shooting methods as described in~\cite{eppstein2008motorcycle} and~\cite{eppstein2008approximate} may also be of interest here.
 
 \section{Structure detection for parallel computation}
-As discussed in related works, some of our objectives for efficient exploitation of structure conflicted with those of works such as~\cite{bergen2004hierarchical} and~\cite{li2004hierarchical}, as they were oriented towards exploiting parallelism rather than improving computational runtime. There may indeed be much untapped\footnote{On our part, that is.} potential in parallelism which can be attained by adapting our methods. Even if this were not the case, the sizes of some meshes necessitate parallel computation, as a full mesh become much too large for a single machine to manage.
+As discussed in related works, some of our objectives for efficient exploitation of structure conflicted with those of works such as~\cite{bergen2004hierarchical} and~\cite{li2004hierarchical}, as they were oriented towards exploiting parallelism rather than improving computational runtime. There may indeed be much untapped\footnote{On our part, that is.} potential in parallelism which can be attained by adapting our methods. Even if this were not the case, the sizes of some meshes necessitate parallel computation, as a full mesh becomes much too large for a single machine to manage.
 
 
 \section{Geometry based detection}
-%% TODO CITE BOOK INSTEAD/ALSO with regards to space-filling curves
 We have mentioned at the start that our approach is purely topological, completely ignoring any geometric information. This at odds with some other techniques such as graph partitioning based on space-filling curves~\cite{ridley2010guide}, as well techniques which refine, and hence modify, the mesh geometry~\cite{bergen2004hierarchical}. Samet offers an interesting overview of space-filling curvesin this regard~\cite{samet2006foundations}.
 
 A future pursuit may choose to abandon this separation, exercising a union of geometry and topology as an aid for structure detection. Though applied to specific \emph{geometric} problems, the techniques used by~\cite{rocca2011fast} and~\cite{makem2012automatic} may serve as useful inspiration.

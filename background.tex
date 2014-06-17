@@ -80,10 +80,10 @@ Figure~\ref{fig:non-manifolds} demonstrates examples of non-manifold meshes. In 
 
 \section{The mesh data structure}
 
-We describe how a mesh model is manifest at the data structure level. There are three general component types can be identified:
+We describe how a mesh model is manifest at the data structure level. There are three general component types that can be identified:
 \begin{itemize}
 \item Entity sets
-\item Associative data
+\item Associated data
 \item Relations between two entity sets
 \end{itemize}
 
@@ -112,9 +112,9 @@ See figure~\ref{fig:entity-sets} for examples.
 \end{figure}
 
 
-\subsection{Associative data}
+\subsection{Associated data}
 Arbitrary data which is associated with elements of a particular entity set. For instance, spatial coordinates associated with each vertex. A typical representation is a flat array indexed by element identifier.
-This is the data over which we perform our computations and ultimately care about. Everything else is incidental.
+This is the data over which we perform our computations and ultimately for preserving. Everything else is incidental.
 See figure~\ref{fig:associative-data} for an example.
 
 \begin{figure}
@@ -186,7 +186,7 @@ We are given a tree structure defining which relation maps to use and how to acc
     \end{tikzpicture}
     \caption{
     In this example, we consider a core-computation operating over the edge set, with $e$ being the indexing variable into the edge set.
-    The edge $\rightarrow$ cells map is indexed by $e$ to obtain the the two cells $c_1$ and $c_2$ incident on the edge $e$. The cell $\rightarrow$ vertices map is then indexed by both $c_1$ and $c_2$ to obtain their respective vertices. The key symbol denotes indexing into the map below, using the indexing variable above.
+    The edge $\rightarrow$ cells map is indexed by $e$ to obtain the two cells $c_1$ and $c_2$ incident on the edge $e$. The cell $\rightarrow$ vertices map is then indexed by both $c_1$ and $c_2$ to obtain their respective vertices. The key symbol denotes indexing into the map below, using the indexing variable above.
     }
     \label{fig:relation-tree}
 \end{figure}
@@ -211,7 +211,7 @@ Given all the above, a core-computation is then performed as follows:
 \item For each element iterated over:
     \begin{enumerate}
     \item Gather any indexing variables as defined by the relation-map tree. This may involve indexing variables obtained through a chain of relation-maps.
-    \item Call the kernel function, passing the gathered indexing variables in some known order. The kernel function may access any associative data using these indexing variables.
+    \item Call the kernel function, passing the gathered indexing variables in some known order. The kernel function may access any associated data using these indexing variables.
     \end{enumerate}
 \end{enumerate}
 

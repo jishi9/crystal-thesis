@@ -4,7 +4,7 @@ Having identified the structured regions in the mesh, we discuss how this struct
 % \newcommand{\imagewidth}{0.8\textwidth}
 
 \section{Defining structured region boundaries}
-When running a core-computation over structured data, we would like to ensure that direct neighbour accesses are always within bounds. To this end, we define the concepts of \emph{interior} structured elements and \emph{fringe} structured elements, with respect to a given relation-map between a set and itself. In subsection~\ref{subsec:generalise-boundaries} we generalise the definition relation-maps between arbitrary sets.
+When running a core-computation over structured data, we would like to ensure that direct neighbour accesses are always within bounds. To this end, we define the concepts of \emph{interior} structured elements and \emph{fringe} structured elements, with respect to a given relation-map between a set and itself. In subsection~\ref{subsec:generalise-boundaries} we generalise the definition to encompass relation-maps between arbitrary sets.
 
 Let $R: S \mapsto S$ be a relation-map on an element set $S$. We assume that $S$ has been partitioned into $k$ structured regions $S_1$ to $S_k$, as well as the remaining unstructured partition $S_0$.
 Let $e \in S_i$ be some structured mesh element in some structured region $S_i$.
@@ -24,13 +24,12 @@ Figure~\ref{fig:fringe-cells} exemplifies this for structured cell regions.
 
 \section{Laying out vertices}
 \label{subsec:vertex-associative-data}
-With the regions of structured vertices extracted, we would like to lay out the associative vertex data in a convenient order such that the neighbours' data may be accessed directly. Recalling our decision in~\ref{sentence:2d-array}, we choose to detect rectangular structured regions so as to place them in two-dimensional arrays.
+With the regions of structured vertices extracted, we would like to lay out the associated vertex data in a convenient order such that the neighbours' data may be accessed directly. Recalling our decision in~\ref{sentence:2d-array}, we choose to detect rectangular structured regions so as to place them in two-dimensional arrays.
 
 % TODO REFERENCE FUTURE WORKS
-% TODO REFERENCE HANA BOOK
-This still leaves us to determine the data layout within a two-dimensional array. We use a row-major order as it enables very simple (cheap) neighbour address calculations; column-major order exhibits the same property and may been used equally. Alternative orderings, as well as the general description of space filling curves are displayed by bruv), and may be worth exploring in future works.
+This still leaves us to determine the data layout within a two-dimensional array. We use a row-major order as it enables very simple (cheap) neighbour address calculations; column-major order exhibits the same property and may been used equally. Alternative orderings, as well as the general description of space filling curves are described in detail in~\cite{samet2006foundations}, and may be worth exploring in future works.
 
-Then given a rectangular structured vertex region $\Structured$ with $m$ rows and $n$ columns, we can represent its associative data in a two-dimensional array $Dat$ in row-major order. Clearly, the associative data of \emph{any} structured vertex $n_{r,c} \in \Structured$ can be accessed by $Dat[r][c]$. Similarly, we can access the associative data of the vertex neighbours of any \emph{interior} structured vertex $n_{r,c} \in \Structured$ by $Dat[r][c+1]$, $Dat[r][c-1]$, $Dat[r+1][c]$, and $Dat[r-1][c]$. Figure~\ref{fig:array-layout} illustrates the data layout and the resultant memory access pattern.
+Then given a rectangular structured vertex region $\Structured$ with $m$ rows and $n$ columns, we can represent its associated data in a two-dimensional array $Dat$ in row-major order. Clearly, the associated data of \emph{any} structured vertex $n_{r,c} \in \Structured$ can be accessed by $Dat[r][c]$. Similarly, we can access the associated data of the vertex neighbours of any \emph{interior} structured vertex $n_{r,c} \in \Structured$ by $Dat[r][c+1]$, $Dat[r][c-1]$, $Dat[r+1][c]$, and $Dat[r-1][c]$. Figure~\ref{fig:array-layout} illustrates the data layout and the resultant memory access pattern.
 
 
 \begin{figure}
@@ -56,7 +55,7 @@ Then given a rectangular structured vertex region $\Structured$ with $m$ rows an
 	\end{tabular}
 	\caption{Physical layout of the $Dat$ array. The contiguous data elements are contiguous in memory.}
 }
-\caption{The layout the $Dat$ array, representing vertex-vertex associative data. This data stored may represent the spatial coordinates of vertices, for example.}
+\caption{The layout the $Dat$ array, representing vertex-vertex associated data. This data stored may represent the spatial coordinates of vertices, for example.}
 \label{fig:array-layout}
 \end{figure}
 
@@ -82,7 +81,7 @@ We refer to a given structured vertex region and the structured regions derived 
 The edge case is an interesting one: the reason that we derive two structured regions, horizontal and vertical, is that they exhibit a different neighbour access pattern.
 
 
-In addition, as with vertex associative data, the associative data for each of the derived structured regions may be laid out in any convenient order; we continue with the same row-major order.
+In addition, as with vertex associated data, the associated data of each of the derived structured regions may be laid out in any convenient order; we continue with the same row-major order.
 
 \subsection{Redefining structured region boundaries: the general case}
 \label{subsec:generalise-boundaries}
@@ -116,9 +115,7 @@ Figure~\ref{fig:inverse-maps} shows examples of the two relation-map inversion m
 
 With the required relation-map (vertices to element type) available, we can straightforwardly determine the element ids of the fringe structured elements and the unstructured elements, and hence the variable \lstinline|remaining_cell2cells| from figure~\ref{fig:comparing-loops}.
 
-We hasten to point out despite the linear complexity of creating and accessing an inverted map, in practice the costs associated with set operations and disparate memory accesses tend to be high for large meshes unless very carefully optimised.
- % TODO CROSS REFERENCE TO IMPLEMENTATION
- % In fact, much of the runtime costs incurred by our structure detection are due to the structure overlaying process.
+We hasten to point out despite the linear complexity of creating and accessing an inverted map, in practice the costs associated with set operations and disparate memory accesses tend to be high for large meshes unless very carefully optimised. In fact, much of the runtime costs incurred by our structure detection implementation, described in chapter~\ref{chap:implementation}, are due to the structure overlaying process.
 
 
 \begin{figure}
@@ -280,8 +277,6 @@ $\{n_{13},n_{4},n_{16},n_{15}\}$ & $\mapsto$ & $c_{11}$ \\
 
 
 
-%% TODO figure showing how to get from cell id to node ids , edge id to nodes/cells, etc
-
 
 
 \section{Renumbering elements}
@@ -297,7 +292,7 @@ These may have both structured and unstructured neighbours (or potentially non-n
 These always access (and are accessed by) their neighbours indirectly via relation-maps.
 \end{itemize}
 
-Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason that structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writeable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
+Observe that mesh elements that are accessed directly, the structured elements in other words, have an imposed storage location. This is the reason why structured regions must be disjoint, otherwise multiple structured region would impose conflicting storage locations on the same element\footnote{Whilst duplicating data would work for read-only access, at the expense of extra storage, this can be a disaster for writeable data as duplicate data must be correctly synchronized.}. Mesh elements that are indirectly accessed on the other hand are not constrained in their placement. Thus we can treat fringe structured mesh elements as structured in terms of their storage placement, and as unstructured when accessing their neighbours.
 
 We can enumerate all the possible neighbour access types as follows (see figure~\ref{fig:neighbour-types} for illustrations). We later discuss which neighbour access types would be most beneficial to use.
 \begin{enumerate}[label=\alph*)]
@@ -344,7 +339,7 @@ The main downside to storing is the missed opportunity to completely exclude int
 \sidebysidevertical
 {
 	\includesvg[width=\imagewidth, svgpath=images/renumbering/]{fringe-cells-original-numbers}
-	\caption{Mesh showing the the original cell numbering of the structured regions. Numbering of unstructured cells is omitted. Light and dark shades denote interior and fringe structured cells, respectively.}
+	\caption{Mesh showing the original cell numbering of the structured regions. Numbering of unstructured cells is omitted. Light and dark shades denote interior and fringe structured cells, respectively.}
 }
 {
 	\small
@@ -532,7 +527,7 @@ def slope_kernel(cell_id, v0_id, v1_id, v2_id, v3_id):
 	\label{subfig:slop-kernel}
 	\caption{Pseudo-code of a kernel function which computes the relative difference in slope between two particular edges of each cell. It is completely dependant on the ordering of vertices, that is to say we may not alter the order.}
 }
-\caption{Examples of kernel functions (applied to cells and their corresponding vertices) with a varying tolerances towards the presented neighbour orderings. The variables \lstinline|xs| and \lstinline|ys| are vertex associative data representing x and y coordinates.\\Note that our aim is to give an intuition as to why ordering may not matter sometimes. The fact that a mesh is really ``ordering tolerant'' hinges on the commutativity and associativity of operations such as addition, for which the latter may not hold for floating point representations.}
+\caption{Examples of kernel functions (applied to cells and their corresponding vertices) with a varying tolerances towards the presented neighbour orderings. The variables \lstinline|xs| and \lstinline|ys| are vertex associated data representing x and y coordinates.\\Note that our aim is to give an intuition as to why ordering may not matter sometimes. The fact that a mesh is really ``ordering tolerant'' hinges on the commutativity and associativity of operations such as addition, for which the latter may not hold for floating point representations.}
 \label{fig:kernel-orderings}
 \end{figure}
 

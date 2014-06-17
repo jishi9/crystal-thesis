@@ -19,10 +19,10 @@ Of all the works discussed in this chapter, \cite{tautges2004moab}~by Tautges is
 
 % The problem of indirections and its derivatives (non-contiguous memory access and its impact on cache hierarchy) is cited/highlighted as a key motivation in basing their mesh data structure on a geometric model, i.e. the spatial index. We undertake the opposite approach, viewing geometric data as mere associative data attached to a topological mesh model.
 
-Adapting the mesh model to use a structured representation for the benefit of the relevant application domain is (not new) / (fairly prevalent).
+Adapting the mesh model to use a structured representation for the benefit of the relevant application domain is common practice.
 Rocca et al.~\cite{rocca2011fast} address the particular problem of neighbourhood search: finding the set of vertices within a certain distance from a given vertex. They define a spatial index, a hierarchy of vertex clusters, that yields good approximations to neighbourhood search queries.
 
-The problem of memory access indirections, associated with representing the mesh topology, is cited as a key motivation for basing their mesh data structure (the aforementioned spatial index) on a geometric model which does not require storing topological information. This is in sharp contrast to our approach of transforming the mesh topology representation, and treating the mesh geometry as arbitrary associative data.
+The problem of memory access indirections, associated with representing the mesh topology, is cited as a key motivation for basing their mesh data structure (the aforementioned spatial index) on a geometric model which does not require storing topological information. This is in sharp contrast to our approach of transforming the mesh topology representation, and treating the mesh geometry as arbitrary associated data.
 
 
 
@@ -172,9 +172,6 @@ One such algorithm, termed ``The Greedy Algorithm'' by the authors, is shown to 
 % Predictable memory access patterns versus *known* memory access pattern.
 
 
-
-**** POINT OF MENTION:
-Applying our structure detection algorithm to meshes with intentional structure is still useful, as it provides an efficient, automatic method of generating a mesh and the associated code to run exploiting that structure.
 
 \section{Chapter summary}
 In this chapter we discussed the similarities and differences between our work and that of a variety of published works centred at or homing around our scope of interest. We saw that the inefficiencies associated with unstructured representation are a common pain point, and we saw the great interest in the area of detecting structure to aid parallel computations. Some works presented exploited structure for other intriguing purposes.

@@ -14,6 +14,13 @@
 \usepackage{listings} % for code
 \usepackage{nth}
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 \usepackage{cleveref} % Must be loaded after hyperref
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{pgfplotstable}
@@ -82,14 +89,13 @@
 \chapter{Diving into the problem}
 \input{mesh}
 
-\chapter{Rectangle growth strategy}
+\chapter{Structure growth algorithms}
 \input{rectangle-growth-strategy}
-% %TODO discuss random seed strategy
 
-\chapter{Structure Extraction}
+\chapter{The length-first search algorithm}
 \input{detect_quad_grid}
 
-\chapter{Renumbering the mesh} % Rename: Exposing structure
+\chapter{Exposing structure}
 \input{recharting-the-maps}
 
 \chapter{Exploiting structure}

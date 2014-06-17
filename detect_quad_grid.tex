@@ -208,7 +208,7 @@ The structured region looks as follows thus far.
 %%%% Definition A
 
 %% Definition A summary
-\section{Function definition: Extend a quad}
+\section{Function definition\footnote{For use in phase 2}: Extend a quad}
 Starting from $Q_i = \Quad {n_{1,i}} {n_{1,i+1}} {n_{2,i}} {n_{2,i+1}}$, which must be a valid quad in a structured region, we would like to find two more vertices $n_{1, i+2}$ and $n_{2,i+2}$, such that $Q_{i+1} = \Quad {n_{1,i+1}} {n_{1,i+2}} {n_{2,i+1}} {n_{2,i+2}}$ forms a valid quad in a structured quad region. They must satisfy the following constraints:
 
 \begin{itemize}
@@ -542,7 +542,7 @@ where $n_{1,c}$ and $n_{2,c}$ denote the rightmost vertices in $\Structured$.
 
 %%%% Definition B
 
-\section{Function definition: Extend rows}
+\section{Function definition\footenote{For use in phase 3}: Extend rows}
 %% Definition B summary
 We are given a quad row in a structured quad region, that is a pair of successive node rows, call them $r_i$ and $r_{i+1}$.
 The nodes in each row are denoted by $n_{i,1} \cdots n_{i,c}$ and $n_{i+1,1} \cdots n_{i+1,c}$, respectively, where $c >= 3$ is the number of node columns.
@@ -1044,7 +1044,23 @@ $\begin{bmatrix}
 \item Set $r_a = n_{i+1,1} \cdots n_{i+1,c}$ and $r_b = n_{i+2,1} \cdots n_{i+2,c}$, and continue from step~\ref{step:reverse_extend_row}.
 \end{enumerate}
 
+\section{Sketch proof of complexity analysis}
+We argue that the length-first search algorithm presented in this chapter runs in $O(\Structured)$, that is linear in the size of the detected structured region\footnote{If no structured region is detected, then we take this to mean that the run-time should be constant, $O(1)$.}.
+
+Neighbour queries are performed using the relation-maps available, and are hence assumed to run in $O(1)$. Set operations such as set-intersection and set-difference between a constant neighbours also run in $O(1)$, as we assume some (again small) constant upper bound on the number of neighbours.
+
+Querying the visited set or adding a vertex to it is done in $O(1)$.
+
+If the algorithm terminates having not found any structure region, which can only occur in the \emph{grow a quad} phase, then it would have only examined a constant number of neighbours and applied a constant number of set-operations.
+
+If the algorithm terminates having found a structured region, then it must have called the ``extend a quad'' and ``extend rows'' functions a number of times linear in $\Structured$. We know this since each call to those functions adds a new vertex to $\Structured$. All other remaining work performed is linear in time.
+
+Thus the time complexity of the length-first search algorithm is $O(\Structured)$.
+
+\subsection{A corollary}
+Given that length-first search runs in $O(\Structured)$, we show that using it for detecting multiple structure regions results in an $O(\VertexSet)$ time complexity.
+
+For every application of length-first search, we detect $\Structured$ vertices in $O(\Structured)$ time. Vertices which are detected are added to the visited set and hence are not used as a starting vertex in the future. Since length-first search consumes as many vertices as it consumes time (asymptotically speaking), then by the end we would have exhausted all vertices, and have done so in $O(\VertexSet$).
+
 \section{Chapter summary}
-In this chapter we refined our sketch of the length-first search algorithm into a more precise form.
-% TODO
- % Into a precise form more amenable for complexity analysis. We also discuss the algorithmic complexity of the algorithm, and find it to be linear in the number of vertices.
+In this chapter we refined our sketch of the length-first search algorithm into a more precise form more amenable for complexity analysis. On this basis we analyse the algorithmic complexity of the algorithm, and find it to be linear in the number of vertices.

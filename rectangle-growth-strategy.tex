@@ -245,7 +245,8 @@ On the other hand if structure detection is non-contiguous, then we may later di
 
 
 
-\section{Detection algorithms}
+\section{Structure growth algorithms}
+We now briefly sketch some structure growth algorithms which grow a rectangular structured region.
 
 \subsection{Length-first search}
 \label{subsec:length-first-search}
@@ -261,6 +262,16 @@ The detection is clearly contiguous, with all structured element insertions runn
 
 The algorithm is also an eager one, deciding the length of the structured region based on the first row it detects. This simple approach, however, can result in suboptimal detection.
 
+\begin{figure}[H]
+\pgfplotstableread{
+	0 0 0 2 0
+	0 1 1 1 0
+	2 1 1 1 0
+	0 1 1 1 2
+}{\lengthsearchmatrix}
+\drawmatrix[cell wd=0.6, cell ht=0.6]{\lengthsearchmatrix}
+\caption{Example run of the length-first search algorithm.}
+\end{figure}
 
 
 \subsection{Descending-staircase search}
@@ -273,20 +284,54 @@ The algorithm has the same property of being contiguous, and it runs under the s
 
 Unlike length-first-search, however, this algorithm is not an eager one, as it defers the decision of selecting which elements belong in the structured region.
 
+\begin{figure}[H]
+\pgfplotstableread{
+	0 1 1 2 0
+	2 1 1 1 0
+	1 1 1 1 2
+	1 1 1 2 0
+	0 2 1 0 0
+	0 0 2 0 0
+}{\stairsearchmatrix}
+\drawmatrix[cell wd=0.6, cell ht=0.6]{\stairsearchmatrix}
+\caption{Example run of the descending-staircase search algorithm. The starting point is in the upper-middle cell.}
+\end{figure}
 
 
 \subsection{Scan-line search}
 This algorithm is identical to descending-staircase search, except that there is no restriction on the length of each expanded row. It has virtually the same properties of descending-staircase search, except:
 \begin{itemize}
-\item The complexity of finding the the rectangle with the maximum area increases to $O(n log^2 n)$.
+\item The complexity of finding the rectangle with the maximum area increases to $O(n log^2 n)$.
 \item By constraining its row expansion, descending-staircase search avoids taking long thin routes which are heuristically less likely to lead to a useful structure.
 \end{itemize}
 
+\begin{figure}[H]
+\pgfplotstableread{
+	0 1 1 2 0
+	2 1 1 1 0
+	1 1 1 1 2
+	1 1 1 2 0
+	1 2 1 0 0
+	1 0 2 0 0
+}{\stairsearchmatrix}
+\drawmatrix[cell wd=0.6, cell ht=0.6]{\stairsearchmatrix}
+\caption{Example run of the scan-line search algorithm. The starting point is in the upper-middle cell.}
+\end{figure}
 
 
+\section{Detecting multiple structure regions}
+Using our structure-growth algorithm of choice, we can grow multiple \emph{disjoint} structured regions by the following algorithm:
+\begin{enumerate}
+\item Let $\Xi = \varnothing$ be the set of detected structured regions.
+\item Let $\Visited = \varnothing$ be the set of visited vertices, and $\VertexSet \setminus \Visited$ the set of unvisited vertices.
+\item \label{step:choose-random} Choose a random unvisited vertex $v \in \VertexSet \setminus \Visited$. If none exist, abort.
+\item Add $v$ to $\Visited$.
+\item Apply a structure-growth algorithm starting from $v$.
+\item If the structure-growth fails, go back to step~\ref{step:choose-random}.
+\item Otherwise, add the detected structured region to $\Xi$, and all the vertices in the structured region to $\Visited$.
+\item Go back to step~\ref{step:choose-random}
+\end{enumerate}
 
-
-Two types of techniques exist: seed-based, and global based. A seed-based technique starts with a seed, and grows from there. A global-based technique starts with all the orthogonal axis
 
 \section{Chapter summary}
-This chapter covered algorithms for the detection of structured regions. An abstract discussion of their various properties was presented, and the desirable traits brought forth by each. Then, a selection of concrete algorithms were described, and their merits and weaknesses examined.
+This chapter covered algorithms for the detection of structured regions. An abstract discussion of their various properties was presented, and the desirable traits brought forth by each. Then, a selection of concrete algorithms were described, and their merits and weaknesses examined. Finally, we describe a general method for detecting multiple structured regions.

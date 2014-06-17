@@ -91,7 +91,7 @@ Notice how adjacent cells access vertices in a random fashion\footnote{Or at lea
 \item Looking up addresses, as opposed to computing them directly, will typically prohibit or limit the scope of compiler-performed optimizations, not least vectorizations.
 \end{enumerate}
 
-Numerous strategies have been devoted to deal with this problem, notably applying a space filling curve to obtain a more favourable numbering, with closer elements tending to have closer numberings. While the space filling curve most certainly improves cache locality, it does not make use of more obvious structure that may exist. A mesh that is irregular and unstructured on the whole may contain subregions of high regularity and uniform structure, whose regularity/uniformity may be locally exploitable in a more direct manner, for potentially higher performance gains!
+Numerous strategies have been devoted to dealing with this problem, notably applying a space filling curve to obtain a more favourable numbering, with closer elements tending to have closer numberings. While the space filling curve most certainly improves cache locality, it does not make use of more obvious structure that may exist. A mesh that is irregular and unstructured on the whole may contain subregions of high regularity and uniform structure, whose regularity may be locally exploitable in a more direct manner, for potentially higher performance gains!
 
 
 \subsection{Representing structure}
@@ -133,15 +133,15 @@ We present a summary of our contributions, and discuss them in detail in what fo
 We formally define a notion of vertex structure in a mesh, in particular the properties that the vertex-vertex adjacency must exhibit within a structured region. This covers the topics of
 
 
-On this basis, a vertex structure extraction algorithm is devised and implemented. The algorithm traverses a constructed graph whose vertices correspond to the mesh's original vertices, and whose edges represent the vertex-vertex adjacency relation. Each structured region is ``grown'' from a given seed vertex, ensuring with each step that the extracted region is a well-formed structured region (chapters~\ref{mesh} through~\ref{detect_quad_grid}). The illustration on the title page of this thesis showcase the result of structure detection for our tools.
+On this basis, a vertex structure extraction algorithm is devised and implemented. The algorithm traverses a constructed graph whose vertices correspond to the mesh's original vertices, and whose edges represent the vertex-vertex adjacency relation. Each structured region is ``grown'' from a given seed vertex, ensuring with each step that the extracted region is a well-formed structured region (chapters~\ref{chap:diving-into-problem} through~\ref{chap:detect-quad-grid}). The illustration on the title page of this thesis showcase the result of structure detection for our tools.
 
 We also define the notion of a structured region for cells and edges, and develop algorithms for deriving said structure using previously extracted vertex structure.
 
 \subsection{Exposing structure}
-We describe how the underlying data storage layout must be reorganised to reflect the extracted structure and facilitate its exploitation. This must take into account elements within the unstructured regions, ensuring that accesses via the modified maps remain consistent with the originals (chapter~\ref{recharting-the-maps}).
+We describe how the underlying data storage layout must be reorganised to reflect the extracted structure and facilitate its exploitation. This must take into account elements within the unstructured regions, ensuring that accesses via the modified maps remain consistent with the originals (chapter~\ref{chap:recharting-maps}).
 
 \subsection{Exploiting structure}
-Using the information gathered from the extracted structure, we can transform the data storage layout so as to implicitly represent the adjacency relationships between various mesh elements. This alleviates the need to use indirection maps when running computations over a structured region, substituting them for a small constant amount of meta-data per structured region that is used to define each region's dimensions and orientation. Computations over an unstructured region execute as normal using restructured versions of the original maps and data (chapter~\ref{exploit-structure}).
+Using the information gathered from the extracted structure, we can transform the data storage layout so as to implicitly represent the adjacency relationships between various mesh elements. This alleviates the need to use indirection maps when running computations over a structured region, substituting them for a small constant amount of meta-data per structured region that is used to define each region's dimensions and orientation. Computations over an unstructured region execute as normal using restructured versions of the original maps and data (chapter~\ref{chap:exploit-structure}).
 
 This allows us to transform a cell-to-nodes access operation from the following, which uses indirections to access the node data:
 \begin{lstlisting}[language=c++]

@@ -20,7 +20,7 @@ On this basis, we consider a spatial embodiment of element relationships, organi
 Bear in mind that this approach carries no relation to any geometric data associated with elements, such as the coordinates of vertices. To make this distinction clear, as well as to emphasize its discrete nature, we address this Cartesian-like space by rows and columns rather than x and y coordinates.
 
 \subsection{Example: Naca0012 mesh}
-Figure~\ref{fig:naca12-plain} shows a small extract from the NACA0012 mesh\footnote{Thanks to Dr. Peter Vincent, George Ntemos and Harry Davis}, showing the cross section of an airfoil mesh and its interaction with surrounding fluid. The mesh is discretization into quadrilateral cells over which computations are performed.
+Figure~\ref{fig:naca12-plain} shows a small extract from the NACA0012 mesh\footnote{Thanks to Dr. Peter Vincent, George Ntemos and Harry Davis}, showing the cross section of an airfoil mesh and its interaction with surrounding fluid. The mesh is discretized into quadrilateral cells over which computations are performed.
 
 \newcommand{\drawnaca}[4]{
 	\begin{figure}
@@ -197,7 +197,7 @@ The choice of data structure to represent the structured region is a key one, to
 \item Scope of structure representation: what level of structure can be represented.
 \item Implementation complexity of structure detection: how complex a detection algorithm is required.
 \item Runtime performance of structure detection: the time and space complexity of the detection algorithm.
-\item Storage requirements for detected structure: the storage requirements for the detected structure.
+\item Storage requirements for detected structure.
 \item Runtime performance of computation over the structured region.
 \end{itemize}
 
@@ -217,7 +217,7 @@ A bit-mask can represent \emph{any} structured region which adheres to the prope
 
 Let us define the \emph{efficiency} $\epsilon$ of a bit-mask as the percentage of its bits which are \emph{on}, as the \emph{off} bits represent wasted vertices. Bit-masks with high $\epsilon$ are favourable for several reasons:
 \begin{itemize}
-\item \emph{Off} bits increase the storage space of the structured region, up to $O(\card{\VertexSet})$ in the worst case, as opposed to $O(\card{\Structured})$.
+\item \emph{Off} bits increase the storage space of the structured region, up to $O(\card{\VertexSet})$ in the worst case, as opposed to $O(\card{\strV})$.
 \item \emph{Off} bits similarly worsen the runtime performance, again up to $O(\card{\VertexSet})$ due to wasted execution.
 \end{itemize}
 
@@ -267,7 +267,7 @@ A detection algorithm would likely be implemented using a variant of a general g
 \caption{Compacted structured components.}
 \label{subfig:compacted-components}
 }
-\caption{A demonstration of the benefits of disconnect structured components compaction. The detected structured cell components in~\ref{subfig:original-components} are unnecessarily sparse and occupy more space than necessary. After compaction in~\ref{subfig:compacted-components} the space is used is reduced by over 40\%.}
+\caption{A demonstration of the benefits of disconnected structured components compaction. The detected structured cell components in~\ref{subfig:original-components} are unnecessarily sparse and occupy more space than necessary. After compaction in~\ref{subfig:compacted-components} the space is used is reduced by over 40\%.}
 \label{fig:disjoint-matrix}
 \end{figure}
 
@@ -286,7 +286,7 @@ Represent the structured region as a sequence of consecutive fixed-length rows, 
 	2 2 1 1 2 2
 }{\bitmapmatrix}
 \drawmatrix[cell wd=0.8, cell ht=0.8]{\bitmapmatrix}
-\caption{An example of a structured region which can be represented using row-specific boundaries. Note the white cells, which represent unused structured regions near the boundaries.}
+\caption{An example of a structured region which can be represented using row-specific boundaries. Note the white cells, which represent unused structured regions near the boundaries, which cannot be included as part of the structured region due to the constraints imposed.}
 \label{fig:row-specific}
 \end{figure}
 
